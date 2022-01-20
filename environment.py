@@ -34,6 +34,7 @@ class environment:
                 canvas.create_oval(x0, y0, x1, y1, fill="red") 
 
                 #Création d'une flèche représentant la direction du robot
+                #Voir Schéma explicatif des calculs de direction
                 x0 = x
                 y0 = y
                 len_arrow = 20
