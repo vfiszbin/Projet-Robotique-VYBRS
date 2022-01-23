@@ -34,6 +34,35 @@ class Robot:
             dy = (dy + y)*sin(dir)
         elif self.deplacerPositionRobotDerriere():
             dy = (dy - y)*sin(dir)
+    ####### la fonction prend en argument l'abscisse et l'ordonee
+    def deplaceRobotArgument(self):
+        # deplacer le robot vers cette position (X et Y)
+
+        ###### determiner la direction exacte de notre Robot
+
+        if self.positionX >= 0. and self.positionY >= 0. :
+            #dx = (dx + x)*cos(dir) ### on s'occupe de changernla direction du robot
+            #dy = (dy + y)*sin(dir)
+            self.changeDirectionRobot()
+            self.deplacerPositionRobotAvant()
+
+        elif self.positionX >= 0. and self.positionY < 0. :
+            dx = (dx + x)*cos(dir)
+            dy = (dy - y)*sin(dir)
+            self.changeDirectionRobot()
+            self.deplacerPositionRobotAvant()
+
+        elif self.positionX < 0. and self.positionY >= 0. :
+            dx = (dx - x)*cos(dir)
+            dy = (dy + y)*sin(dir)
+            self.changeDirectionRobot()
+            self.deplacerPositionRobotAvant()
+        else:
+            dx = (dx - x)*cos(dir)
+            dy = (dy + y)*sin(dir)
+            self.changeDirectionRobot()
+            self.deplacerPositionRobotAvant()
+
 
 
 # creation de l'objet robot
@@ -44,3 +73,5 @@ R.deplacerPositionRobotAvant()
 R.deplacerPositionRobotDerriere()
 
 R.changeDirectionRobot()
+
+R.deplaceRobotArgument()
