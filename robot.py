@@ -9,3 +9,5 @@ class robot:
             self.dir = dir
         else:
             print("La direction doit être comprise entre 0 et 360 degrés")
+            
+            
