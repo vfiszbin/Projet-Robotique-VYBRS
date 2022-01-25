@@ -14,7 +14,12 @@ class Robot:
         super().__init__()
         self.positionX=positionX
         self.positionY=positionY
-        self.dir=dir
+        self.dir= 90
+    def changeDir(self, dir):
+        if dir >= 0 and dir <= 360:
+            self.dir = dir
+        else:
+            print("La direction doit être comprise entre 0 et 360 degrés")
 
     def deplacerPositionRobotAvant(self):
         if (self.positionX >= 0. and self.positionY>=0.):
@@ -75,3 +80,22 @@ R.deplacerPositionRobotDerriere()
 R.changeDirectionRobot()
 
 R.deplaceRobotArgument()
+###### changer la direction du robot
+R.changeDir(100)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
