@@ -82,20 +82,3 @@ R.changeDirectionRobot()
 R.deplaceRobotArgument()
 ###### changer la direction du robot
 R.changeDir(100)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

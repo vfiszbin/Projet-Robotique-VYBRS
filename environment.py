@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas
+from Tkinter import Tk, Canvas
 from robot import robot
 from math import cos, sin, pi
 
@@ -31,7 +31,7 @@ class environment:
                 y0 = y - r
                 x1 = x + r
                 y1 = y + r
-                canvas.create_oval(x0, y0, x1, y1, fill="red") 
+                canvas.create_oval(x0, y0, x1, y1, fill="red")
 
                 #Création d'une flèche représentant la direction du robot
                 #Voir Schéma explicatif des calculs de direction
