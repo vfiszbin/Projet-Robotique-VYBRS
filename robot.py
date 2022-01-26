@@ -1,6 +1,6 @@
 from math import *
 import random
-class Robot:
+class robot:
     # creation de mes attributs modifiable si necessaire
     coordX = 0.0 # le robot est au centre du rectangle
     coordY = 0.0 # aux positions nulles.
@@ -67,18 +67,3 @@ class Robot:
             dy = (dy + y)*sin(dir)
             self.changeDirectionRobot()
             self.deplacerPositionRobotAvant()
-
-
-
-# creation de l'objet robot
-R = Robot(0.0,0.0,180)
-# appel de la methode deplacerPositionRobotAvant(self):
-R.deplacerPositionRobotAvant()
-## appel de la methode deplacerPositionRobotDerriere(self):
-R.deplacerPositionRobotDerriere()
-
-R.changeDirectionRobot()
-
-R.deplaceRobotArgument()
-###### changer la direction du robot
-R.changeDir(100)

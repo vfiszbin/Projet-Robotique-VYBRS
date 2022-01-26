@@ -25,8 +25,8 @@ class environment:
             if isinstance(obj, robot):
                 #Création d'un cerle pour représenter la position du robot
                 r = 3 #rayon
-                x = obj.xpos
-                y = obj.ypos
+                x = obj.positionX
+                y = obj.positionY
                 x0 = x - r
                 y0 = y - r
                 x1 = x + r
