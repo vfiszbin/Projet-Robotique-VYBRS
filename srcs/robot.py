@@ -5,11 +5,12 @@ class robot:
     ########## appel a un autre constructeur : notion d'heritage simple
     # instanciation des attributs
 
-    def __init__(self,positionX,positionY,dir):
+    def __init__(self,positionX,positionY):
         super().__init__()
         self.positionX=positionX
         self.positionY=positionY
         self.dir= 90 #direction par défaut
+        
     def changeDir(self, dir):
         if dir >= 0 and dir <= 360:
             self.dir = dir

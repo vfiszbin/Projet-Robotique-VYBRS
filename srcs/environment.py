@@ -5,10 +5,10 @@ from obstacle import Obstacle
 
 class environment:
     def __init__(self, width, height):
-        if (width < 0 or height < 0):
+        if (width <= 0 or height <= 0):
             self.height = 300 
             self.width = 400
-            print("Dimensions invalides, retour aux dimensions par défaut (largeur={self.width},hauteur={self.height})")
+            print(f"Dimensions invalides, retour aux dimensions par défaut (largeur={self.width},hauteur={self.height})")
         else:
             self.height = height
             self.width = width
@@ -34,7 +34,7 @@ class environment:
             y1 = y0 + obj.height
             if (x0 < 0 or x0 > self.width or y0 < 0 or y0 > self.height\
             or x1 < 0 or x1 > self.width or y1 < 0 or y1 > self.height):
-                print(f"Dimensions (({x0},{y0}),largeur={obj.width},hauteur={obj.height} de l'obstacle incompatibles avec celles (largeur={self.width},hauteur={self.height}) de l'environnement")
+                print(f"Dimensions (({x0},{y0}),largeur={obj.width},hauteur={obj.height}) de l'obstacle incompatibles avec celles (largeur={self.width},hauteur={self.height}) de l'environnement")
             else:
                 self.objects.append(obj)
 
