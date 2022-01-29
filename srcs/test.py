@@ -1,12 +1,13 @@
 from environment import environment
 from robot import robot
+from viewer import show2D
 
 env = environment(400,300)
 rob = robot(200,140, 0)
 env.addObject(rob)
 print(env.objects)
 rob.changeDir(135)
-env.show2D()
+show2D(env)
 
 # # creation de l'objet robot
 # R = Robot(0.0,0.0,180)
