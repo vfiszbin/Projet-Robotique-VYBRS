@@ -1,11 +1,6 @@
 from math import *
 import random
 class robot:
-    # creation de mes attributs modifiable si necessaire
-    coordX = 0.0 # le robot est au centre du rectangle
-    coordY = 0.0 # aux positions nulles.
-    #coordZ = 0.0 #### representation en 3d
-    direction = pi/180 # direction en degres
 
     ########## appel a un autre constructeur : notion d'heritage simple
     # instanciation des attributs
