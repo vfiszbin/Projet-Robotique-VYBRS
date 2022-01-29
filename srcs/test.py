@@ -6,7 +6,7 @@ env = environment(400,300)
 rob = robot(200,140, 0)
 env.addObject(rob)
 print(env.objects)
-rob.changeDir(135)
+rob.changeDir(45)
 show2D(env)
 
 # # creation de l'objet robot
