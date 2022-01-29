@@ -5,8 +5,13 @@ from obstacle import Obstacle
 
 class environment:
     def __init__(self, width, height):
-        self.height = height
-        self.width = width
+        if (width < 0 or height < 0):
+            self.height = 300 
+            self.width = 400
+            print("Dimensions invalides, retour aux dimensions par défaut (largeur={self.width},hauteur={self.height})")
+        else:
+            self.height = height
+            self.width = width
         self.objects = [] #liste des objets présents dans l'environnement
 
     def addObject(self, obj):
