@@ -1,5 +1,3 @@
-from tkinter import W
-from turtle import width
 from robot import robot
 from obstacle import Obstacle
 
