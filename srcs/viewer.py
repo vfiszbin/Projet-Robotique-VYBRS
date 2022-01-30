@@ -3,9 +3,7 @@ from math import cos, sin, pi
 from robot import robot
 from obstacle import Obstacle
 from updateSimulation import updateSimulation
-
 import threading
-
 
 
 def show2D(env, rob):
@@ -37,6 +35,7 @@ class graphicalRepresentation:
 		Une fois l'affichage graphique lancé en appelant mainloop(), l'execution de code est bloquée dans le main thread, 
 		on utilise donc after() qui va appeler cette fonction toutes les x ms pour mettre à jour l'affichage graphique
 		'''
+		self.canvas.delete("all") # efface tous les objets déjà affichés
 		for obj in self.environment.objects: #représentation visuelle de chaque objet ajouté à l'environnement
 			if isinstance(obj, robot):
 				#Création d'un cerle pour représenter la position du robot

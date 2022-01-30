@@ -21,6 +21,6 @@ obs2 = Obstacle(250,180,30,100)
 env.addObject(obs2)
 #print(env.objects)
 
-#Lance un thread secondaire qui execute updateSimulation et démarre l'affichage graphique
+#Lance un thread secondaire qui execute updateSimulation() et démarre l'affichage graphique
 show2D(env, rob)
 
