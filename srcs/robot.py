@@ -1,5 +1,5 @@
-from math import *
-import random
+from math import cos,sin
+
 class robot:
 
     ########## appel a un autre constructeur : notion d'heritage simple

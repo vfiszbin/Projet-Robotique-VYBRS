@@ -4,7 +4,6 @@ from robot import robot
 from obstacle import Obstacle
 from updateSimulation import updateSimulation
 
-from time import sleep
 import threading
 
 
