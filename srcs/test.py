@@ -23,15 +23,7 @@ print(env.objects)
 #Affiche la représentation 2D de l'environnement
 show2D(env)
 
-# # creation de l'objet robot
-# R = Robot(0.0,0.0,180)
-# # appel de la methode deplacerPositionRobotAvant(self):
-# R.deplacerPositionRobotAvant()
-# ## appel de la methode deplacerPositionRobotDerriere(self):
-# R.deplacerPositionRobotDerriere()
-#
-# R.changeDirectionRobot()
-#
-# R.deplaceRobotArgument()
-# ###### changer la direction du robot
-# R.changeDir(100)
+# changer la direction du robot 
+rob.deplacerPositionRobotAvant(15,-7,45,20)
+rob.deplacerPositionRobotDerriere(-30,20,-160,-30)
+
