@@ -1,5 +1,5 @@
 from robot import robot
-from obstacle import Obstacle
+from obstacle import obstacle
 
 class environment:
     def __init__(self, width, height):
@@ -25,7 +25,7 @@ class environment:
         #Vérifie que l'objet obstacle a des dimensions compatibles avec cet environnement
         # (x0,y0) = sommet en haut à gauche du rectangle
         # (x1,y1) = sommet en bas à droite du rectangle 
-        elif isinstance(obj,Obstacle):
+        elif isinstance(obj,obstacle):
             x0 = obj.positionX
             y0 = obj.positionY
             x1 = x0 + obj.width

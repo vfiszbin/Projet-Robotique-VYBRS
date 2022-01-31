@@ -1,4 +1,4 @@
-from obstacle import Obstacle
+from obstacle import obstacle
 from time import sleep
 
 def updateSimulation(env,rob):
@@ -8,15 +8,15 @@ def updateSimulation(env,rob):
 	et ses instructions sont les seules à pouvoir s'executer, le main thread étant occupé par l'affichage graphique
 	'''
 	sleep(1)
-	obs = Obstacle(83,116,20,25)
+	obs = obstacle(83,116,20,25)
 	env.addObject(obs)
 
 	sleep(1)
-	obs = Obstacle(116,32,58,56)
+	obs = obstacle(116,32,58,56)
 	env.addObject(obs)
 
 	sleep(1)
-	obs = Obstacle(200,100,30,40)
+	obs = obstacle(200,100,30,40)
 	env.addObject(obs)
 
 	# changer la direction du robot 

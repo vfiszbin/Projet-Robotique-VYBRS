@@ -1,7 +1,7 @@
 from tkinter import Tk, Canvas
 from math import cos, sin, pi
 from robot import robot
-from obstacle import Obstacle
+from obstacle import obstacle
 from updateSimulation import updateSimulation
 import threading
 
@@ -60,7 +60,7 @@ class graphicalRepresentation:
 				y1 = y0 - dy
 				self.canvas.create_line(x0, y0, x1, y1, arrow='last')
 
-			elif isinstance(obj, Obstacle):
+			elif isinstance(obj, obstacle):
 				# (x0,y0) = sommet en haut à gauche du rectangle
 				# (x1,y1) = sommet en bas à droite du rectangle 
 				x0 = obj.positionX

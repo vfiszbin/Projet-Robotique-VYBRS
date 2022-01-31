@@ -1,16 +1,23 @@
 # -*- coding: UTF-8 -*-
-class Obstacle:
-     def __init__(self,positionX,positionY,width,height):
-         """  (positionX,positionY) : les coordonnes du point d'extremites en haut a gauche (pour reperer les obstacles)
+class obstacle:
+    def __init__(self,positionX,positionY,width,height):
+        """ 
+        :positionX: int
+        :positionX: int
+	:width: int
+        :length: int
+        Cree un obstacle avec (positionX,positionY) : les coordonnes  int du point d'extremites en haut a gauche.
          """
-         self.positionX=positionX
-         self.positionY=positionY
-         self.width=width
-         self.height=height
+        self.positionX=positionX
+        self.positionY=positionY
+        self.width=width
+        self.height=height
 
 #pour l'instant la classe fait des mur 90 et 0 deg uniquement
-class wall(Obstacle):
-     def __init__(self,positionX,positionY,length,dire):
+class wall(obstacle):
+    """ classe fille de l'objet obstacle qui cree des obstacle en forme de mur
+    """
+    def __init__(self,positionX,positionY,length,dire):
           if (dire == 90) or (dire==270):
                super().__init__(positionX,positionY,5,length)
           else :
