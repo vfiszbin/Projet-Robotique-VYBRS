@@ -15,7 +15,8 @@ class obstacle:
 
 #pour l'instant la classe fait des mur 90 et 0 deg uniquement
 class wall(obstacle):
-    """ classe fille de l'objet obstacle qui cree des obstacle en forme de mur
+    """ 
+    classe fille de l'objet obstacle qui cree des obstacle en forme de mur
     """
     def __init__(self,positionX,positionY,length,dire):
         """ 
