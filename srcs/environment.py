@@ -3,6 +3,11 @@ from obstacle import obstacle
 
 class environment:
     def __init__(self, width, height):
+        """
+        :width: int
+        :length: int
+        Cree l'enveronemment de dimensions width x height 
+        """
         if (width <= 0 or height <= 0):
             self.height = 300 
             self.width = 400
@@ -13,6 +18,10 @@ class environment:
         self.objects = [] #liste des objets présents dans l'environnement
 
     def addObject(self, obj):
+        """ 
+        :obj:object
+        fonction statique qui prends un objet obj et l'ajoute à l'environnement
+        """
         #Vérifie que l'objet robot a des coordonnées compatibles avec cet environnement
         if isinstance(obj, robot):
             x = obj.positionX

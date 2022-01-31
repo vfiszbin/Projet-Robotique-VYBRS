@@ -6,12 +6,21 @@ class robot:
     # instanciation des attributs
 
     def __init__(self,positionX,positionY):
+        """ 
+        :positionX: int
+        :positionY: int
+        Représente un robot avec une position initiale (positionX, positionY) 
+        """
         super().__init__()
         self.positionX=positionX
         self.positionY=positionY
         self.dir= 90 #direction par défaut
         
     def changeDir(self, dir):
+        """ 
+        :dir: int
+        fonction qui change la direction du robot selon l'angle 'dir' 
+        """
         if dir >= 0 and dir <= 360:
             self.dir = dir
         else:
@@ -27,6 +36,4 @@ class robot:
         dx=-distance*cos(dir)
         dy=distance*sin(dir)
         self.positionX = positionX+dx
-        self.positionY = positionY-dy
-    
-    
+        self.positionY = positionY-dy   

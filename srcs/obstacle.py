@@ -5,9 +5,9 @@ class obstacle:
         :positionX: int
         :positionX: int
 	:width: int
-        :length: int
+        :height: int
         Cree un obstacle avec (positionX,positionY) : les coordonnes  int du point d'extremites en haut a gauche.
-         """
+        """
         self.positionX=positionX
         self.positionY=positionY
         self.width=width
@@ -18,7 +18,14 @@ class wall(obstacle):
     """ classe fille de l'objet obstacle qui cree des obstacle en forme de mur
     """
     def __init__(self,positionX,positionY,length,dire):
-          if (dire == 90) or (dire==270):
-               super().__init__(positionX,positionY,5,length)
-          else :
-               super().__init__(positionX,positionY,length,5)
+        """ 
+        :positionX: int
+        :positionX: int
+        :length: int
+        :dire: int 
+        Cree un mur depuis (positionX,positionY) de longeur length avec une direction dire
+        """
+        if (dire == 90) or (dire==270):
+            super().__init__(positionX,positionY,5,length)
+        else :
+            super().__init__(positionX,positionY,length,5)
