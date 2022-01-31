@@ -46,5 +46,9 @@ class environment:
                 self.objects.append(obj)
 
     def removeObject(self, obj):
+        """ 
+        :obj:object
+        fonction statique qui enlève un objet obj de l'environnement
+        """
         self.objects.remove(obj)
     
