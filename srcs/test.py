@@ -37,4 +37,6 @@ env.addObject(mur4)
 #Lance un thread secondaire qui execute updateSimulation() et démarre l'affichage graphique
 show2D(env, rob)
 
+# deplace la direction du robot au coordonnes voulue
+rob.deplacerRobotVersPosition(5,-3,47,50)
 
