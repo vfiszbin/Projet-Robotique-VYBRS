@@ -14,7 +14,7 @@ class Obstacle:
         self.height=height
 
 #pour l'instant la classe fait des mur 90 et 0 deg uniquement
-class Wall(obstacle):
+class Wall(Obstacle):
     """
     classe fille de l'objet obstacle qui cree des obstacle en forme de mur
     """
