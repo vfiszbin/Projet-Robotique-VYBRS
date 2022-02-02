@@ -1,4 +1,4 @@
-from math import cos,sin
+from math import cos,sin,pi
 
 class Robot:
 
@@ -30,27 +30,37 @@ class Robot:
         """
         :positionX: int
         :positionX: int
-	:dir: int
+	    :dir: int
         :distance: int
-        fonction qui deplace  le rebot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
+        fonction qui deplace  le robot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
         """
-        dx=distance*cos(dir)
-        dy=distance*sin(dir)
-        self.positionX = positionX+dx
-        self.positionY = positionY-dy
+        print(self.positionX)
+        print(self.positionY)
+        print(self.dir)
+        dir = self.dir * pi / 180 #conversion des degrés en radians
+        dx = distance * cos(dir)
+        dy = distance * sin(dir)
+        self.positionX = self.positionX + dx
+        self.positionY = self.positionY - dy 
+        print(self.positionX)
+        print(self.positionY)
+        print(self.dir)
 
-    def deplacerPositionRobotDerriere(self,positionX,positionY,dir,distance):
-        """
+    
+    def deplacerPositionRobotArriere(self,distance):
+        """ 
         :positionX: int
         :positionX: int
-	:dir: int
+	    :dir: int
         :distance: int
-        fonction qui deplace  le rebot depuis les coordonnées(positionX,positionY) vers l'arriere selon l'angle 'dir' et une distance
-	"""
-        dx=-distance*cos(dir)
-        dy=distance*sin(dir)
-        self.positionX = positionX+dx
-        self.positionY = positionY-dy
+        fonction qui déplace  le robot depuis les coordonnées(positionX,positionY) vers l'arriere selon l'angle 'dir' et une distance
+	    """
+        opposite_dir = (self.dir * pi / 180) + pi #conversion des degrés en radians + on ajoute pi pour obtenir la direction inverse
+        dx = distance * cos(opposite_dir)
+        dy = distance * sin(opposite_dir)
+      
+        self.positionX = self.positionX + dx
+        self.positionY = self.positionY - dy
 
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
         if dir < 0 and dir > 180:
