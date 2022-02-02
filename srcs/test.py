@@ -7,6 +7,7 @@ from viewer import show2D
 #Creation de l'environnement
 env = Environment(800,300)
 
+
 #Tests robot
 rob = Robot(300,240)
 env.addObject(rob)
