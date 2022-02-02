@@ -19,11 +19,11 @@ def updateSimulation(env,rob):
 	# obs = obstacle(200,100,30,40)
 	# env.addObject(obs)
 
-	# changer la direction du robot 
+	# changer la direction du robot
 	sleep(2)
-	rob.deplacerPositionRobotAvant(10)
+	rob.deplacerPositionRobotAvant(10,30,20)
 	sleep(2)
-	rob.deplacerPositionRobotArriere(20)
+	rob.deplacerPositionRobotArriere(20,20,10)
 
 	# deplace la direction du robot au coordonnes voulue
 	#rob.deplacerRobotVersPosition(5,-3,47,50)
