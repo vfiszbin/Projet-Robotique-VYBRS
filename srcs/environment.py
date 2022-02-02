@@ -6,7 +6,7 @@ class environment:
         """
         :width: int
         :length: int
-        Cree l'enveronemment de dimensions width x height 
+        Cree l'envirronemment de dimensions width x height 
         """
         if (width <= 0 or height <= 0):
             self.height = 300 

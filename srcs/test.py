@@ -7,6 +7,7 @@ from viewer import show2D
 #Creation de l'environnement
 env = environment(800,300)
 
+
 #Tests robot
 rob = robot(300,240)
 env.addObject(rob)
@@ -26,6 +27,7 @@ mur=wall(0,0,env.height,90)
 mur2=wall(env.width-5,0,env.height,90)
 mur3=wall(0,0,env.width,0)
 mur4=wall(0,env.height-5,env.width,0)
+
 env.addObject(mur)
 env.addObject(mur2)
 env.addObject(mur3)
@@ -38,5 +40,5 @@ env.addObject(mur4)
 show2D(env, rob)
 
 # deplace la direction du robot au coordonnes voulue
-rob.deplacerRobotVersPosition(5,-3,47,50)
+rob.deplacerRobotVersPosition(5,3,47,50)
 

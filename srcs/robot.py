@@ -54,8 +54,8 @@ class robot:
 
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
         if dir < 0 and dir > 180:
-            changeDir(dir)
+            self.changeDir(dir)
             # on dirige notre robot vers l'avant
-            deplacerPositionRobotAvant(positionX,positionY,dir,distance)
+            self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
         else: # le robot se deolacera en position arriere
-            deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
+            self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
