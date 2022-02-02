@@ -27,10 +27,12 @@ class FoV:
     def addObstacle(object,collision):
         """
             :collision:bool
+            Ajoute un obstacle dans une liste d'obstacle
         """
         #est ce qu'on peut rendre la methode pour ajouter des objets dans l'environnement statique ?
         if(collision):
-            robot.listobjects.append(object)
+            if isinstance(Obstacle,object):
+                robot.listobjects.append(object)
 
 
     def calculCollision(self):
@@ -49,4 +51,5 @@ class FoV:
     def securiteCollision(robot):
         """:robot:Robot
         """
-        if(!self.collision):
+        if(self.collision):
+            
