@@ -1,7 +1,7 @@
 from tkinter import Tk, Canvas
 from math import cos, sin, pi
-from robot import robot
-from obstacle import obstacle
+from robot import Robot
+from obstacle import Obstacle
 from updateSimulation import updateSimulation
 import threading
 
@@ -22,7 +22,7 @@ class graphicalRepresentation:
 	def __init__(self, environment):
 		self.window = Tk()
 		self.window.title("Environnement")
-		self.environment = Environment
+		self.environment = environment
 		self.canvas = Canvas(self.window, height=environment.height, width=environment.width)
 		self.canvas.pack()
 
@@ -37,7 +37,7 @@ class graphicalRepresentation:
 		'''
 		self.canvas.delete("all") # efface tous les objets déjà affichés, cela évite de créer des doubles
 		for obj in self.environment.objects: #représentation visuelle de chaque objet ajouté à l'environnement
-			if isinstance(obj, robot):
+			if isinstance(obj, Robot):
 				#Création d'un cerle pour représenter la position du robot
 				r = 3 #rayon
 				x = obj.positionX
@@ -60,7 +60,7 @@ class graphicalRepresentation:
 				y1 = y0 - dy
 				self.canvas.create_line(x0, y0, x1, y1, arrow='last')
 
-			elif isinstance(obj, obstacle):
+			elif isinstance(obj, Obstacle):
 				# (x0,y0) = sommet en haut à gauche du rectangle
 				# (x1,y1) = sommet en bas à droite du rectangle
 				x0 = obj.positionX

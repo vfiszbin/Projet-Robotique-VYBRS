@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from environment import Environment
 from robot import Robot
-from obstacle import Obstacle,Wall
+from obstacle import Obstacle, Wall
 from viewer import show2D
 
 #Creation de l'environnement
@@ -17,7 +17,7 @@ rob.changeDir(315)
 obs = Obstacle(10,50,100,30)
 env.addObject(obs)
 print(env.objects)
-obs2 = obstacle(250,180,30,100)
+obs2 = Obstacle(250,180,30,100)
 env.addObject(obs2)
 print(env.objects)
 

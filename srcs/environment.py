@@ -23,7 +23,7 @@ class Environment:
         fonction statique qui prends un objet obj et l'ajoute à l'environnement
         """
         #Vérifie que l'objet robot a des coordonnées compatibles avec cet environnement
-        if isinstance(obj, robot):
+        if isinstance(obj, Robot):
             x = obj.positionX
             y = obj.positionY
             if (x < 0 or x > self.width or y < 0 or y > self.height):
@@ -34,7 +34,7 @@ class Environment:
         #Vérifie que l'objet obstacle a des dimensions compatibles avec cet environnement
         # (x0,y0) = sommet en haut à gauche du rectangle
         # (x1,y1) = sommet en bas à droite du rectangle
-        elif isinstance(obj,obstacle):
+        elif isinstance(obj, Obstacle):
             x0 = obj.positionX
             y0 = obj.positionY
             x1 = x0 + obj.width
