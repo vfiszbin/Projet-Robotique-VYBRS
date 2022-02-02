@@ -1,7 +1,7 @@
 from tkinter import Tk, Canvas
 from math import cos, sin, pi
-from robot import robot
-from obstacle import obstacle
+from robot import Robot
+from obstacle import Obstacle
 from updateSimulation import updateSimulation
 import threading
 
