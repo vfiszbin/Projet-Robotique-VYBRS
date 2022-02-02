@@ -11,7 +11,7 @@ env = environment(800,300)
 rob = robot(300,240)
 env.addObject(rob)
 print(env.objects)
-rob.changeDir(180)
+rob.changeDir(315)
 
 #Tests obstacle
 obs = obstacle(10,50,100,30)
@@ -31,12 +31,7 @@ env.addObject(mur2)
 env.addObject(mur3)
 env.addObject(mur4)
 
-#Affiche la representation 2D de l'environnement
-#show2D(env)
-
 #Lance un thread secondaire qui execute updateSimulation() et démarre l'affichage graphique
 show2D(env, rob)
 
-# deplace la direction du robot au coordonnes voulue
-rob.deplacerRobotVersPosition(5,-3,47,50)
 
