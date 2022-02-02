@@ -22,7 +22,7 @@ class graphicalRepresentation:
 	def __init__(self, environment):
 		self.window = Tk()
 		self.window.title("Environnement")
-		self.environment = environment
+		self.environment = Environment
 		self.canvas = Canvas(self.window, height=environment.height, width=environment.width)
 		self.canvas.pack()
 
@@ -32,7 +32,7 @@ class graphicalRepresentation:
 
 	def update(self):
 		'''
-		Une fois l'affichage graphique lancé en appelant mainloop(), l'execution de code est bloquée dans le main thread, 
+		Une fois l'affichage graphique lancé en appelant mainloop(), l'execution de code est bloquée dans le main thread,
 		on utilise donc after() qui va appeler cette fonction toutes les x ms pour mettre à jour l'affichage graphique
 		'''
 		self.canvas.delete("all") # efface tous les objets déjà affichés, cela évite de créer des doubles
@@ -62,12 +62,11 @@ class graphicalRepresentation:
 
 			elif isinstance(obj, obstacle):
 				# (x0,y0) = sommet en haut à gauche du rectangle
-				# (x1,y1) = sommet en bas à droite du rectangle 
+				# (x1,y1) = sommet en bas à droite du rectangle
 				x0 = obj.positionX
 				y0 = obj.positionY
 				x1 = x0 + obj.width
 				y1 = y0 + obj.height
 				self.canvas.create_rectangle(x0, y0, x1, y1, fill="grey")
 
-		self.window.after(1000, self.update) # update() se rappelle elle même toutes les 1000 ms 
-			
+		self.window.after(1000, self.update) # update() se rappelle elle même toutes les 1000 ms
