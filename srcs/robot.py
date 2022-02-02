@@ -26,7 +26,7 @@ class Robot:
         else:
             print(f"La direction doit être comprise entre 0 et 360 degrés. Retour à la direction par défaut : {self.dir}°")
 
-    def deplacerPositionRobotAvant(self,positionX,positionY,dir,distance):
+    def deplacerPositionRobotAvant(self,distance):
         """
         :positionX: int
         :positionX: int
@@ -34,17 +34,11 @@ class Robot:
         :distance: int
         fonction qui deplace  le robot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
         """
-        print(self.positionX)
-        print(self.positionY)
-        print(self.dir)
         dir = self.dir * pi / 180 #conversion des degrés en radians
         dx = distance * cos(dir)
         dy = distance * sin(dir)
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy 
-        print(self.positionX)
-        print(self.positionY)
-        print(self.dir)
 
     
     def deplacerPositionRobotArriere(self,distance):

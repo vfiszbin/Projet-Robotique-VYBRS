@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from environment import Environment
 from robot import Robot
-from obstacle import Obstacle,Wall
+from obstacle import Obstacle, Wall
 from viewer import show2D
 
 #Creation de l'environnement
