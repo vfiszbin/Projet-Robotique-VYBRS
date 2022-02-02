@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
-class obstacle:
+class Obstacle:
     def __init__(self,positionX,positionY,width,height):
-        """ 
+        """
         :positionX: int
         :positionX: int
 	:width: int
@@ -14,16 +14,16 @@ class obstacle:
         self.height=height
 
 #pour l'instant la classe fait des mur 90 et 0 deg uniquement
-class wall(obstacle):
-    """ 
+class Wall(obstacle):
+    """
     classe fille de l'objet obstacle qui cree des obstacle en forme de mur
     """
     def __init__(self,positionX,positionY,length,dire):
-        """ 
+        """
         :positionX: int
         :positionX: int
         :length: int
-        :dire: int 
+        :dire: int
         Cree un mur depuis (positionX,positionY) de longeur length avec une direction dire
         """
         if (dire == 90) or (dire==270):

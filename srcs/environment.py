@@ -1,15 +1,15 @@
-from robot import robot
-from obstacle import obstacle
+from robot import Robot
+from obstacle import Obstacle
 
-class environment:
+class Environment:
     def __init__(self, width, height):
         """
         :width: int
         :length: int
-        Cree l'enveronemment de dimensions width x height 
+        Cree l'enveronemment de dimensions width x height
         """
         if (width <= 0 or height <= 0):
-            self.height = 300 
+            self.height = 300
             self.width = 400
             print(f"Dimensions invalides, retour aux dimensions par défaut (largeur={self.width},hauteur={self.height})")
         else:
@@ -18,7 +18,7 @@ class environment:
         self.objects = [] #liste des objets présents dans l'environnement
 
     def addObject(self, obj):
-        """ 
+        """
         :obj:object
         fonction statique qui prends un objet obj et l'ajoute à l'environnement
         """
@@ -33,7 +33,7 @@ class environment:
 
         #Vérifie que l'objet obstacle a des dimensions compatibles avec cet environnement
         # (x0,y0) = sommet en haut à gauche du rectangle
-        # (x1,y1) = sommet en bas à droite du rectangle 
+        # (x1,y1) = sommet en bas à droite du rectangle
         elif isinstance(obj,obstacle):
             x0 = obj.positionX
             y0 = obj.positionY
@@ -46,9 +46,8 @@ class environment:
                 self.objects.append(obj)
 
     def removeObject(self, obj):
-        """ 
+        """
         :obj:object
         fonction statique qui enlève un objet obj de l'environnement
         """
         self.objects.remove(obj)
-    
