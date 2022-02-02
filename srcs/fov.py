@@ -20,7 +20,7 @@ class FoV:
     def setSafespace(newss): #newss: new safe space
         """
             :newss:int
-
+            Set le safe space de none a newss
         """
         self.safespace=newss
 
@@ -36,18 +36,15 @@ class FoV:
 
     def calculCollision(self):
         """
+            Mesure la distance actuelle de collision
         """
 
 
     def defCollision():
         """
+            Actualise la variable collision
         """
         if(self.length<self.safespace):#utiliser le safespace ?
             self.collision=true
-        if(length>=safespace):
+        if(self.length>=self.safespace):
             self.collision=false
-
-    def securiteCollision(robot):
-        """:robot:Robot
-        """
-        if(self.collision):
