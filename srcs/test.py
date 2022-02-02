@@ -1,44 +1,37 @@
 # -*- coding: UTF-8 -*-
-from environment import environment
-from robot import robot
-from obstacle import obstacle,wall
+from environment import Environment
+from robot import Robot
+from obstacle import Obstacle,Wall
 from viewer import show2D
 
 #Creation de l'environnement
-env = environment(800,300)
+env = Environment(800,300)
 
 
 #Tests robot
-rob = robot(300,240)
+rob = Robot(300,240)
 env.addObject(rob)
 print(env.objects)
-rob.changeDir(180)
+rob.changeDir(315)
 
 #Tests obstacle
-obs = obstacle(10,50,100,30)
+obs = Obstacle(10,50,100,30)
 env.addObject(obs)
 print(env.objects)
-obs2 = obstacle(250,180,30,100)
+obs2 = Obstacle(250,180,30,100)
 env.addObject(obs2)
 print(env.objects)
 
-# Ajout d'un mur 
-mur=wall(0,0,env.height,90)
-mur2=wall(env.width-5,0,env.height,90)
-mur3=wall(0,0,env.width,0)
-mur4=wall(0,env.height-5,env.width,0)
-
+# Ajout d'un mur
+mur=Wall(0,0,env.height,90)
+mur2=Wall(env.width-5,0,env.height,90)
+mur3=Wall(0,0,env.width,0)
+mur4=Wall(0,env.height-5,env.width,0)
 env.addObject(mur)
 env.addObject(mur2)
 env.addObject(mur3)
 env.addObject(mur4)
 
-#Affiche la representation 2D de l'environnement
-#show2D(env)
-
 #Lance un thread secondaire qui execute updateSimulation() et démarre l'affichage graphique
 show2D(env, rob)
-
-# deplace la direction du robot au coordonnes voulue
-rob.deplacerRobotVersPosition(5,3,47,50)
 

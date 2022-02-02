@@ -1,25 +1,25 @@
-from math import cos,sin
+from math import cos,sin,pi
 
-class robot:
+class Robot:
 
     ########## appel a un autre constructeur : notion d'heritage simple
     # instanciation des attributs
 
     def __init__(self,positionX,positionY):
-        """ 
+        """
         :positionX: int
         :positionY: int
-        Représente un robot avec une position initiale (positionX, positionY) 
+        Représente un robot avec une position initiale (positionX, positionY)
         """
         super().__init__()
         self.positionX=positionX
         self.positionY=positionY
         self.dir= 90 #direction par défaut
-        
+
     def changeDir(self, dir):
-        """ 
+        """
         :dir: int
-        fonction qui change la direction du robot selon l'angle 'dir' 
+        fonction qui change la direction du robot selon l'angle 'dir'
         """
         if dir >= 0 and dir <= 360:
             self.dir = dir
@@ -27,30 +27,40 @@ class robot:
             print(f"La direction doit être comprise entre 0 et 360 degrés. Retour à la direction par défaut : {self.dir}°")
 
     def deplacerPositionRobotAvant(self,positionX,positionY,dir,distance):
-        """ 
-        :positionX: int
-        :positionX: int
-	:dir: int
-        :distance: int
-        fonction qui deplace  le rebot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
         """
-        dx=distance*cos(dir)
-        dy=distance*sin(dir)
-        self.positionX = positionX+dx
-        self.positionY = positionY-dy
+        :positionX: int
+        :positionX: int
+	    :dir: int
+        :distance: int
+        fonction qui deplace  le robot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
+        """
+        print(self.positionX)
+        print(self.positionY)
+        print(self.dir)
+        dir = self.dir * pi / 180 #conversion des degrés en radians
+        dx = distance * cos(dir)
+        dy = distance * sin(dir)
+        self.positionX = self.positionX + dx
+        self.positionY = self.positionY - dy 
+        print(self.positionX)
+        print(self.positionY)
+        print(self.dir)
+
     
-    def deplacerPositionRobotDerriere(self,positionX,positionY,dir,distance):
+    def deplacerPositionRobotArriere(self,distance):
         """ 
         :positionX: int
         :positionX: int
-	:dir: int
+	    :dir: int
         :distance: int
-        fonction qui deplace  le rebot depuis les coordonnées(positionX,positionY) vers l'arriere selon l'angle 'dir' et une distance
-	"""
-        dx=-distance*cos(dir)
-        dy=distance*sin(dir)
-        self.positionX = positionX+dx
-        self.positionY = positionY-dy 
+        fonction qui déplace  le robot depuis les coordonnées(positionX,positionY) vers l'arriere selon l'angle 'dir' et une distance
+	    """
+        opposite_dir = (self.dir * pi / 180) + pi #conversion des degrés en radians + on ajoute pi pour obtenir la direction inverse
+        dx = distance * cos(opposite_dir)
+        dy = distance * sin(opposite_dir)
+      
+        self.positionX = self.positionX + dx
+        self.positionY = self.positionY - dy
 
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
         if dir < 0 and dir > 180:
