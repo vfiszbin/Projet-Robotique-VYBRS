@@ -1,4 +1,4 @@
-from obstacle import obstacle
+from obstacle import Obstacle
 from time import sleep
 
 def updateSimulation(env,rob):
