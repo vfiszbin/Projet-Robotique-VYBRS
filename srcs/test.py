@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
-from environment import Environment
-from robot import Robot
-from obstacle import Obstacle, Wall
-from viewer import show2D
+from simulation.objects.environment import Environment
+from simulation.objects.obstacle import Obstacle, Wall
+from simulation.objects.robot import Robot
+from simulation.viewer import show2D
+
 
 #Creation de l'environnement
 env = Environment(800,300)

@@ -1,8 +1,8 @@
 from tkinter import Tk, Canvas
 from math import cos, sin, pi
-from robot import Robot
-from obstacle import Obstacle
-from updateSimulation import updateSimulation
+from ..objects.robot import Robot
+from ..objects.obstacle import Obstacle
+from ..updater.updateSimulation import updateSimulation
 import threading
 
 
