@@ -1,8 +1,8 @@
 from tkinter import Tk, Canvas
 from math import cos, sin, pi
-from ..objects.robot import Robot
-from ..objects.obstacle import Obstacle
-from ..updater.updateSimulation import updateSimulation
+from ..modele.robot import Robot
+from ..modele.obstacle import Obstacle
+from ..modele.updateModele import updateModele
 import threading
 
 
@@ -12,7 +12,7 @@ def show2D(env, rob):
 	une boucle while infinie). Pour continuer à executer d'autres instructions que l'affichage graphique on lance updateSimulation()
 	dans un thread secondaire qui s'execute en parallèle de l'affichage graphique.
 	'''
-	thread = threading.Thread(target=updateSimulation,args=(env,rob))
+	thread = threading.Thread(target=updateModele,args=(env,rob))
 	# thread.setDaemon(True) #pour que le thread meurt lorsque le main thread se termine
 	thread.start()
 	graphicalRepresentation(env)

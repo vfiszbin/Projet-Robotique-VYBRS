@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
-from simulation.objects.environment import Environment
-from simulation.objects.obstacle import Obstacle, Wall
-from simulation.objects.robot import Robot
+from simulation.modele.environment import Environment
+from simulation.modele.obstacle import Obstacle, Wall
+from simulation.modele.robot import Robot
 from simulation.viewer import show2D
 
 

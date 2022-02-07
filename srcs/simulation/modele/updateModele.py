@@ -1,7 +1,7 @@
-from ..objects.obstacle import Obstacle
+from .obstacle import Obstacle
 from time import sleep
 
-def updateSimulation(env,rob):
+def updateModele(env,rob):
 	'''
 	Cette fonction regroupe les instructions de mise à jour de la simulation en temps réel.
 	Si l'affichage graphique a été démarré, cette fonction s'execute dans un thread secondaire
