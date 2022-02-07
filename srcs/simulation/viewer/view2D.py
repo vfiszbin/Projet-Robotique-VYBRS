@@ -2,23 +2,12 @@ from tkinter import Tk, Canvas
 from math import cos, sin, pi
 from ..modele.robot import Robot
 from ..modele.obstacle import Obstacle
-from ..modele.updateModele import updateModele
-import threading
 
 
-def show2D(env, rob):
-	'''
-	L'affichage graphique avec tkinter requiert de lancer une mainloop() qui va bloquer l'execution de toute autre instructions (c'est équivalent à
-	une boucle while infinie). Pour continuer à executer d'autres instructions que l'affichage graphique on lance updateSimulation()
-	dans un thread secondaire qui s'execute en parallèle de l'affichage graphique.
-	'''
-	thread = threading.Thread(target=updateModele,args=(env,rob))
-	# thread.setDaemon(True) #pour que le thread meurt lorsque le main thread se termine
-	thread.start()
-	graphicalRepresentation(env)
-
-
-class graphicalRepresentation:
+# 	L'affichage graphique avec tkinter requiert de lancer une mainloop() qui va bloquer l'execution de toute autre instructions (c'est équivalent à
+# 	une boucle while infinie). Pour continuer à executer d'autres instructions que l'affichage graphique on lance updateModele()
+# 	dans un thread secondaire qui s'execute en parallèle de l'affichage graphique.	
+class View2D:
 	def __init__(self, environment):
 		self.window = Tk()
 		self.window.title("Environnement")

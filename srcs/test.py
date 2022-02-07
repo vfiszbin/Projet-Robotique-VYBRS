@@ -2,7 +2,8 @@
 from simulation.modele.environment import Environment
 from simulation.modele.obstacle import Obstacle, Wall
 from simulation.modele.robot import Robot
-from simulation.viewer import show2D
+from simulation.viewer.view2D import View2D
+from simulation.modele.updateModele import UpdateModele
 
 
 #Creation de l'environnement
@@ -33,6 +34,10 @@ env.addObject(mur2)
 env.addObject(mur3)
 env.addObject(mur4)
 
-#Lance un thread secondaire qui execute updateSimulation() et démarre l'affichage graphique
-show2D(env, rob)
+#Lance updateModele qui s'execute dans un thread secondaire
+update_modele = UpdateModele(env,rob)
+update_modele.start()
+
+#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
+View2D(env)
 
