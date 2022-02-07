@@ -26,12 +26,8 @@ class UpdateModele(Thread):
 		obs = Obstacle(200,100,30,40)
 		self.env.addObject(obs)
 
-		# changer la direction du robot
 		sleep(1)
 		self.rob.deplacerPositionRobotAvant(10)
 
 		sleep(1)
 		self.rob.deplacerPositionRobotArriere(20)
-
-		# deplace la direction du robot au coordonnes voulue
-		#rob.deplacerRobotVersPosition(5,-3,47,50)
