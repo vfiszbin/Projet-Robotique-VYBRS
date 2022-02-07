@@ -11,9 +11,8 @@ class UpdateModele(Thread):
 		
 	def run(self):
 		'''
-		Cette fonction regroupe les instructions de mise à jour de la simulation en temps réel.
-		Si l'affichage graphique a été démarré, cette fonction s'execute dans un thread secondaire
-		et ses instructions sont les seules à pouvoir s'executer, le main thread étant occupé par l'affichage graphique
+		Cette fonction regroupe les instructions de mise à jour de la partie modèle de la simulation.
+		Cette fonction s'execute dans un thread secondaire.
 		'''
 		sleep(1)
 		obs = Obstacle(83,116,20,25)

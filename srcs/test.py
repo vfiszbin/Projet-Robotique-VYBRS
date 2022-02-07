@@ -40,4 +40,3 @@ update_modele.start()
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 View2D(env)
-
