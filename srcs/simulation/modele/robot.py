@@ -57,12 +57,15 @@ class Robot:
         self.positionY = self.positionY - dy
 
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
-        if dir < 0 and dir > 180:
-            self.changeDir(dir)
-            # on dirige notre robot vers l'avant
-            self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
-        else: # le robot se deolacera en position arriere
-            self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
+        """
+        """
+        if(not(self.detecteObstacle())):
+            if dir < 0 and dir > 180:
+                self.changeDir(dir)
+                # on dirige notre robot vers l'avant
+                self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
+            else: # le robot se deolacera en position arriere
+                self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
 
 
     def move(self,positionX,positionY):
@@ -91,3 +94,9 @@ class Robot:
         Retourne la direction actuelle du robot
         """
         return self.dir
+
+    def detecteObstacle(self,obj):
+        """
+        :obj:obstacle
+        """
+        if(obj.positionX)
