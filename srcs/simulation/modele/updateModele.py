@@ -31,3 +31,7 @@ class UpdateModele(Thread):
 
 		sleep(1)
 		self.rob.deplacerPositionRobotArriere(20)
+		
+		sleep(1)
+		self.rob.move(2,3)
+

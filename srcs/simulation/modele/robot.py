@@ -64,13 +64,30 @@ class Robot:
         else: # le robot se deolacera en position arriere
             self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
 
-    def detecteObstacle():
-        """
-        """
 
-    def blockRobot(rob,obj):
+    def move(self,positionX,positionY):
+        """ int * int -> None
+        Deplace le robot de positionX en abscisse et positionY en ordonee
         """
-        :rob:Robot
-        fonction qui bloque le robot dans le cas
+        self.positionX+=positionX
+        self.positionY+=positionY
+        print("Le robot s'est deplace en [", self.positionX, ",", self.positionY, "]")
+
+
+    def getPositionXRobot(self):
         """
-        if(rob.detecteObstacle(obj)):
+        Retourne la coordonnee x actuelle du robot
+        """
+        return self.positionX
+
+    def getPositionYRobot(self):
+        """
+        Retourne la coordonnee y actuelle du robot
+        """
+        return self.positionY
+
+    def getDir(self):
+        """
+        Retourne la direction actuelle du robot
+        """
+        return self.dir
