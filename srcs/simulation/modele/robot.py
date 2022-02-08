@@ -63,3 +63,13 @@ class Robot:
             self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
         else: # le robot se deolacera en position arriere
             self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
+
+	
+    def move(self,positionX,positionY):
+        """ int * int -> None
+        Deplace le robot de positionX en abscisse et positionY en ordonee
+        """
+        self.positionX+=positionX
+        self.positionY+=positionY
+        print("Le robot s'est deplace en [", self.positionX, ",", self.positionY, "]")
+	
