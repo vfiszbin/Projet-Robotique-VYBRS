@@ -38,11 +38,11 @@ class Robot:
         dx = distance * cos(dir)
         dy = distance * sin(dir)
         self.positionX = self.positionX + dx
-        self.positionY = self.positionY - dy
+        self.positionY = self.positionY - dy 
 
-
+    
     def deplacerPositionRobotArriere(self,distance):
-        """
+        """ 
         :positionX: int
         :positionX: int
 	    :dir: int
@@ -52,7 +52,7 @@ class Robot:
         opposite_dir = (self.dir * pi / 180) + pi #conversion des degrés en radians + on ajoute pi pour obtenir la direction inverse
         dx = distance * cos(opposite_dir)
         dy = distance * sin(opposite_dir)
-
+      
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
@@ -63,14 +63,3 @@ class Robot:
             self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
         else: # le robot se deolacera en position arriere
             self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
-
-    def detecteObstacle():
-        """
-        """
-
-    def blockRobot(rob,obj):
-        """
-        :rob:Robot
-        fonction qui bloque le robot dans le cas
-        """
-        if(rob.detecteObstacle(obj)):
