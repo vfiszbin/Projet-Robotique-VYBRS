@@ -1,5 +1,5 @@
 from math import cos,sin,pi
-
+from obstacle import Obstacle
 
 class Robot:
 
@@ -100,7 +100,9 @@ class Robot:
         :obj:obstacle
         Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
         """
-        if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
-            return True #ajouter les points avec length et width
-        else:
-            return False
+        if isinstance(obj,Obstacle):
+            if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
+                return True #ajouter les points avec length et width
+            else:
+                return False
+        
