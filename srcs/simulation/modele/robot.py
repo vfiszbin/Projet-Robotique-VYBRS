@@ -1,5 +1,6 @@
 from math import cos,sin,pi
 
+
 class Robot:
 
     ########## appel a un autre constructeur : notion d'heritage simple
@@ -59,18 +60,17 @@ class Robot:
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
         """
         """
-        if(not(self.detecteObstacle())):
-            if dir < 0 and dir > 180:
-                self.changeDir(dir)
-                # on dirige notre robot vers l'avant
-                self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
-            else: # le robot se deolacera en position arriere
-                self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
+        if dir < 0 and dir > 180:
+            self.changeDir(dir)
+            # on dirige notre robot vers l'avant
+            self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
+        else: # le robot se deolacera en position arriere
+            self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
 
 
     def move(self,positionX,positionY):
         """ int * int -> None
-        Deplace le robot de positionX en abscisse et positionY en ordonee
+        Deplace le robot de positionX en abscisse et positionY en ordonnee
         """
         self.positionX+=positionX
         self.positionY+=positionY
@@ -98,5 +98,9 @@ class Robot:
     def detecteObstacle(self,obj):
         """
         :obj:obstacle
+        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
         """
-        if(obj.positionX)
+        if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
+            return True #ajouter les points avec length et width
+        else:
+            return False
