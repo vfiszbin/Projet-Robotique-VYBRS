@@ -52,7 +52,7 @@ class Robot:
         opposite_dir = (self.dir * pi / 180) + pi #conversion des degrés en radians + on ajoute pi pour obtenir la direction inverse
         dx = distance * cos(opposite_dir)
         dy = distance * sin(opposite_dir)
-      
+
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
