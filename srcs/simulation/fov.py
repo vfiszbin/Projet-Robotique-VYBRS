@@ -13,11 +13,11 @@ class FoV:
         """
         self.degree=degree #degree du champs de vision
         self.length=length #longueur jusqu'à laquelle le robot peut percevoir
-        self.collision=false
+        self.collision=False
         self.safespace=None
         #self.safespace
 
-    def setSafespace(newss): #newss: new safe space
+    def setSafespace(self,newss): #newss: new safe space
         """
             :newss:int
             Set le safe space de none a newss
@@ -40,11 +40,11 @@ class FoV:
         """
 
 
-    def defCollision():
+    def defCollision(self):
         """
             Actualise la variable collision
         """
         if(self.length<self.safespace):#utiliser le safespace ?
-            self.collision=true
+            self.collision=True
         if(self.length>=self.safespace):
-            self.collision=false
+            self.collision=False
