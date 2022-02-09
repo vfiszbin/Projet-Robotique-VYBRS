@@ -26,5 +26,5 @@ class UpdateModele(Thread):
 				self.rob.deplacerPositionRobotArriere(-distance_covered)
 
 			self.last_time = time()
-			sleep(0.5)
+			sleep(0.1)
 

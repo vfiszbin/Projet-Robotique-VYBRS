@@ -32,7 +32,7 @@ class View2D:
 			elif isinstance(obj, Obstacle):
 				self.displayObstacle(obj)
 
-		self.window.after(1000, self.update) # update() se rappelle elle même toutes les 1000 ms
+		self.window.after(100, self.update) # update() se rappelle elle même toutes les x ms
 
 	def displayRobot(self, rob):
 		#Création d'un cerle pour représenter la position du robot
