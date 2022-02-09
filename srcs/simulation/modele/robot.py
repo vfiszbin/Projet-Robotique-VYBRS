@@ -14,7 +14,7 @@ class Robot:
         super().__init__()
         self.positionX = positionX
         self.positionY = positionY
-        self.di r= 90 #direction par défaut
+        self.dir = 90 #direction par défaut
         self.speed = 0
 
     def changeDir(self, dir):
@@ -29,7 +29,7 @@ class Robot:
 
     def changeSpeed(self, speed):
         self.speed = speed
-        
+
     def deplacerPositionRobotAvant(self,distance):
         """
         :positionX: int
