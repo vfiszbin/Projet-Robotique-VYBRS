@@ -1,4 +1,5 @@
 from math import cos,sin,pi
+from obstacle import Obstacle
 
 class Robot:
 
@@ -57,6 +58,8 @@ class Robot:
         self.positionY = self.positionY - dy
 
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
+        """
+        """
         if dir < 0 and dir > 180:
             self.changeDir(dir)
             # on dirige notre robot vers l'avant
@@ -67,7 +70,7 @@ class Robot:
 
     def move(self,positionX,positionY):
         """ int * int -> None
-        Deplace le robot de positionX en abscisse et positionY en ordonee
+        Deplace le robot de positionX en abscisse et positionY en ordonnee
         """
         self.positionX+=positionX
         self.positionY+=positionY
@@ -91,3 +94,15 @@ class Robot:
         Retourne la direction actuelle du robot
         """
         return self.dir
+
+    def detecteObstacle(self,obj):
+        """
+        :obj:obstacle
+        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
+        """
+        if isinstance(obj,Obstacle):
+            if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
+                return True #ajouter les points avec length et width
+            else:
+                return False
+        

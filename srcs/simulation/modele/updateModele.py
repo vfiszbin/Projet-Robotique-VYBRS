@@ -1,6 +1,7 @@
 from .obstacle import Obstacle
 from time import sleep
 from threading import Thread
+from random import *
 
 
 class UpdateModele(Thread):
@@ -8,7 +9,7 @@ class UpdateModele(Thread):
 		super(UpdateModele, self).__init__()
 		self.env = env
 		self.rob = rob
-		
+
 	def run(self):
 		'''
 		Cette fonction regroupe les instructions de mise à jour de la partie modèle de la simulation.
@@ -26,12 +27,14 @@ class UpdateModele(Thread):
 		obs = Obstacle(200,100,30,40)
 		self.env.addObject(obs)
 
-		sleep(1)
-		self.rob.deplacerPositionRobotAvant(10)
+		seed()
+		for i in range(20):
+			sleep(1)
+			self.rob.deplacerPositionRobotAvant(randint(1,50))
+			self.rob.changeDir(randint(0,360))
 
-		sleep(1)
-		self.rob.deplacerPositionRobotArriere(20)
-		
+
+
+
 		sleep(1)
 		self.rob.move(2,3)
-
