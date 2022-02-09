@@ -12,9 +12,10 @@ class Robot:
         Représente un robot avec une position initiale (positionX, positionY)
         """
         super().__init__()
-        self.positionX=positionX
-        self.positionY=positionY
-        self.dir= 90 #direction par défaut
+        self.positionX = positionX
+        self.positionY = positionY
+        self.di r= 90 #direction par défaut
+        self.speed = 0
 
     def changeDir(self, dir):
         """
@@ -26,6 +27,9 @@ class Robot:
         else:
             print(f"La direction doit être comprise entre 0 et 360 degrés. Retour à la direction par défaut : {self.dir}°")
 
+    def changeSpeed(self, speed):
+        self.speed = speed
+        
     def deplacerPositionRobotAvant(self,distance):
         """
         :positionX: int
