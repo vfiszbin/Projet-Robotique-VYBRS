@@ -13,6 +13,27 @@ class Obstacle:
         self.width=width
         self.height=height
 
+    def getPositionXObstacle(self):
+        """
+        """
+        return self.positionX
+
+    def getPositionYObstacle(self):
+        """
+        """
+        return self.positionY
+
+    def getWidth(self):
+        """
+        """
+        return self.width
+
+    def getHeight(self):
+        """
+        """
+        return self.height
+        
+
 #pour l'instant la classe fait des mur 90 et 0 deg uniquement
 class Wall(Obstacle):
     """

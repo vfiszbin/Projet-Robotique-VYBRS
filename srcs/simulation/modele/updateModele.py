@@ -1,6 +1,7 @@
 from .obstacle import Obstacle
 from time import sleep, time
 from threading import Thread
+from random import *
 
 
 class UpdateModele(Thread):
