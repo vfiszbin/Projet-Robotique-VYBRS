@@ -1,8 +1,10 @@
 # -*- coding: UTF-8 -*-
-from environment import Environment
-from robot import Robot
-from obstacle import Obstacle, Wall
-from viewer import show2D
+from simulation.modele.environment import Environment
+from simulation.modele.obstacle import Obstacle, Wall
+from simulation.modele.robot import Robot
+from simulation.viewer.view2D import View2D
+from simulation.modele.updateModele import UpdateModele
+
 
 #Creation de l'environnement
 env = Environment(800,300)
@@ -13,6 +15,9 @@ rob = Robot(300,240)
 env.addObject(rob)
 print(env.objects)
 rob.changeDir(315)
+print(rob.getDir())
+print(rob.getPositionXRobot())
+print(rob.getPositionYRobot())
 
 #Tests obstacle
 obs = Obstacle(10,50,100,30)
@@ -32,6 +37,9 @@ env.addObject(mur2)
 env.addObject(mur3)
 env.addObject(mur4)
 
-#Lance un thread secondaire qui execute updateSimulation() et démarre l'affichage graphique
-show2D(env, rob)
+#Lance updateModele qui s'execute dans un thread secondaire
+update_modele = UpdateModele(env,rob)
+update_modele.start()
 
+#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
+View2D(env)
