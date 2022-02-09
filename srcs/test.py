@@ -4,6 +4,8 @@ from simulation.modele.obstacle import Obstacle, Wall
 from simulation.modele.robot import Robot
 from simulation.viewer.view2D import View2D
 from simulation.modele.updateModele import UpdateModele
+from threading import Thread
+from simulation.controller.controller import moveForward
 
 
 #Creation de l'environnement
@@ -40,6 +42,10 @@ env.addObject(mur4)
 #Lance updateModele qui s'execute dans un thread secondaire
 update_modele = UpdateModele(env,rob)
 update_modele.start()
+
+#Lance le controleur test
+thread = Thread(target = moveForward, args = (rob, ))
+thread.start()
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 View2D(env)
