@@ -1,5 +1,5 @@
 from math import cos,sin,pi
-from obstacle import Obstacle
+from .obstacle import Obstacle
 
 class Robot:
 
@@ -109,4 +109,3 @@ class Robot:
                 return True #ajouter les points avec length et width
             else:
                 return False
-        

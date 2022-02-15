@@ -1,7 +1,6 @@
 from .environment import Environment
 from .robot import Robot
 from .obstacle import Obstacle,Wall
-from .
 
 class FoV:
     #FOV pour Field of View : le but est de permettre au robot de pouvoir detecter

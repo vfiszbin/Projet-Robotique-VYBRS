@@ -10,7 +10,7 @@ class UpdateModele(Thread):
 		self.env = env
 		self.rob = rob
 		self.last_time = time()
-		
+
 	def run(self):
 		'''
 		Cette fonction regroupe les instructions de mise à jour de la partie modèle de la simulation.
@@ -28,4 +28,3 @@ class UpdateModele(Thread):
 
 			self.last_time = time()
 			sleep(0.1)
-
