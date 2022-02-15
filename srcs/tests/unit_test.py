@@ -1,9 +1,9 @@
 import unittest
-from simulation.modele.robot import Robot
-from simulation.modele.environment import Environment
-from simulation.modele.obstacle import Obstacle
+from ..simulation.modele.robot import Robot
+from ..simulation.modele.environment import Environment
+from ..simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
-
+#retourner un repertoire en arrière?
 class robot_test(unittest.TestCase):
 
     def setUp(self):

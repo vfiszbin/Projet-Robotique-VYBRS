@@ -31,6 +31,7 @@ class Robot:
     def changeSpeed(self, speed):
         self.speed = speed
 
+    #merge les deux fonctions suivantes
     def deplacerPositionRobotAvant(self,distance):
         """
         :positionX: int
@@ -63,14 +64,21 @@ class Robot:
 
     def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
         """
+        :positionX: int
+        :positionX: int
+	    :dir: int
+        :distance: int
+        deplace le robot vers une position donnée
         """
+        #if detecteObstacle()
         if dir < 0 and dir > 180:
             self.changeDir(dir)
             # on dirige notre robot vers l'avant
             self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
         else: # le robot se deolacera en position arriere
             self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
-
+        #else:
+        #   print("Le robot ne peut pas se déplacer")
 
     def move(self,positionX,positionY):
         """ int * int -> None
@@ -99,13 +107,13 @@ class Robot:
         """
         return self.dir
 
-    def detecteObstacle(self,obj):
-        """
-        :obj:obstacle
-        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
-        """
-        if isinstance(obj,Obstacle):
-            if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
-                return True #ajouter les points avec length et width
-            else:
-                return False
+#    def detecteObstacle(self,obj):
+#        """
+#        :obj:obstacle
+#        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
+#        """
+#        if isinstance(obj,Obstacle):
+#            if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
+#                return True #ajouter les points avec length et width
+#            else:
+#                return False
