@@ -1,6 +1,7 @@
-from environment import Environment
-from robot import Robot
-from obstacle import Obstacle,Wall
+from .environment import Environment
+from .robot import Robot
+from .obstacle import Obstacle,Wall
+from .
 
 class FoV:
     #FOV pour Field of View : le but est de permettre au robot de pouvoir detecter
@@ -24,15 +25,6 @@ class FoV:
         """
         self.safespace=newss
 
-#    def addObstacle(object,collision):
-#        """
-#            #:collision:bool
-#            Ajoute un obstacle dans une liste d'obstacle
-#        """
-#        est ce qu'on peut rendre la methode pour ajouter des objets dans l'environnement statique ?
-#        if(collision):
-#            if isinstance(Obstacle,object):
-#                robot.listobjects.append(object)
 
     def calculCollision(self):
         """
@@ -44,7 +36,3 @@ class FoV:
         """
             Actualise la variable collision
         """
-        if(self.length<self.safespace):#utiliser le safespace ?
-            self.collision=True
-        if(self.length>=self.safespace):
-            self.collision=False
