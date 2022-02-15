@@ -34,6 +34,16 @@ class Environment_test(unittest.TestCase):
         a=self.env1.addObject()
         b=self.env2.addObject()
         self.assertIn(a,b)
+        
+    def test_removeObject(self, obj):
+        a=self.env1.removeObject()
+        b=self.env2.removeObject()
+        self.assertNotIn(obj,a)
+        self.assertNotIn(obj,b)
+        
+    if __name__ == '__main__':
+        main()
+        
 
 class Obstacle_test(unittest.TestCase):
 
