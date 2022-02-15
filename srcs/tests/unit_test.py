@@ -1,6 +1,7 @@
 import unittest
-from simulation.modele.robot import Robot 
+from simulation.modele.robot import Robot
 from simulation.modele.environment import Environment
+from simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
 
 class robot_test(unittest.TestCase):
@@ -18,19 +19,27 @@ class robot_test(unittest.TestCase):
         self.assertEqual(self.r2.dir,10)
         self.r2.changeDir(-15)
         self.assertEqual(self.r2.dir,10)
-        
+
     def deplacerPositionRobotAvant(self):
         self.r1.deplacerPositionRobotAvant(12)
         self.assertEqual(self.r1.positionX,self.positionX+12 * cos(dir))
-    
+
 class Environment_test(unittest.TestCase):
 
     def setUp(self):
         self.env1=Environment(500,300)
         self.env2=Environment(600,500)
-    
+
     def addObject_test(self,obj):
         a=self.env1.addObject()
         b=self.env2.addObject()
         self.assertIn(a,b)
-        
+
+class Obstacle_test(unittest.TestCase):
+
+    def setUp(self):
+        self.ob1=Obstacle()
+        self.ob2=Obstacle()
+
+    if __name__ == '__main__':
+        main()
