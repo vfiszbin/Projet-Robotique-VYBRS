@@ -24,6 +24,16 @@ class robot_test(unittest.TestCase):
         self.r1.deplacerPositionRobotAvant(12)
         self.assertEqual(self.r1.positionX,self.positionX+12 * cos(dir))
 
+    def changeSpeed_test(self):
+        self.r1.changeSpeed(0)
+        self.r1.changeSpeed(20)
+        self.r2.changeSpeed(10)
+        self.r2.changeSpeed(-40)
+
+    if __name__ == '__main__':
+        main()
+
+
 class Environment_test(unittest.TestCase):
 
     def setUp(self):
@@ -34,16 +44,16 @@ class Environment_test(unittest.TestCase):
         a=self.env1.addObject()
         b=self.env2.addObject()
         self.assertIn(a,b)
-        
+
     def test_removeObject(self, obj):
         a=self.env1.removeObject()
         b=self.env2.removeObject()
         self.assertNotIn(obj,a)
         self.assertNotIn(obj,b)
-        
+
     if __name__ == '__main__':
         main()
-        
+
 
 class Obstacle_test(unittest.TestCase):
 
