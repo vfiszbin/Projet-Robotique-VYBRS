@@ -13,6 +13,7 @@ def TestStrategy(rob):
 	rob.changeSpeed(-20)
 	sleep(3)
 	rob.changeSpeed(0)
+
 class Strategy:
 	"""
 	classe qui Cree une nouvelle strategie
@@ -46,7 +47,6 @@ class move(Strategy):
 	def start(self):
 		super().start()
 		self.rob.changeSpeed(self.speed)
-		self.rob.deplacerPositionRobotAvant(self.distance)
 
 	def stop(self):
 		if distance_covered(positionXB,positionYB,rob.getPositionXRobot(),rob.getPositionYRobot()) == self.distance :
