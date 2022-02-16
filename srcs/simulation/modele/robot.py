@@ -1,4 +1,4 @@
-from math import cos,sin,pi
+from math import *
 from .obstacle import Obstacle
 
 class Robot:
@@ -107,13 +107,34 @@ class Robot:
         """
         return self.dir
 
-#    def detecteObstacle(self,obj):
-#        """
-#        :obj:obstacle
-#        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
-#        """
-#        if isinstance(obj,Obstacle):
-#            if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
-#                return True #ajouter les points avec length et width
-#            else:
-#                return False
+    def detecteObstacle(self,obj):
+        """
+        :obj:obstacle
+        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
+        """
+        if isinstance(obj,Obstacle):
+            upl = (obj.positionX,obj.positionY)
+            upr = (obj.positionX+obj.length,obj.positionY)
+            lowl = (obj.positionX,obj.positionY+obj.width)
+            lowr = (obj.positionX+obj.length,obj.positionY+obj.width)
+            roba = self.positionX
+            robb = self.positionY
+            dir = self.dir * pi / 180
+            dx =  roba * cos(dir) + robb * sin(dir)
+            dy = roba * sin(dir) + robb * cos(dir)
+            xA,yA=upl
+            xB,yB=upr
+            xC,yC=lowr
+            xD,yD=lowl
+            k = 1
+            normeAB=maths.sqrt((xB-xA)*(xB-xA)+(yB-yA)*(yB-yA))
+            normeAD=math.sqrt((xD-xA)*(xD-xA)+(yD-yA)*(yD-yA))
+            normeBC=math.sqrt((xB-xC)*(xB-xC)+(yB-yC)*(yB-yC))
+            normeCD=mqth.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
+            #<============================================================
+            
+            #>============================================================
+
+            #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            #-------------------------------------------------------------
