@@ -1,4 +1,4 @@
-from math import cos,sin,pi
+from math import *
 from .obstacle import Obstacle
 
 class Robot:
@@ -112,7 +112,6 @@ class Robot:
         :obj:obstacle
         Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
         """
-        saf
         if isinstance(obj,Obstacle):
             upl = (obj.positionX,obj.positionY)
             upr = (obj.positionX+obj.length,obj.positionY)
@@ -127,7 +126,15 @@ class Robot:
             xB,yB=upr
             xC,yC=lowr
             xD,yD=lowl
+            k = 1
+            normeAB=maths.sqrt((xB-xA)*(xB-xA)+(yB-yA)*(yB-yA))
+            normeAD=math.sqrt((xD-xA)*(xD-xA)+(yD-yA)*(yD-yA))
+            normeBC=math.sqrt((xB-xC)*(xB-xC)+(yB-yC)*(yB-yC))
+            normeCD=mqth.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
             #<============================================================
+            
             #>============================================================
+
             #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
             #-------------------------------------------------------------
