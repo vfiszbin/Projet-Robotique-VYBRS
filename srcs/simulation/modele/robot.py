@@ -1,5 +1,5 @@
 from math import cos,sin,pi
-from obstacle import Obstacle
+from .obstacle import Obstacle
 
 class Robot:
 
