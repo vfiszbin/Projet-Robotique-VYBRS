@@ -36,17 +36,16 @@ class move(Strategy):
 	"""
 	class de strategie permet d'avancer le robot
 	"""
-	def __init__(self,rob,distance,speed):
+	def __init__(self,rob,speed):
 		super().__init__()
 		self.speed=speed
-		self.distance=distance
+		#self.distance=distance
 		self.positionXB=rob.getPositionXRobot()
 		self.positionYB=rob.getPositionYRobot()
 		self.rob=rob
 	def start(self):
 		super().start()
 		self.rob.changeSpeed(self.speed)
-		self.rob.deplacerPositionRobotAvant(self.distance)
 
 	def stop(self):
 		if distance_covered(positionXB,positionYB,rob.getPositionXRobot(),rob.getPositionYRobot()) == self.distance :
