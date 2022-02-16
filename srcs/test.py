@@ -5,7 +5,7 @@ from simulation.modele.robot import Robot
 from simulation.viewer.view2D import View2D
 from simulation.modele.updateModele import UpdateModele
 from threading import Thread
-from simulation.controller.controller import moveForward
+from simulation.controller.controller import TestStrategy
 
 
 #Creation de l'environnement
@@ -44,7 +44,7 @@ update_modele = UpdateModele(env,rob)
 update_modele.start()
 
 #Lance le controleur test
-thread = Thread(target = moveForward, args = (rob, ))
+thread = Thread(target = TestStrategy, args = (rob, ))
 thread.start()
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal

@@ -1,6 +1,6 @@
 from time import sleep
 
-def moveForward(rob):
+def TestStrategy(rob):
 	sleep(2)
 	rob.changeSpeed(10)
 	sleep(5)
