@@ -62,30 +62,13 @@ class Robot:
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
-    def deplacerRobotVersPosition(self,positionX,positionY,dir,distance):
-        """
-        :positionX: int
-        :positionX: int
-	    :dir: int
-        :distance: int
-        deplace le robot vers une position donnée
-        """
-        #if detecteObstacle()
-        if dir < 0 and dir > 180:
-            self.changeDir(dir)
-            # on dirige notre robot vers l'avant
-            self.deplacerPositionRobotAvant(positionX,positionY,dir,distance)
-        else: # le robot se deolacera en position arriere
-            self.deplacerPositionRobotDerriere(positionX,positionY,dir,distance)
-        #else:
-        #   print("Le robot ne peut pas se déplacer")
-
+   
     def move(self,positionX,positionY):
         """ int * int -> None
         Deplace le robot de positionX en abscisse et positionY en ordonnee
         """
-        self.positionX+=positionX
-        self.positionY+=positionY
+        self.positionX=positionX
+        self.positionY=positionY
         print("Le robot s'est deplace en [", self.positionX, ",", self.positionY, "]")
 
 
