@@ -1,16 +1,16 @@
 import unittest
-from ..simulation.modele.robot import Robot
-from ..simulation.modele.environment import Environment
-from ..simulation.modele.obstacle import Obstacle
+from simulation.modele.robot import Robot
+from simulation.modele.environment import Environment
+from simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
-#retourner un repertoire en arrière?
-class robot_test(unittest.TestCase):
+
+class TestRobot(unittest.TestCase):
 
     def setUp(self):
-        self.r1=Robot(self,2,3)
-        self.r2=Robot(self,5,6)
+        self.r1=Robot(2,3)
+        self.r2=Robot(5,6)
 
-    def changeDir_test(self):
+    def test_changeDir(self):
         self.r1.changeDir(5)
         self.assertEqual(self.r1.dir,5)
         self.r1.changeDir(-5)
@@ -18,48 +18,50 @@ class robot_test(unittest.TestCase):
         self.r2.changeDir(10)
         self.assertEqual(self.r2.dir,10)
         self.r2.changeDir(-15)
-        self.assertEqual(self.r2.dir,10)
+        self.assertEqual(self.r2.dir, 10)
 
-    def deplacerPositionRobotAvant(self):
+    def test_deplacerPositionRobotAvant(self):
+        dir = self.r1.dir * pi / 180 #conversion des degrés en radians
         self.r1.deplacerPositionRobotAvant(12)
-        self.assertEqual(self.r1.positionX,self.positionX+12 * cos(dir))
+        self.assertAlmostEqual(self.r1.positionX, self.r1.positionX + 12 * cos(dir), 7)
 
-    def changeSpeed_test(self):
+    def test_changeSpeed(self):
         self.r1.changeSpeed(0)
         self.r1.changeSpeed(20)
         self.r2.changeSpeed(10)
         self.r2.changeSpeed(-40)
 
     if __name__ == '__main__':
-        main()
+        unittest.main()
 
 
-class Environment_test(unittest.TestCase):
+class TestEnvironment(unittest.TestCase):
 
     def setUp(self):
         self.env1=Environment(500,300)
-        self.env2=Environment(600,500)
 
-    def addObject_test(self,obj):
-        a=self.env1.addObject()
-        b=self.env2.addObject()
-        self.assertIn(a,b)
 
-    def test_removeObject(self, obj):
-        a=self.env1.removeObject()
-        b=self.env2.removeObject()
-        self.assertNotIn(obj,a)
-        self.assertNotIn(obj,b)
+    def test_addObject(self):
+        test_obj = Obstacle(10,50,100,30)
+        self.env1.addObject(test_obj)
+        self.assertIn(test_obj, self.env1.objects)
+
+    def test_removeObject(self):
+        test_obj = Obstacle(10,50,100,30)
+        self.env1.addObject(test_obj)
+        self.assertIn(test_obj, self.env1.objects)
+        self.env1.removeObject(test_obj)
+        self.assertNotIn(test_obj, self.env1.objects)
 
     if __name__ == '__main__':
-        main()
+        unittest.main()
 
 
-class Obstacle_test(unittest.TestCase):
+class TestObstacle(unittest.TestCase):
 
     def setUp(self):
         self.ob1=Obstacle()
         self.ob2=Obstacle()
 
     if __name__ == '__main__':
-        main()
+        unittest.main()

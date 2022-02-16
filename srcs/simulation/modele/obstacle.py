@@ -4,7 +4,7 @@ class Obstacle:
         """
         :positionX: int
         :positionX: int
-	:width: int
+	    :width: int
         :height: int
         Cree un obstacle avec (positionX,positionY) : les coordonnes  int du point d'extremites en haut a gauche.
         """
