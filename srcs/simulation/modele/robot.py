@@ -112,6 +112,7 @@ class Robot:
         :obj:obstacle
         Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
         """
+        saf
         if isinstance(obj,Obstacle):
             upl = (obj.positionX,obj.positionY)
             upr = (obj.positionX+obj.length,obj.positionY)
@@ -122,6 +123,11 @@ class Robot:
             dir = self.dir * pi / 180
             dx =  roba * cos(dir) + robb * sin(dir)
             dy = roba * sin(dir) + robb * cos(dir)
-            for i in {upl,upr,lowl,lowr}:
-                u,v=i
-            
+            xA,yA=upl
+            xB,yB=upr
+            xC,yC=lowr
+            xD,yD=lowl
+            #<============================================================
+            #>============================================================
+            #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            #-------------------------------------------------------------
