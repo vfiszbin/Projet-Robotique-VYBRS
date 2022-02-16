@@ -107,13 +107,21 @@ class Robot:
         """
         return self.dir
 
-#    def detecteObstacle(self,obj):
-#        """
-#        :obj:obstacle
-#        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
-#        """
-#        if isinstance(obj,Obstacle):
-#            if abs(obj.getPositionXObstacle()-self.positionX)<1 and abs(obj.getPositionYObstacle()-self.positionY)<1:
-#                return True #ajouter les points avec length et width
-#            else:
-#                return False
+    def detecteObstacle(self,obj):
+        """
+        :obj:obstacle
+        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
+        """
+        if isinstance(obj,Obstacle):
+            upl = (obj.positionX,obj.positionY)
+            upr = (obj.positionX+obj.length,obj.positionY)
+            lowl = (obj.positionX,obj.positionY+obj.width)
+            lowr = (obj.positionX+obj.length,obj.positionY+obj.width)
+            roba = self.positionX
+            robb = self.positionY
+            dir = self.dir * pi / 180
+            dx =  roba * cos(dir) + robb * sin(dir)
+            dy = roba * sin(dir) + robb * cos(dir)
+            for i in {upl,upr,lowl,lowr}:
+                u,v=i
+            
