@@ -3,6 +3,7 @@ from time import sleep, time
 from threading import Thread
 from random import *
 
+UPDATE_FREQUENCY = 0.1 #en secondes
 
 class UpdateModele(Thread):
 	def __init__(self, env, rob):
@@ -27,4 +28,4 @@ class UpdateModele(Thread):
 				self.rob.deplacerPositionRobotArriere(-distance_covered)
 
 			self.last_time = time()
-			sleep(0.1)
+			sleep(UPDATE_FREQUENCY)
