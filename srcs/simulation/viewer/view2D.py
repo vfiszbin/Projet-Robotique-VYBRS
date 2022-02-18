@@ -2,6 +2,7 @@ from tkinter import Tk, Canvas
 from math import cos, sin, pi
 from ..modele.robot import Robot
 from ..modele.obstacle import Obstacle
+from .. import config
 
 UPDATE_FREQUENCY = 100 #en millisecondes
 
@@ -20,6 +21,7 @@ class View2D:
 		self.window.after(1000, self.update) #commence à executer update() dans 1000 ms
 
 		self.window.mainloop() # bloque le main thread
+		config.run = False #indique aux boucles while du programme de prendre fin à la fermeture de la fenêtre Tkinter
 
 	def update(self):
 		'''
