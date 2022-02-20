@@ -107,6 +107,20 @@ class Robot:
         """
         return self.dir
 
+    def scalairevectoriel(xa,ya,xb,yb,xc,yc,xd,yd):
+        """
+        :xa:int
+        :ya:int
+        :xb:int
+        :yb:int
+        :xc:int
+        :yc:int
+        :xd:int
+        :yd:int
+        Retourne (AB/\AC)(AB/\AD)
+        """
+        return (xa*yb-ya*xb)*(xc*yd-xd*yc)
+
     def detecteObstacle(self,obj):
         """
         :obj:obstacle
@@ -130,21 +144,19 @@ class Robot:
             xC,yC=lowr
             xD,yD=lowl
 
-            k = 1
+#            normeAB=maths.sqrt((xB-xA)*(xB-xA)+(yB-yA)*(yB-yA))
+#            normeAD=math.sqrt((xD-xA)*(xD-xA)+(yD-yA)*(yD-yA))
+#            normeBC=math.sqrt((xB-xC)*(xB-xC)+(yB-yC)*(yB-yC))
 
-            normeAB=maths.sqrt((xB-xA)*(xB-xA)+(yB-yA)*(yB-yA))
-            normeAD=math.sqrt((xD-xA)*(xD-xA)+(yD-yA)*(yD-yA))
-            normeBC=math.sqrt((xB-xC)*(xB-xC)+(yB-yC)*(yB-yC))
-
-            normeCD=mqth.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
-            prodvsright=0
-            prodsvright=0
-            prodvsleft=0
-            prodsvleft=0
-            prodvsup=0
-            prodsvup=0
-            prodsvslow=0
-            prodsvlow=0
+            normeCD=math.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
+            prodvsright=scalairevectoriel(roba,robb,dx,dy,xB,yB,xC,yC)
+            prodsvright=scalairevectoriel()
+            prodvsleft=scalairevectoriel()
+            prodsvleft=scalairevectoriel()
+            prodvsup=scalairevectoriel()
+            prodsvup=scalairevectoriel()
+            prodsvslow=scalairevectoriel()
+            prodsvlow=scalairevectoriel()
             #<============================================================
             if(prodvsleft<0 and prodsvleft<0):
                 return True
