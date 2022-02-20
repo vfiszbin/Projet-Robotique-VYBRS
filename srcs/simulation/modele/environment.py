@@ -51,3 +51,28 @@ class Environment:
         fonction statique qui enlève un objet obj de l'environnement
         """
         self.objects.remove(obj)
+
+
+    def is_outside_of_the_environment(self, x, y):
+        """
+        :x: float
+        :y: float
+        Renvoie True si le point de coordonnées (x, y) se trouve à l'extérieur des bords de l'environnement et False sinon.
+        """
+        if (x < 0) or (x > self.width) or (y < 0) or (y > self.height):
+            return True
+        else:
+            return False
+
+
+    def is_inside_an_obstacle_in_the_environment(self, x, y):
+        """
+        :x: float
+        :y: float
+        Renvoie True si le point de coordonnées (x, y) se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
+        """
+        for obstacle in self.objects :
+            if (obstacle.positionX<= x <= obstacle.positionX + obstacle.width) and (obstacle.positionY <= y <= obstacle.positionYs + obstacle.height):
+                return True
+
+        return False
