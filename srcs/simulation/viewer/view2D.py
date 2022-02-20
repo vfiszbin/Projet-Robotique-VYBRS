@@ -2,6 +2,9 @@ from tkinter import Tk, Canvas
 from math import cos, sin, pi
 from ..modele.robot import Robot
 from ..modele.obstacle import Obstacle
+from .. import config
+
+UPDATE_FREQUENCY = 100 #en millisecondes
 
 
 # 	L'affichage graphique avec tkinter requiert de lancer une mainloop() qui va bloquer l'execution de toute autre instructions (c'est équivalent à
@@ -15,9 +18,10 @@ class View2D:
 		self.canvas = Canvas(self.window, height=environment.height, width=environment.width)
 		self.canvas.pack()
 
-		self.window.after(1000, self.update) #executera update() dans 1000 ms
+		self.window.after(1000, self.update) #commence à executer update() dans 1000 ms
 
 		self.window.mainloop() # bloque le main thread
+		config.run = False #indique aux boucles while du programme de prendre fin à la fermeture de la fenêtre Tkinter
 
 	def update(self):
 		'''
@@ -32,7 +36,7 @@ class View2D:
 			elif isinstance(obj, Obstacle):
 				self.displayObstacle(obj)
 
-		self.window.after(100, self.update) # update() se rappelle elle même toutes les x ms
+		self.window.after(UPDATE_FREQUENCY, self.update) # update() se rappelle elle même toutes les x ms
 
 	def displayRobot(self, rob):
 		#Création d'un cerle pour représenter la position du robot
