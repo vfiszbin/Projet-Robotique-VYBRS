@@ -1,6 +1,6 @@
 from math import *
 from .obstacle import Obstacle
-from .environment import Environment
+
 
 class Robot:
 
@@ -156,7 +156,7 @@ class Robot:
         :y: float
         Renvoie True si le robot se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
         """
-        
+
         for obj in objects :
 
             if isinstance (obj,Obstacle):
@@ -165,5 +165,3 @@ class Robot:
                     return True
 
             return False
-
-    
