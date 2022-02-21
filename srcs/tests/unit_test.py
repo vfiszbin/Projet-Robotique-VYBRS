@@ -8,7 +8,6 @@ class TestRobot(unittest.TestCase):
 
     def setUp(self):
         self.r1=Robot(2,3)
-        self.r2=Robot(5,6)
 
     def test_changeDir(self):
         self.r1.changeDir(5)
@@ -34,7 +33,7 @@ class TestRobot(unittest.TestCase):
         self.r1.deplacerPositionRobotArriere(5)
         self.assertAlmostEqual(self.r1.positionX, positionX_avant + 5* cos(opposite_dir), 7)
         self.assertAlmostEqual(self.r1.positionY, positionY_avant - 5* sin(opposite_dir), 7)
-    
+
 
     def test_move(self):
         self.r1.move(8,9)
@@ -48,8 +47,14 @@ class TestRobot(unittest.TestCase):
         self.r2.changeSpeed(10)
         self.r2.changeSpeed(-40)
 
+    def test_detecteCollision(self):
+        test_obj = Obstacle(10,50,100,30)
+        self.r1.detecteCollision(test_obj)
+
+
     if __name__ == '__main__':
         unittest.main()
+
 
 
 class TestEnvironment(unittest.TestCase):
