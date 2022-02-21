@@ -23,10 +23,9 @@ class UpdateModele(Thread):
 			elapsed_time = current_time - self.last_time
 			distance_covered = self.rob.speed * elapsed_time # Distance = Vitesse * Temps
 
-			if distance_covered >= 0:
-				self.rob.deplacerPositionRobotAvant(distance_covered)
-			else :
-				self.rob.deplacerPositionRobotArriere(-distance_covered)
+
+			self.rob.deplacerRobot(distance_covered)
+
 
 			self.last_time = time()
 			sleep(UPDATE_FREQUENCY)
