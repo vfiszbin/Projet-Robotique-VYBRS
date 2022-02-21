@@ -34,6 +34,11 @@ class Robot:
             self.wheelMode = wheelMode
         else:
             print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
+    
+    def updateDir(self, distance):
+        r = 3 #rayon
+        alpha = (360 * distance) / (2 * pi * r)
+        self.dir += alpha
 
     def changeSpeed(self, speed):
         self.speed = speed
