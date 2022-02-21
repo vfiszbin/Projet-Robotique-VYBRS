@@ -44,7 +44,7 @@ update_modele = UpdateModele(env,rob)
 update_modele.start()
 
 #test des  strategie :
-s1=move(rob,5,30)
+s1=move(rob,5,-30)
 #Lance le controleur test
 controller_thread = Thread(target=TestStrategy, args=(rob,))
 controller_thread.start()

@@ -42,7 +42,7 @@ class Strategy:
 	def __init__(self):
 		self.begin=False #chaque strategie a un debut et une fin
 		self.end=False
-	
+
 	def start(self):
 		"""
 		methode qui commence une strategie
@@ -68,17 +68,18 @@ class move(Strategy):
 	def start(self):
 		super().start()
 		self.rob.changeSpeed(self.speed)
+		self.rob.deplacerRobot(self.distance)
 
 	def stop(self):
 		if distance_covered(positionXB,positionYB,rob.getPositionXRobot(),rob.getPositionYRobot()) == self.distance :
 			super().stop()
 		else :
 			print("fail")
-		
+
 
 class turn(Strategy):
 	"""
-	class de strategie: permet de tourner le robot	et l'avancer	
+	class de strategie: permet de tourner le robot	et l'avancer
 	"""
 	def __init__(self,rob,dir):
 		super().__init__()
