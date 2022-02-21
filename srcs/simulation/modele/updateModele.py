@@ -1,8 +1,10 @@
 from .obstacle import Obstacle
+from .. import config
 from time import sleep, time
 from threading import Thread
 from random import *
 
+UPDATE_FREQUENCY = 0.1 #en secondes
 
 class UpdateModele(Thread):
 	def __init__(self, env, rob):
@@ -16,7 +18,7 @@ class UpdateModele(Thread):
 		Cette fonction regroupe les instructions de mise à jour de la partie modèle de la simulation.
 		Cette fonction s'execute dans un thread secondaire.
 		'''
-		while(True):
+		while(config.run):
 			current_time = time()
 			elapsed_time = current_time - self.last_time
 			distance_covered = self.rob.speed * elapsed_time # Distance = Vitesse * Temps
@@ -27,4 +29,4 @@ class UpdateModele(Thread):
 				self.rob.deplacerPositionRobotArriere(-distance_covered)
 
 			self.last_time = time()
-			sleep(0.1)
+			sleep(UPDATE_FREQUENCY)
