@@ -17,6 +17,7 @@ class Robot:
         self.positionY = positionY
         self.dir = 90 #direction par défaut
         self.speed = 0
+        self.wheelMode = 1
 
     def changeDir(self, dir):
         """
@@ -27,6 +28,15 @@ class Robot:
             self.dir = dir
         else:
             print(f"La direction doit être comprise entre 0 et 360 degrés. Retour à la direction par défaut : {self.dir}°")
+
+    # 2 modes pour les roues : mode 1 (avancer/reculer) et 2 (tourner)
+    # Mode 1 : les deux roues vont dans le même sens, on donc peut avancer avec une vitesse positive ou reculer avec une vitesse négative
+    # Mode 2 : les deux roues tournent en sens opposés, le robot tourne sur lui même
+    def changeWheelMode(self, wheelMode):
+        if wheelMode == 1 or wheelMode == 2:
+            self.wheelMode = wheelMode
+        else:
+            print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
 
     def changeSpeed(self, speed):
         self.speed = speed
