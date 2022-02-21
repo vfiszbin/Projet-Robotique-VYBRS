@@ -1,5 +1,6 @@
 from math import *
 from .obstacle import Obstacle
+from .environment import Environment
 
 class Robot:
 
@@ -136,3 +137,33 @@ class Robot:
             else:
                 return False
             ####
+
+    def is_outside_of_the_environment(self,width, height):
+        """
+        :x: float
+        :y: float
+        Renvoie True si le robot se trouve se trouve à l'extérieur des bords de l'environnement et False sinon.
+        """
+        if (self.positionX < 0) or (self.positionY > width) or (self.positionY < 0) or (self.positiony > height):
+            return True
+        else:
+            return False
+
+
+    def is_inside_an_obstacle_in_the_environment(self,objects):
+        """
+        :x: float
+        :y: float
+        Renvoie True si le robot se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
+        """
+        
+        for obj in objects :
+
+            if isinstance (obj,Obstacle):
+
+                if (obj.positionX<= self.positionX<= obj.positionX + obj.width) and (obj.positionY <= self.positionY <= obj.positionYs + obj.height):
+                    return True
+
+            return False
+
+    
