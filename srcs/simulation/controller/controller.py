@@ -1,18 +1,27 @@
 from time import sleep
 
 def TestStrategy(rob):
-	sleep(2)
-	rob.changeSpeed(10)
-	sleep(5)
-	rob.changeSpeed(0)
-	rob.changeDir(45)
+	# sleep(2)
+	# rob.changeSpeed(10)
+	# sleep(5)
+	# rob.changeSpeed(0)
+	# rob.changeDir(45)
+	# sleep(1)
+	# rob.changeSpeed(30)
+	# sleep(5)
+	# rob.changeSpeed(0)
+	# rob.changeSpeed(-20)
+	# sleep(3)
+	# rob.changeSpeed(0)
+	sleep(4)
+	rob.changeDir(0)
 	sleep(1)
-	rob.changeSpeed(30)
-	sleep(5)
-	rob.changeSpeed(0)
-	rob.changeSpeed(-20)
-	sleep(3)
-	rob.changeSpeed(0)
+	rob.changeDir(-90)
+	sleep(1)
+	rob.changeDir(0)
+	sleep(1)
+	rob.changeDir(540)
+
 
 class Strategy:
 	"""

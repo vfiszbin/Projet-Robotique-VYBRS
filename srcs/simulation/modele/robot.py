@@ -24,10 +24,7 @@ class Robot:
         :dir: int
         fonction qui change la direction du robot selon l'angle 'dir'
         """
-        if dir >= 0 and dir <= 360:
-            self.dir = dir
-        else:
-            print(f"La direction doit être comprise entre 0 et 360 degrés. Retour à la direction par défaut : {self.dir}°")
+        self.dir = dir
 
     # 2 modes pour les roues : mode 1 (avancer/reculer) et 2 (tourner)
     # Mode 1 : les deux roues vont dans le même sens, on donc peut avancer avec une vitesse positive ou reculer avec une vitesse négative
