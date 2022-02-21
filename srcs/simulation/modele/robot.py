@@ -62,7 +62,7 @@ class Robot:
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
-   
+
     def move(self,positionX,positionY):
         """ int * int -> None
         Deplace le robot de positionX en abscisse et positionY en ordonnee
@@ -104,10 +104,10 @@ class Robot:
         """
         return (xa*yb-ya*xb)*(xc*yd-xd*yc)
 
-    def detecteObstacle(self,obj):
+    def detecteCollision(self,obj):
         """
         :obj:obstacle
-        Retourne un booleen, True si le robot se trouve devant un obstacle, False sinon
+        Retourne un booleen, True si le robot est en collision avec un obstacle, False sinon
         """
         if isinstance(obj,Obstacle):
             upl = (obj.positionX,obj.positionY)
@@ -115,12 +115,12 @@ class Robot:
             lowl = (obj.positionX,obj.positionY+obj.width)
             lowr = (obj.positionX+obj.length,obj.positionY+obj.width)
 
-            roba = self.positionX
-            robb = self.positionY
+            robx = self.positionX
+            roby = self.positionY
 
             dir = self.dir * pi / 180
-            dx =  roba * cos(dir) + robb * sin(dir)
-            dy = roba * sin(dir) + robb * cos(dir)
+            dx =  robx * cos(dir) + roby * sin(dir)
+            dy = robx * sin(dir) + roby * cos(dir)
 
             xA,yA=upl
             xB,yB=upr
@@ -130,16 +130,16 @@ class Robot:
 #            normeAB=maths.sqrt((xB-xA)*(xB-xA)+(yB-yA)*(yB-yA))
 #            normeAD=math.sqrt((xD-xA)*(xD-xA)+(yD-yA)*(yD-yA))
 #            normeBC=math.sqrt((xB-xC)*(xB-xC)+(yB-yC)*(yB-yC))
+#            normeCD=math.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
 
-            normeCD=math.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
-            prodvsright=scalairevectoriel(roba,robb,dx,dy,xB,yB,xC,yC)
-            prodsvright=scalairevectoriel()
-            prodvsleft=scalairevectoriel()
-            prodsvleft=scalairevectoriel()
-            prodvsup=scalairevectoriel()
-            prodsvup=scalairevectoriel()
-            prodsvslow=scalairevectoriel()
-            prodsvlow=scalairevectoriel()
+            prodvsright=scalairevectoriel(robx,roby,dx,dy,xB,yB,xC,yC)
+            prodsvright=scalairevectoriel(xB,yB,xC,yC,robx,roby,dx,dy)
+            prodvsleft=scalairevectoriel(robx,roby,dx,dy,xA,yA,xD,yD)
+            prodsvleft=scalairevectoriel(xA,yA,xD,yD,robx,roby,dx,dy)
+            prodvsup=scalairevectoriel(robx,roby,dx,dy,xA,yA,xB,yB)
+            prodsvup=scalairevectoriel(xA,yA,xB,yB,robx,roby,dx,dy)
+            prodsvslow=scalairevectoriel(robx,roby,dx,dy,xD,yD,xC,yC)
+            prodsvlow=scalairevectoriel(xD,yD,xC,yC,robx,roby,dx,dy)
             #<============================================================
             if(prodvsleft<0 and prodsvleft<0):
                 return True
