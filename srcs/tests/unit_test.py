@@ -1,23 +1,24 @@
 import unittest
-from simulation.modele.robot import Robot
-from simulation.modele.environment import Environment
-from simulation.modele.obstacle import Obstacle
+from .simulation.modele.robot import Robot
+from .simulation.modele.environment import Environment
+from .simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
 
 class TestRobot(unittest.TestCase):
 
     def setUp(self):
         self.r1=Robot(2,3)
+        self.r2=Robot(10,2)
 
     def test_changeDir(self):
         self.r1.changeDir(5)
         self.assertEqual(self.r1.dir,5)
         self.r1.changeDir(-5)
-        self.assertEqual(self.r1.dir,5)
+        self.assertEqual(self.r1.dir,-5)
         self.r2.changeDir(10)
         self.assertEqual(self.r2.dir,10)
         self.r2.changeDir(-15)
-        self.assertEqual(self.r2.dir, 10)
+        self.assertEqual(self.r2.dir, -15)
 
     def test_deplacerRobot(self):
         dir = self.r1.dir * pi / 180 #conversion des degrés en radians
@@ -42,6 +43,9 @@ class TestRobot(unittest.TestCase):
         test_obj = Obstacle(10,50,100,30)
         self.r1.detecteCollision(test_obj)
 
+    def test_changeWheelMode(self):
+        self.r1.changeWheelMode(2)
+        self.assertEqual(self.r1.wheelMode,2)
 
     if __name__ == '__main__':
         unittest.main()
