@@ -14,7 +14,7 @@ def TestStrategy(rob):
 	rob.changeSpeed(30)
 	sleep(1)
 	rob.changeSpeed(0)
-	
+
 	sleep(1)
 	rob.changeWheelMode(1)
 	rob.changeSpeed(10)

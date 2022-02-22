@@ -35,7 +35,7 @@ class Robot:
             self.wheelMode = wheelMode
         else:
             print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
-    
+
     def updateDir(self, distance):
         r = 3 #rayon
         alpha = (360 * distance) / (2 * pi * r)
@@ -152,8 +152,8 @@ class Robot:
 
     def is_outside_of_the_environment(self,width, height):
         """
-        :x: float
-        :y: float
+        :width: float
+        :height: float
         Renvoie True si le robot se trouve se trouve à l'extérieur des bords de l'environnement et False sinon.
         """
         if (self.positionX < 0) or (self.positionY > width) or (self.positionY < 0) or (self.positiony > height):
@@ -164,8 +164,7 @@ class Robot:
 
     def is_inside_an_obstacle_in_the_environment(self,objects):
         """
-        :x: float
-        :y: float
+        :objects: [Obstacles]
         Renvoie True si le robot se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
         """
 
