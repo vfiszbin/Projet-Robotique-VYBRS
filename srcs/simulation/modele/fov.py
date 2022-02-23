@@ -23,15 +23,3 @@ class FoV:
             Set le safe space de none a newss
         """
         self.safespace=newss
-
-
-    def calculCollision(self):
-        """
-            Mesure la distance actuelle de collision
-        """
-
-
-    def defCollision(self):
-        """
-            Actualise la variable collision
-        """
