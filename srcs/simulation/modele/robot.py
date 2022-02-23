@@ -86,7 +86,7 @@ class Robot:
         """
         return self.dir
 
-    def scalairevectoriel(xa,ya,xb,yb,xc,yc,xd,yd):
+    def scalairevectoriel(self,xa,ya,xb,yb,xc,yc,xd,yd):
         """
         :xa:int
         :ya:int
@@ -107,9 +107,9 @@ class Robot:
         """
         if isinstance(obj,Obstacle):
             upl = (obj.positionX,obj.positionY)
-            upr = (obj.positionX+obj.length,obj.positionY)
+            upr = (obj.positionX+obj.height,obj.positionY)
             lowl = (obj.positionX,obj.positionY+obj.width)
-            lowr = (obj.positionX+obj.length,obj.positionY+obj.width)
+            lowr = (obj.positionX+obj.height,obj.positionY+obj.width)
 
             robx = self.positionX
             roby = self.positionY
@@ -128,14 +128,14 @@ class Robot:
 #            normeBC=math.sqrt((xB-xC)*(xB-xC)+(yB-yC)*(yB-yC))
 #            normeCD=math.sqrt((xD-xC)*(xD-xC)+(yD-yC)*(yD-yC))
 
-            prodvsright=scalairevectoriel(robx,roby,dx,dy,xB,yB,xC,yC)
-            prodsvright=scalairevectoriel(xB,yB,xC,yC,robx,roby,dx,dy)
-            prodvsleft=scalairevectoriel(robx,roby,dx,dy,xA,yA,xD,yD)
-            prodsvleft=scalairevectoriel(xA,yA,xD,yD,robx,roby,dx,dy)
-            prodvsup=scalairevectoriel(robx,roby,dx,dy,xA,yA,xB,yB)
-            prodsvup=scalairevectoriel(xA,yA,xB,yB,robx,roby,dx,dy)
-            prodsvslow=scalairevectoriel(robx,roby,dx,dy,xD,yD,xC,yC)
-            prodsvlow=scalairevectoriel(xD,yD,xC,yC,robx,roby,dx,dy)
+            prodvsright=self.scalairevectoriel(robx,roby,dx,dy,xB,yB,xC,yC)
+            prodsvright=self.scalairevectoriel(xB,yB,xC,yC,robx,roby,dx,dy)
+            prodvsleft=self.scalairevectoriel(robx,roby,dx,dy,xA,yA,xD,yD)
+            prodsvleft=self.scalairevectoriel(xA,yA,xD,yD,robx,roby,dx,dy)
+            prodvsup=self.scalairevectoriel(robx,roby,dx,dy,xA,yA,xB,yB)
+            prodsvup=self.scalairevectoriel(xA,yA,xB,yB,robx,roby,dx,dy)
+            prodsvslow=self.scalairevectoriel(robx,roby,dx,dy,xD,yD,xC,yC)
+            prodsvlow=self.scalairevectoriel(xD,yD,xC,yC,robx,roby,dx,dy)
             #<============================================================
             if(prodvsleft<0 and prodsvleft<0):
                 return True
