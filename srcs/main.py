@@ -51,7 +51,7 @@ update_modele.start()
 #test des  strategie :
 #s1=turn(rob,54)
 #Lance le controleur test
-controller_thread = Thread(target=TestStrategy, args=(rob,))
+controller_thread = Thread(target=launchStrategySeq, args=(rob,))
 #controller_thread = Thread(s1)
 controller_thread.start()
 
