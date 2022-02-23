@@ -44,6 +44,7 @@ class StrategySeq :
 		self.sequence.append(strat)
 	def removeStrategy(self,strat):
 		self.sequence.remove(strat)
+
 class Strategy:
 	"""
 	classe qui Cree une nouvelle strategie
@@ -65,7 +66,6 @@ class move(Strategy):
 	def start(self):
 		self.begin=True
 		self.rob.changeSpeed(self.speed)
-		self.rob.deplacerRobot(self.distance_to_cover)
 		#self.update_modele
 	def stop(self):
 		if self.distance_covered == self.distance :
