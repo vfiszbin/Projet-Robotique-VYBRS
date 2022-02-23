@@ -68,24 +68,6 @@ class Robot:
         print("Le robot s'est deplace en [", self.positionX, ",", self.positionY, "]")
 
 
-    def getPositionXRobot(self):
-        """
-        Retourne la coordonnee x actuelle du robot
-        """
-        return self.positionX
-
-    def getPositionYRobot(self):
-        """
-        Retourne la coordonnee y actuelle du robot
-        """
-        return self.positionY
-
-    def getDir(self):
-        """
-        Retourne la direction actuelle du robot
-        """
-        return self.dir
-
     def scalairevectoriel(self,xa,ya,xb,yb,xc,yc,xd,yd):
         """
         :xa:int

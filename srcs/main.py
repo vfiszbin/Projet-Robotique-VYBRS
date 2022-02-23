@@ -17,9 +17,9 @@ rob = Robot(175,150)
 env.addRob(rob)
 print(env.objects)
 rob.changeDir(115)
-print(rob.getDir())
-print(rob.getPositionXRobot())
-print(rob.getPositionYRobot())
+print(rob.dir)
+print(rob.positionX)
+print(rob.positionY)
 
 
 #Tests obstacle
