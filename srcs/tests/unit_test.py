@@ -1,7 +1,7 @@
 import unittest
-from .simulation.modele.robot import Robot
-from .simulation.modele.environment import Environment
-from .simulation.modele.obstacle import Obstacle
+from simulation.modele.robot import Robot
+from simulation.modele.environment import Environment
+from simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
 
 class TestRobot(unittest.TestCase):
