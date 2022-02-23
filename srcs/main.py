@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+
 from simulation.modele.environment import Environment
 from simulation.modele.obstacle import Obstacle, Wall
 from simulation.modele.robot import Robot
@@ -12,8 +12,9 @@ from simulation.controller.controller import TestStrategy,Strategy,move,turn
 env = Environment(800,300)
 
 #Tests robot
-rob = Robot(15,75)
-rob = Robot(300,240)
+
+rob = Robot(175,150)
+#rob = Robot(300,240)
 env.addRob(rob)
 print(env.objects)
 rob.changeDir(115)
