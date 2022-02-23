@@ -23,10 +23,7 @@ class UpdateModele(Thread):
 			elapsed_time = current_time - self.last_time
 			distance_covered = self.rob.speed * elapsed_time # Distance = Vitesse * Temps
 
-			if self.rob.wheelMode == 1: #roues en mode 1 pour avancer/reculer
-				self.rob.deplacerRobot(distance_covered)
-			elif self.rob.wheelMode == 2: #roues en mode 2 pour tourner
-				self.rob.updateDir(distance_covered)
+			self.rob.update(distance_covered) #Maj la position ou la direction du robot selon la distance parcourue et le wheelMode du robot
 
 			self.last_time = time()
 			sleep(UPDATE_FREQUENCY)

@@ -58,6 +58,14 @@ class Robot:
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
+    def update(self, distance):
+        """
+        Maj la position ou la direction du robot selon la distance parcourue et le wheelMode du robot
+        """
+        if self.wheelMode == 1: #roues en mode 1 pour avancer/reculer
+            self.deplacerRobot(distance)
+        elif self.wheelMode == 2: #roues en mode 2 pour tourner
+            self.updateDir(distance)
 
     def move(self,positionX,positionY):
         """ int * int -> None
