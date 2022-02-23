@@ -34,7 +34,16 @@ def TestStrategy(rob):
 
 
 
-
+class StrategySeq :
+	"""
+	classe qui organise des séquences de strategie
+	"""
+	def __init__(self):
+		self.sequence=[]
+	def addStrategy(self,strat):
+		self.sequence.append(strat)
+	def removeStrategy(self,strat):
+		self.sequence.remove(strat)
 class Strategy:
 	"""
 	classe qui Cree une nouvelle strategie
@@ -43,36 +52,24 @@ class Strategy:
 		self.begin=False #chaque strategie a un debut et une fin
 		self.end=False
 
-	def start(self):
-		"""
-		methode qui commence une strategie
-		"""
-		self.begin=True
-	def stop(self):
-		"""
-		methode qui termine la strategie
-		"""
-		self.end=True
-
 class move(Strategy):
 	"""
 	class de strategie permet d'avancer le robot
 	"""
-	def __init__(self,rob,distance,speed):
+	def __init__(self,rob,speed,distance):
 		super().__init__()
 		self.speed=speed
-		self.distance=distance
-		self.positionXB=rob.getPositionXRobot()
-		self.positionYB=rob.getPositionYRobot()
 		self.rob=rob
+		self.distance_to_cover=distance
+		self.distance_covered=0
 	def start(self):
-		super().start()
+		self.begin=True
 		self.rob.changeSpeed(self.speed)
-		self.rob.deplacerRobot(self.distance)
-
+		self.rob.deplacerRobot(self.distance_to_cover)
+		#self.update_modele
 	def stop(self):
-		if distance_covered(positionXB,positionYB,rob.getPositionXRobot(),rob.getPositionYRobot()) == self.distance :
-			super().stop()
+		if self.distance_covered == self.distance :
+			self.end=True
 		else :
 			print("fail")
 
@@ -86,7 +83,10 @@ class turn(Strategy):
 		self.dir=dir
 		self.rob=rob
 	def start(self):
-		super().start()
+		self.begin=True
 		self.rob.changeDir(self.dir)
 	def stop(self):
-		self.end = (rob.getDir()==self.dir)
+		if (rob.getDir()==self.dir) :
+			self.end = True
+		else :
+			print("fail")

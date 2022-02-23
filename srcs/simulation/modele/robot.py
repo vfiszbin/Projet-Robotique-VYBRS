@@ -19,6 +19,8 @@ class Robot:
         self.dir = 90 #direction par défaut
         self.speed = 0
         self.wheelMode = 1
+        self.width= 2
+        self.height = 2
 
     def changeDir(self, dir):
         """

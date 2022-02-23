@@ -24,10 +24,14 @@ class UpdateModele(Thread):
 			distance_covered = self.rob.speed * elapsed_time # Distance = Vitesse * Temps
 
 			if self.rob.wheelMode == 1: #roues en mode 1 pour avancer/reculer
+<<<<<<< HEAD
 				if distance_covered >= 0:
 					self.rob.deplacerRobot(distance_covered)
 				else :
 					self.rob.deplacerRobot(-distance_covered)
+=======
+				self.rob.deplacerRobot(distance_covered)
+>>>>>>> 8712267b824e3107ac241da9760ee869f08a082d
 			elif self.rob.wheelMode == 2: #roues en mode 2 pour tourner
 				self.rob.updateDir(distance_covered)
 
