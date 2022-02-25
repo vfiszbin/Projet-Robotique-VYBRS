@@ -15,9 +15,10 @@ env = Environment(800,300)
 rob = Robot(300,240)
 env.addRob(rob)
 print(env.objects)
-print(rob.getDir())
-print(rob.getPositionXRobot())
-print(rob.getPositionYRobot())
+rob.changeDir(115)
+print(rob.dir)
+print(rob.positionX)
+print(rob.positionY)
 
 
 #Tests obstacle

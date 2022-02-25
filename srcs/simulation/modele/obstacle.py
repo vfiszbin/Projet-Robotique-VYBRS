@@ -15,22 +15,22 @@ class Obstacle:
         self.positionY=positionY
         self.width=width
         self.height=height
-	
+
     def getDistance(self):
         """
         Retourne la distance du premier obstacle dans la direction du robot en nombre de pas
         """
         #dx : float
-        dx = self.getPositionXRobot()/math.cos(self.getDir())
+        dx = self.positionX/math.cos(self.getDir())
         #dy : float
-        dy = self.getPositionYRobot()/math.sin(self.getDir())
+        dy = self.positionY/math.sin(self.getDir())
         #d: float
         d = dx+dy
         # Direction
         dir = math.radians(self.getDir)
         #Calcul du point se trouvant à une distance d de la position du robot dans sa direction
-        x0 = self.getPositionXRobot()
-        y0 = self.getPositionYRobot()
+        x0 = self.positionX
+        y0 = self.positionY
         x1 = x0
         y1 = y0
         # pas : float
@@ -42,7 +42,7 @@ class Obstacle:
             y0 = y1
             pas += 1
         return pas
-        
+
 
 #pour l'instant la classe fait des mur 90 et 0 deg uniquement
 class Wall(Obstacle):
