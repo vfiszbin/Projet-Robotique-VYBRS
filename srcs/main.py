@@ -5,16 +5,14 @@ from simulation.modele.robot import Robot
 from simulation.viewer.view2D import View2D
 from simulation.modele.updateModele import UpdateModele
 from threading import Thread
-from simulation.controller.controller import TestStrategy,Strategy,move,turn
+from simulation.controller.controller import TestStrategy,Strategy,move
 
 
 #Creation de l'environnement
 env = Environment(800,300)
 
 #Tests robot
-
-rob = Robot(175,150)
-#rob = Robot(300,240)
+rob = Robot(300,240)
 env.addRob(rob)
 print(env.objects)
 rob.changeDir(115)
@@ -51,10 +49,9 @@ update_modele.start()
 #test des  strategie :
 #s1=turn(rob,54)
 #Lance le controleur test
-controller_thread = Thread(target=launchStrategySeq, args=(rob,))
+controller_thread = Thread(target=TestStrategy, args=(rob,))
 #controller_thread = Thread(s1)
 controller_thread.start()
-
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 View2D(env)

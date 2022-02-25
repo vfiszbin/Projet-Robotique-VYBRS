@@ -11,7 +11,6 @@ class UpdateModele(Thread):
 		super(UpdateModele, self).__init__()
 		self.env = env
 		self.rob = rob
-		self.last_time = time()
 
 	def run(self):
 		'''
@@ -19,11 +18,5 @@ class UpdateModele(Thread):
 		Cette fonction s'execute dans un thread secondaire.
 		'''
 		while(config.run):
-			current_time = time()
-			elapsed_time = current_time - self.last_time
-			distance_covered = self.rob.speed * elapsed_time # Distance = Vitesse * Temps
-
-			self.rob.update(distance_covered) #Maj la position ou la direction du robot selon la distance parcourue et le wheelMode du robot
-
-			self.last_time = time()
+			self.rob.update() #Maj la position ou la direction du robot
 			sleep(UPDATE_FREQUENCY)

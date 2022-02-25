@@ -113,17 +113,17 @@ class move(Strategy):
 # 			print("fail")
 
 
-class TurnStrategy:
-	def __init__(self, distance):
-		self.dist_to_cover = distance
+# class TurnStrategy:
+# 	def __init__(self, distance):
+# 		self.dist_to_cover = distance
 
-	def start(self):
-		self.dist_covered = 0
+# 	def start(self):
+# 		self.dist_covered = 0
 
-	def step(self):
-		self.dist_covered += 	
-		if self.stop(): return
-		self.avancer()
+# 	def step(self):
+# 		self.dist_covered += 	
+# 		if self.stop(): return
+# 		self.avancer()
 
-	def stop(self):
-		return self.parcouru>self.distance
+# 	def stop(self):
+# 		return self.parcouru>self.distance

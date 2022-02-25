@@ -1,5 +1,6 @@
 from math import *
 from .obstacle import Obstacle
+from time import time
 
 
 class Robot:
@@ -21,6 +22,8 @@ class Robot:
         self.wheelMode = 1
         self.width= 2
         self.height = 2
+        self.last_time = time() #pour savoir combien de temps s'est écoulé depuis le dernier update()
+
 
     def changeDir(self, dir):
         """
@@ -58,14 +61,20 @@ class Robot:
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
-    def update(self, distance):
+    def update(self):
         """
         Maj la position ou la direction du robot selon la distance parcourue et le wheelMode du robot
         """
+        current_time = time()
+        elapsed_time = current_time - self.last_time
+        distance_covered = self.speed * elapsed_time # Distance = Vitesse * Temps
+
         if self.wheelMode == 1: #roues en mode 1 pour avancer/reculer
-            self.deplacerRobot(distance)
+            self.deplacerRobot(distance_covered)
         elif self.wheelMode == 2: #roues en mode 2 pour tourner
-            self.updateDir(distance)
+            self.updateDir(distance_covered)
+        
+        self.last_time = time()
 
     def move(self,positionX,positionY):
         """ int * int -> None
