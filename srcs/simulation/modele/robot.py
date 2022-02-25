@@ -17,12 +17,17 @@ class Robot:
         super().__init__()
         self.positionX = positionX
         self.positionY = positionY
-        self.dir = 90 #direction par défaut
-        self.speed = 0
+        self.dir = 90 #direction par défaut en degrés
+        self.speed = 0 #vitesse du robot en Degrés Par Secondes (DPS)
         self.wheelMode = 1
         self.width= 2
         self.height = 2
         self.last_time = time() #pour savoir combien de temps s'est écoulé depuis le dernier update()
+
+        self.radius_of_wheels = 5 #le rayon des roues
+        #L'angle dont les deux roues ont tourné depuis le dernier reset. C'est le controleur qui interroge et reset ces deux variables :
+        self.angle_rotated_left_wheel = 0
+        self.angle_rotated_right_wheel = 0
 
 
     def changeDir(self, dir):
@@ -41,21 +46,22 @@ class Robot:
         else:
             print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
 
-    def updateDir(self, distance):
-        r = 3 #rayon
-        alpha = (360 * distance) / (2 * pi * r)
-        self.dir += alpha
+    def updateDir(self, angle_rotated):
+        r = 5 #rayon / DOIT REFLETER LA DISTANCE ENTRE LE CENTRE DU ROBOT ET L'UNE DE SES ROUES !!!
+        # alpha = (360 * distance) / (2 * pi * r)
+        self.dir += angle_rotated
 
     def changeSpeed(self, speed):
         self.speed = speed
 
     #merge les deux fonctions suivantes
-    def deplacerRobot(self,distance):
+    def deplacerRobot(self, angle_rotated):
         """
         :distance: int
         fonction qui deplace  le robot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
         """
         dir = self.dir * pi / 180 #conversion des degrés en radians
+        distance = (2 * pi * self.radius_of_wheels) * (angle_rotated / 360) #distance parcourue à partir de l'angle effectué par les roues
         dx = distance * cos(dir)
         dy = distance * sin(dir)
         self.positionX = self.positionX + dx
@@ -67,12 +73,17 @@ class Robot:
         """
         current_time = time()
         elapsed_time = current_time - self.last_time
-        distance_covered = self.speed * elapsed_time # Distance = Vitesse * Temps
+        angle_rotated = self.speed * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
 
         if self.wheelMode == 1: #roues en mode 1 pour avancer/reculer
-            self.deplacerRobot(distance_covered)
+            self.deplacerRobot(angle_rotated)
+            self.angle_rotated_left_wheel += angle_rotated
+            self.angle_rotated_right_wheel += angle_rotated
+
         elif self.wheelMode == 2: #roues en mode 2 pour tourner
-            self.updateDir(distance_covered)
+            self.updateDir(angle_rotated)
+            self.angle_rotated_left_wheel -= angle_rotated
+            self.angle_rotated_right_wheel += angle_rotated
         
         self.last_time = time()
 
