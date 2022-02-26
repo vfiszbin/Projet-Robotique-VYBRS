@@ -1,8 +1,6 @@
-from .obstacle import Obstacle
 from .. import config
-from time import sleep, time
+from time import sleep
 from threading import Thread
-from random import *
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
