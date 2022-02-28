@@ -44,11 +44,8 @@ env.addObs(mur4)
 update_modele = UpdateModele(env,rob)
 update_modele.start()
 
-#test des  strategie :
-#s1=turn(rob,54)
-#Lance le controleur test
+#Lance le thread du controleur
 controller_thread = Thread(target=TestStrategy, args=(rob,))
-#controller_thread = Thread(s1)
 controller_thread.start()
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal

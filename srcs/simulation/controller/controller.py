@@ -5,13 +5,8 @@ UPDATE_FREQUENCY = 0.1 #en secondes
 def TestStrategy(rob):
 
 	sleep(2)
+	
 	launchStrategySeq(rob)
-	# strat = TurnStrategy(rob, -90, -40)
-	# strat.start()
-	# while not strat.stop():
-	# 	print(rob.dir)
-	# 	strat.step()
-	# 	sleep(UPDATE_FREQUENCY)
 	print(rob.dir)
 
 	# rob.changeWheelMode(2)
