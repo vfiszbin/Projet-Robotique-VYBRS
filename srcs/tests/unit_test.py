@@ -47,6 +47,15 @@ class TestRobot(unittest.TestCase):
         self.r1.changeWheelMode(2)
         self.assertEqual(self.r1.wheelMode,2)
 
+    def test_updateDir(self, angle_rotated):
+        """ verifie si la distance  entre le centre du robot et l'une de ses roues et mise a jour
+        """
+        self.r1.updateDir(55)
+        self.assertEqual(self.r1.angle_rotated_left_wheel,20)
+        self.r1.updateDir(70)
+        self.assertEqual(self.r1.angle_rotated_right_wheel,15)
+        
+
     if __name__ == '__main__':
         unittest.main()
 
