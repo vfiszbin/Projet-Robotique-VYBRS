@@ -8,7 +8,9 @@ def TestStrategy(rob):
 	sleep(2)
 	
 	launchStrategySeq(rob)
-	print(rob.dir)
+	print("dir=" + str(rob.dir))
+	print("posX=" + str(rob.positionX))
+	print("posY=" + str(rob.positionY))
 
 	# rob.changeWheelMode(2)
 	# rob.changeSpeed(100)
@@ -40,12 +42,13 @@ def TestStrategy(rob):
 
 def launchStrategySeq(rob):
 	stratSeq = StrategySeq(rob)
-	s1 = TurnStrategy(rob, 90, 40)
-	s2 = TurnStrategy(rob, -90, -50)
-	s3 = TurnStrategy(rob, 360, 80)
+	s1 = moveForwardStrategy(rob, 50, 20)
+	# s1 = TurnStrategy(rob, 90, 40)
+	# s2 = TurnStrategy(rob, -90, -50)
+	# s3 = TurnStrategy(rob, 360, 80)
 	stratSeq.addStrategy(s1)
-	stratSeq.addStrategy(s2)
-	stratSeq.addStrategy(s3)
+	# stratSeq.addStrategy(s2)
+	# stratSeq.addStrategy(s3)
 	while not stratSeq.stop():
 		stratSeq.step()
 		sleep(UPDATE_FREQUENCY)
@@ -84,19 +87,19 @@ class StrategySeq :
 class TraceASquare (StrategySeq) :
 	def __init__(self, rob, length, speed,):
 		super().__init__( rob)
-		move = moveFowadStrategy(rob, length, speed)
+		move = moveForwardStrategy(rob, length, speed)
 		turnLeft = TurnStrategy(rob, rob.dir + 90, speed)
 		self.sequence = [parcourir, tourner_droite] * 3 + [parcourir]
 
 
-class moveFowardStrategy:
+class moveForwardStrategy:
 	"""
 	class de strategie permet d'avancer le robot
 	"""
 	def __init__(self,rob,speed,distance):
-		self.rob=rob
-		self.distance_to_cover=distance
-		self.distance_covered=0
+		self.rob = rob
+		self.distance_to_cover = distance
+		self.distance_covered = 0
 		self.speed = speed
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
@@ -109,16 +112,16 @@ class moveFowardStrategy:
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
 		self.angle_rotated_left_wheel = self.rob.angle_rotated_left_wheel
 		self.angle_rotated_right_wheel = self.rob.angle_rotated_right_wheel
-		self.distance_covered += self.covered_distance()
+		self.distance_covered = self.covered_distance()
 		if self.stop():
 			self.rob.changeSpeed(0)
 			return
 
 	def covered_distance(self):
 		"""
-		calcule la distance parcourue par le robot depuis last_time.
+		calcule la distance parcourue par le robot selon l'angle dont les roues ont tourné
 		"""
-		distance = (2 * pi * self.radius_of_wheels) * (angle_rotated / 360) #distance parcourue à partir de l'angle effectué par les roues
+		distance = (2 * pi * self.rob.radius_of_wheels) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
 		return distance
 
 	def stop(self):

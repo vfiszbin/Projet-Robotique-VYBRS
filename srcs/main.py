@@ -15,9 +15,9 @@ env = Environment(800,300)
 rob = Robot(300,240)
 env.addRob(rob)
 print(env.objects)
-print(rob.dir)
-print(rob.positionX)
-print(rob.positionY)
+print("dir=" + str(rob.dir))
+print("posX=" + str(rob.positionX))
+print("posY=" + str(rob.positionY))
 
 
 #Tests obstacle
@@ -43,11 +43,9 @@ env.addObs(mur4)
 #Lance updateModele qui s'execute dans un thread secondaire
 update_modele = UpdateModele(env,rob)
 update_modele.start()
-#test des strategies
-avancer=moveFowadStrategy(rob,70,5)
-avancer.start()
+
 #Lance le thread du controleur
-controller_thread = Thread(target=avancer.step())
+controller_thread = Thread(target=TestStrategy, args=(rob,))
 controller_thread.start()
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
