@@ -80,34 +80,34 @@ class StrategySeq :
 	def stop(self):
 		return self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop() #on a atteint la dernière strat et elle est terminée
 
-class Strategy:
-	"""
-	classe qui Cree une nouvelle strategie
-	"""
-	def __init__(self):
-		self.begin=False #chaque strategie a un debut et une fin
-		self.end=False
+class TraceASquare (StrategySeq) :
+	def __init__(self, rob, length, speed,):
+		super().__init__( rob)
+		move = moveFowadStrategy(rob, length, speed)
+		turnLeft = TurnStrategy(rob, rob.dir + 90, speed)
+		self.sequence = [parcourir, tourner_droite] * 3 + [parcourir]
 
-class move(Strategy):
+
+class moveFowadStrategy:
 	"""
 	class de strategie permet d'avancer le robot
 	"""
 	def __init__(self,rob,speed,distance):
-		super().__init__()
-		self.speed=speed
 		self.rob=rob
 		self.distance_to_cover=distance
 		self.distance_covered=0
-	def start(self):
-		self.begin=True
-		self.rob.changeSpeed(self.speed)
-		#self.update_modele
-	def stop(self):
-		if self.distance_covered == self.distance :
-			self.end=True
-		else :
-			print("fail")
+		self.rob.changeSpeed(abs(speed))
 
+	def start(self):
+		self.rob.changeWheelMode(1) #passe les roues en mode avancer
+
+	def step(self):
+		self.distance_covered += self.rob.covered_distance()
+		if self.stop():
+			self.rob.changeSpeed(0)
+			return
+	def stop(self):
+		return self.distance_covered >= self.distance_to_cover
 
 class TurnStrategy:
 	"""
@@ -141,3 +141,13 @@ class TurnStrategy:
 			return self.angle_rotated_left_wheel <= -(self.angle_to_rotate) and self.angle_rotated_right_wheel >= self.angle_to_rotate
 		else:
 			return self.angle_rotated_left_wheel >= -(self.angle_to_rotate) and self.angle_rotated_right_wheel <= self.angle_to_rotate
+
+class TurnLeftStrategy(TurnStrategy):
+	def __init__(self,rob,speed):
+		super.__init__(rob,(rob.dir + 90),speed)
+	def start(self):
+		super.start()
+	def step(self):
+		super.step()
+	def stop(self):
+		super.stop()
