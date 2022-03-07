@@ -42,7 +42,7 @@ def TestStrategy(rob):
 
 def launchStrategySeq(rob):
 	stratSeq = StrategySeq(rob)
-	s1 = moveForwardStrategy(rob, 50, 20)
+	s1 = moveForwardOrBackwardStrategy(rob, -50, -20)
 	# s1 = TurnStrategy(rob, 90, 40)
 	# s2 = TurnStrategy(rob, -90, -50)
 	# s3 = TurnStrategy(rob, 360, 80)
@@ -92,11 +92,12 @@ class TraceASquare (StrategySeq) :
 		self.sequence = [parcourir, tourner_droite] * 3 + [parcourir]
 
 
-class moveForwardStrategy:
+class moveForwardOrBackwardStrategy:
 	"""
-	class de strategie permet d'avancer le robot
+	Stratégie faisant avancer ou reculer un robot d'une certaine distance à une certaine vitesse
 	"""
 	def __init__(self,rob,speed,distance):
+		#Vitesse et distance_to_cover doivent avoir le même signe (aller dans la même direction)
 		self.rob = rob
 		self.distance_to_cover = distance
 		self.distance_covered = 0
@@ -106,7 +107,7 @@ class moveForwardStrategy:
 
 	def start(self):
 		self.rob.changeWheelMode(1) #passe les roues en mode avancer
-		self.rob.changeSpeed(abs(self.speed)) #donne une vitesse au robot pour commencer à avancer
+		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
@@ -125,7 +126,10 @@ class moveForwardStrategy:
 		return distance
 
 	def stop(self):
-		return self.distance_covered >= self.distance_to_cover
+		if self.distance_to_cover >= 0 :
+			return self.distance_covered >= self.distance_to_cover
+		else :
+			return self.distance_covered <= self.distance_to_cover
 
 class TurnStrategy:
 	"""
