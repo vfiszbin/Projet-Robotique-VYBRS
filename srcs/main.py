@@ -5,7 +5,7 @@ from simulation.modele.robot import Robot
 from simulation.viewer.view2D import View2D
 from simulation.modele.updateModele import UpdateModele
 from threading import Thread
-from simulation.controller.controller import TestStrategy,Strategy,move
+from simulation.controller.controller import *
 
 
 #Creation de l'environnement
@@ -43,9 +43,11 @@ env.addObs(mur4)
 #Lance updateModele qui s'execute dans un thread secondaire
 update_modele = UpdateModele(env,rob)
 update_modele.start()
-
+#test des strategies
+avancer=moveFowadStrategy(rob,70,5)
+avancer.start()
 #Lance le thread du controleur
-controller_thread = Thread(target=TestStrategy, args=(rob,))
+controller_thread = Thread(target=avancer.step())
 controller_thread.start()
 
 #Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal

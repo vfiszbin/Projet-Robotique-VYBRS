@@ -3,6 +3,7 @@ from .obstacle import Obstacle
 from time import time
 
 
+
 class Robot:
 
     ########## appel a un autre constructeur : notion d'heritage simple
@@ -40,11 +41,24 @@ class Robot:
     # 2 modes pour les roues : mode 1 (avancer/reculer) et 2 (tourner)
     # Mode 1 : les deux roues vont dans le même sens, on donc peut avancer avec une vitesse positive ou reculer avec une vitesse négative
     # Mode 2 : les deux roues tournent en sens opposés, le robot tourne sur lui même
+
     def changeWheelMode(self, wheelMode):
-        if wheelMode == 1 or wheelMode == 2:
+        if wheelMode == 1 or wheelMode == 2: 
             self.wheelMode = wheelMode
         else:
             print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
+
+    def covered_distance(self):
+        """
+        calcule la distance parcourue par le robot depuis last_time.
+        """
+        current_time = time()
+        elapsed_time = current_time - self.last_time
+        angle_rotated = self.speed * elapsed_time
+
+        distance = (3.14 * self.radius_of_wheels *angle_rotated) / 360
+        return distance
+
 
     def updateDir(self, angle_rotated):
         r = 5 #rayon / DOIT REFLETER LA DISTANCE ENTRE LE CENTRE DU ROBOT ET L'UNE DE SES ROUES !!!
