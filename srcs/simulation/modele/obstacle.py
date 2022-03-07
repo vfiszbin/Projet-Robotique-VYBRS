@@ -21,13 +21,13 @@ class Obstacle:
         Retourne la distance du premier obstacle dans la direction du robot en nombre de pas
         """
         #dx : float
-        dx = self.positionX/math.cos(self.getDir())
+        dx = self.positionX * cos(self.getDir()) + self.positionY * sin(self.getDir())
         #dy : float
-        dy = self.positionY/math.sin(self.getDir())
+        dy = self.positionX * sin(self.getDir()) + self.positionY * cos(self.getDir())
         #d: float
         d = dx+dy
         # Direction
-        dir = math.radians(self.getDir)
+        dir = math.radians(self.getDir())
         #Calcul du point se trouvant à une distance d de la position du robot dans sa direction
         x0 = self.positionX
         y0 = self.positionY
