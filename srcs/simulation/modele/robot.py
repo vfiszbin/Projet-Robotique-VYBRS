@@ -43,7 +43,7 @@ class Robot:
     # Mode 2 : les deux roues tournent en sens opposés, le robot tourne sur lui même
 
     def changeWheelMode(self, wheelMode):
-        if wheelMode == 1 or wheelMode == 2: 
+        if wheelMode == 1 or wheelMode == 2:
             self.wheelMode = wheelMode
         else:
             print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
@@ -87,7 +87,7 @@ class Robot:
             self.updateDir(angle_rotated)
             self.angle_rotated_left_wheel -= angle_rotated
             self.angle_rotated_right_wheel += angle_rotated
-        
+
         self.last_time = time()
 
     def move(self,positionX,positionY):
@@ -177,7 +177,7 @@ class Robot:
             return False
 
 
-    def is_inside_an_obstacle_in_the_environment(self,objects):
+    def is_inside_an_obstacle_in_the_environment(posX,posY,objects):
         """
         :objects: [Obstacles]
         Renvoie True si le robot se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
@@ -187,7 +187,21 @@ class Robot:
 
             if isinstance (obj,Obstacle):
 
-                if (obj.positionX<= self.positionX<= obj.positionX + obj.width) and (obj.positionY <= self.positionY <= obj.positionYs + obj.height):
+                if (obj.positionX<= posX <= obj.positionX + obj.width) and (obj.positionY <= posY <= obj.positionY + obj.height):
                     return True
 
             return False
+
+    def getDistance(self,objects):
+        """
+        :objects: [Obstacles]
+
+        """
+        pas=0
+        posX=self.positionX
+        posY=self.positionY
+            while(not(is_inside_an_obstacle_in_the_environment(posX,posY,objects))):
+                posX+=1
+                posY+=1
+                pas+=1
+        return pas
