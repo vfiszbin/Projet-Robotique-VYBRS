@@ -1,4 +1,5 @@
 from time import sleep
+from math import pi
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
@@ -88,7 +89,7 @@ class TraceASquare (StrategySeq) :
 		self.sequence = [parcourir, tourner_droite] * 3 + [parcourir]
 
 
-class moveFowadStrategy:
+class moveFowardStrategy:
 	"""
 	class de strategie permet d'avancer le robot
 	"""
@@ -96,16 +97,30 @@ class moveFowadStrategy:
 		self.rob=rob
 		self.distance_to_cover=distance
 		self.distance_covered=0
-		self.rob.changeSpeed(abs(speed))
+		self.speed = speed
+		self.angle_rotated_left_wheel = 0
+		self.angle_rotated_right_wheel = 0
 
 	def start(self):
 		self.rob.changeWheelMode(1) #passe les roues en mode avancer
+		self.rob.changeSpeed(abs(self.speed)) #donne une vitesse au robot pour commencer à avancer
 
 	def step(self):
-		self.distance_covered += self.rob.covered_distance()
+		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
+		self.angle_rotated_left_wheel = self.rob.angle_rotated_left_wheel
+		self.angle_rotated_right_wheel = self.rob.angle_rotated_right_wheel
+		self.distance_covered += self.covered_distance()
 		if self.stop():
 			self.rob.changeSpeed(0)
 			return
+
+	def covered_distance(self):
+		"""
+		calcule la distance parcourue par le robot depuis last_time.
+		"""
+		distance = (2 * pi * self.radius_of_wheels) * (angle_rotated / 360) #distance parcourue à partir de l'angle effectué par les roues
+		return distance
+
 	def stop(self):
 		return self.distance_covered >= self.distance_to_cover
 

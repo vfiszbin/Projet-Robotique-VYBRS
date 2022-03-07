@@ -48,20 +48,9 @@ class Robot:
         else:
             print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
 
-    def covered_distance(self):
-        """
-        calcule la distance parcourue par le robot depuis last_time.
-        """
-        current_time = time()
-        elapsed_time = current_time - self.last_time
-        angle_rotated = self.speed * elapsed_time
-
-        distance = (3.14 * self.radius_of_wheels *angle_rotated) / 360
-        return distance
-
 
     def updateDir(self, angle_rotated):
-        r = 5 #rayon / DOIT REFLETER LA DISTANCE ENTRE LE CENTRE DU ROBOT ET L'UNE DE SES ROUES !!!
+        # r = 5 #rayon / DOIT REFLETER LA DISTANCE ENTRE LE CENTRE DU ROBOT ET L'UNE DE SES ROUES !!!
         # alpha = (360 * distance) / (2 * pi * r)
         self.dir += angle_rotated
 
