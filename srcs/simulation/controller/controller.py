@@ -110,6 +110,9 @@ class move(Strategy):
 
 
 class TurnStrategy:
+	"""
+	Stratégie faisant tourner un robot d'un certain angle à une certaine vitesse
+	"""
 	def __init__(self, rob, angle, speed):
 		#Vitesse et angle doivent avoir le même signe (aller dans la même direction)
 		self.rob = rob
