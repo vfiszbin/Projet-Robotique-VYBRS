@@ -4,6 +4,9 @@ from simulation.modele.environment import Environment
 from simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
 
+# Commande pour lancer les unit_test depuis /srcs :
+# python3 -m unittest tests.unit_test 
+
 class TestRobot(unittest.TestCase):
 
     def setUp(self):
