@@ -122,15 +122,15 @@ class TurnStrategy:
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
 		self.rob.changeWheelMode(2) #passe les roues en mode tourner
+		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
 	def step(self):
-		self.rob.changeSpeed(0) #stop le robot à chaque début de step, nécessaire ?
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
 		self.angle_rotated_left_wheel = self.rob.angle_rotated_left_wheel
 		self.angle_rotated_right_wheel = self.rob.angle_rotated_right_wheel
-		if self.stop(): 
+		if self.stop():
+			self.rob.changeSpeed(0) #arrête la rotation du robot
 			return
-		self.rob.changeSpeed(self.speed)
 
 	def stop(self):
 		#Vérifie si les roues ont tourné de l'angle demandé
