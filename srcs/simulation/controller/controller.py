@@ -80,9 +80,6 @@ class StrategySeq :
 
 		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine strat
 			self.current_strat += 1
-			#reset l'angle dont ont tourné les roues avant de démarrer la prochaine stratégie
-			self.rob.angle_rotated_left_wheel = 0
-			self.rob.angle_rotated_right_wheel = 0
 			self.sequence[self.current_strat].start()
 
 		self.sequence[self.current_strat].step()
@@ -126,6 +123,9 @@ class moveForwardStrategy:
 		self.angle_rotated_right_wheel = 0
 
 	def start(self):
+		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
+		self.rob.angle_rotated_left_wheel = 0
+		self.rob.angle_rotated_right_wheel = 0
 		self.rob.changeWheelMode(1) #passe les roues en mode avancer
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
@@ -166,8 +166,9 @@ class TurnStrategy:
 		self.angle_rotated_right_wheel = 0
 
 	def start(self):
-		self.angle_rotated_left_wheel = 0
-		self.angle_rotated_right_wheel = 0
+		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
+		self.rob.angle_rotated_left_wheel = 0
+		self.rob.angle_rotated_right_wheel = 0
 		self.rob.changeWheelMode(2) #passe les roues en mode tourner
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
