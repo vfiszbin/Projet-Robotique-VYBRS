@@ -41,21 +41,16 @@ def TestStrategy(rob):
 	# rob.changeSpeed(0)
 
 def launchStrategySeq(rob):
-	stratSeq = StrategySeq(rob)
-	s1 = TurnStrategy(rob, 90, 50)
-	s2 = TurnStrategy(rob, -90, -60)
-	s3 = TurnStrategy(rob, 360, 90)
-	s4 = moveForwardOrBackwardStrategy(rob, 400, 100)
-	s5 = TurnStrategy(rob, -90, -50)
-	s6 = moveForwardOrBackwardStrategy(rob, -250, -100)
-	stratSeq.addStrategy(s1)
-	stratSeq.addStrategy(s2)
-	stratSeq.addStrategy(s3)
-	stratSeq.addStrategy(s4)
-	stratSeq.addStrategy(s5)
-	stratSeq.addStrategy(s6)
-	while not stratSeq.stop():
-		stratSeq.step()
+	seq0=StrategySeq(rob)
+	seq1 = SquareStrategy(rob,300,50)
+	s1=moveForwardStrategy(rob,100,50)
+	s2=TurnStrategy(rob,70,50)
+	s3=moveBackwardStrategy(rob,300,10)
+	seq0.addStrategy(s1)
+	seq0.addStrategy(s2)
+	seq0.addStrategy(s3)
+	while not seq1.stop():
+		seq1.step()
 		sleep(UPDATE_FREQUENCY)
 
 class StrategySeq :
@@ -89,15 +84,29 @@ class StrategySeq :
 	def stop(self):
 		return self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop() #on a atteint la dernière strat et elle est terminée
 
-class TraceASquare (StrategySeq) :
-	def __init__(self, rob, length, speed,):
-		super().__init__( rob)
-		move = moveForwardStrategy(rob, length, speed)
-		turnLeft = TurnStrategy(rob, rob.dir + 90, speed)
-		self.sequence = [parcourir, tourner_droite] * 3 + [parcourir]
+class SquareStrategy(StrategySeq) :
+	""" classe  qui organise une séquences de stratégie pour  faire un parcour en forme de carré 
+	"""
+	def __init__(self, rob, speed,length):
+		super().__init__(rob)
+		move = moveForwardStrategy(rob ,speed, length )
+		turnLeft = TurnStrategy(rob,90, speed)
+		self.sequence = [move, turnLeft] * 3 + [move]
 
 
-class moveForwardOrBackwardStrategy:
+class moveToPositionXY(StrategySeq) :
+	"""classe  qui organise une séquences de stratégie pour  faire un deplacement vers un point
+	"""
+	def __init__(self,rob,speed,X,Y) :
+		super().__init__(rob)
+		robx = self.positionX
+		roby = self.positionY
+		dir = self.dir * pi / 180
+		dx =  robx * cos(dir) + roby * sin(dir)
+		dy = robx * sin(dir) + roby * cos(dir)
+
+
+class moveForwardStrategy:
 	"""
 	Stratégie faisant avancer ou reculer un robot d'une certaine distance à une certaine vitesse
 	"""
@@ -106,7 +115,7 @@ class moveForwardOrBackwardStrategy:
 		self.rob = rob
 		self.distance_to_cover = distance
 		self.distance_covered = 0
-		self.speed = speed
+		self.speed = abs(speed)
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
 
@@ -135,6 +144,8 @@ class moveForwardOrBackwardStrategy:
 			return self.distance_covered >= self.distance_to_cover
 		else :
 			return self.distance_covered <= self.distance_to_cover
+
+
 
 class TurnStrategy:
 	"""
@@ -168,13 +179,8 @@ class TurnStrategy:
 			return self.angle_rotated_left_wheel <= -(self.angle_to_rotate) and self.angle_rotated_right_wheel >= self.angle_to_rotate
 		else:
 			return self.angle_rotated_left_wheel >= -(self.angle_to_rotate) and self.angle_rotated_right_wheel <= self.angle_to_rotate
-
-class TurnLeftStrategy(TurnStrategy):
-	def __init__(self,rob,speed):
-		super.__init__(rob,(rob.dir + 90),speed)
-	def start(self):
-		super.start()
-	def step(self):
-		super.step()
-	def stop(self):
-		super.stop()
+class moveBackwardStrategy(moveForwardStrategy):
+	def __init__(self,rob,speed,distance):
+		super().__init__(rob,speed,distance)
+		self.speed=-abs(speed)
+	
