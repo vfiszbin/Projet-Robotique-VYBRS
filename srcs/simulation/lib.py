@@ -1,5 +1,5 @@
 import math
-def getdistance(ax,ay,bx,by):
+def getdistancePoints(ax,ay,bx,by):
 	"""
 	calcule la distance entre deux points a et b
 	"""
