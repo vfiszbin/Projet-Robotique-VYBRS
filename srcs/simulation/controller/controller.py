@@ -43,14 +43,20 @@ def TestStrategy(rob):
 def launchStrategySeq(rob):
 	seq0=StrategySeq(rob)
 	seq1 = SquareStrategy(rob,300,50)
-	s1=moveForwardStrategy(rob,100,50)
-	s2=TurnStrategy(rob,70,50)
-	s3=moveBackwardStrategy(rob,300,10)
+	s1=moveForwardStrategy(rob,200,50)
+	s2=TurnStrategy(rob,-70,-80)
+	s3=moveBackwardStrategy(rob, 250, 30)
 	seq0.addStrategy(s1)
 	seq0.addStrategy(s2)
 	seq0.addStrategy(s3)
+	#Execute la sequence de strategies
 	while not seq1.stop():
 		seq1.step()
+		sleep(UPDATE_FREQUENCY)
+	sleep(1) #pause dans la démo
+	#Execute la sequence de strategies
+	while not seq0.stop():
+		seq0.step()
 		sleep(UPDATE_FREQUENCY)
 
 class StrategySeq :
@@ -85,7 +91,7 @@ class StrategySeq :
 		return self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop() #on a atteint la dernière strat et elle est terminée
 
 class SquareStrategy(StrategySeq) :
-	""" classe  qui organise une séquences de stratégie pour  faire un parcour en forme de carré 
+	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
 	"""
 	def __init__(self, rob, speed,length):
 		super().__init__(rob)
@@ -95,7 +101,7 @@ class SquareStrategy(StrategySeq) :
 
 
 class moveToPositionXY(StrategySeq) :
-	"""classe  qui organise une séquences de stratégie pour  faire un deplacement vers un point
+	"""classe qui organise une séquences de stratégie pour faire un deplacement vers un point
 	"""
 	def __init__(self,rob,speed,X,Y) :
 		super().__init__(rob)
@@ -115,7 +121,7 @@ class moveForwardStrategy:
 		self.rob = rob
 		self.distance_to_cover = distance
 		self.distance_covered = 0
-		self.speed = abs(speed)
+		self.speed = speed
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
 
@@ -179,8 +185,9 @@ class TurnStrategy:
 			return self.angle_rotated_left_wheel <= -(self.angle_to_rotate) and self.angle_rotated_right_wheel >= self.angle_to_rotate
 		else:
 			return self.angle_rotated_left_wheel >= -(self.angle_to_rotate) and self.angle_rotated_right_wheel <= self.angle_to_rotate
+
 class moveBackwardStrategy(moveForwardStrategy):
 	def __init__(self,rob,speed,distance):
-		super().__init__(rob,speed,distance)
-		self.speed=-abs(speed)
+		super().__init__(rob, -abs(speed), -abs(distance))
+
 	
