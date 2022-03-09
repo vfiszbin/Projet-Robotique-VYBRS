@@ -1,12 +1,21 @@
 from time import sleep
 from math import pi
+from simulation import config
+
+def importProxy(rob):
+	if config.simu_or_real == 1: #importe proxy simulation
+		from .proxy import AngleRotatedProxySimu
+		global AngleRotatedProxy #proxy déclaré en global pour y avoir accès partout dans le controleur
+		AngleRotatedProxy = AngleRotatedProxySimu(rob)
+	elif config.simu_or_real == 2: #importe proxy réel
+		pass
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
 def TestStrategy(rob):
-
 	sleep(2)
-	
+
+	importProxy(rob)
 	launchStrategySeq(rob)
 	print("dir=" + str(rob.dir))
 	print("posX=" + str(rob.positionX))
@@ -174,8 +183,8 @@ class TurnStrategy:
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
-		self.angle_rotated_left_wheel = self.rob.angle_rotated_left_wheel
-		self.angle_rotated_right_wheel = self.rob.angle_rotated_right_wheel
+		self.angle_rotated_left_wheel = AngleRotatedProxy.getAngleRotatedLeft()
+		self.angle_rotated_right_wheel = AngleRotatedProxy.getAngleRotatedRight()
 		if self.stop():
 			self.rob.changeSpeed(0) #arrête la rotation du robot
 			return

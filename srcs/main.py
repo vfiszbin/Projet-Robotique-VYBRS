@@ -6,6 +6,7 @@ from simulation.viewer.view2D import View2D
 from simulation.modele.updateModele import UpdateModele
 from threading import Thread
 from simulation.controller.controller import *
+from simulation import config
 
 
 #Creation de l'environnement
@@ -43,6 +44,8 @@ env.addObs(mur4)
 #Lance updateModele qui s'execute dans un thread secondaire
 update_modele = UpdateModele(env,rob)
 update_modele.start()
+
+config.simu_or_real = 1 #var globale dans config, indique si le robot est simulé (1) ou réel (2)
 
 #Lance le thread du controleur
 controller_thread = Thread(target=TestStrategy, args=(rob,))
