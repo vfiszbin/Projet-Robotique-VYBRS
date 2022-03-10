@@ -169,7 +169,7 @@ class Robot:
         """
         :width: float
         :height: float
-        Renvoie True si le robot se trouve se trouve à l'extérieur des bords de l'environnement et False sinon.
+        Renvoie True si le robot se trouve à l'extérieur des bords de l'environnement et False sinon.
         """
         if (self.positionX < 0) or (self.positionY > width) or (self.positionY < 0) or (self.positiony > height):
             return True
@@ -200,11 +200,17 @@ class Robot:
         pas=0
         posX=self.positionX
         posY=self.positionY
+<<<<<<< HEAD
         dir = self.dir * pi / 180
         dx = distance * cos(dir)
         dy = distance * sin(dir)
         while(not(is_inside_an_obstacle_in_the_environment(posX,posY,objects))):
             posX=posX+dx
             posY=posY+dy
+=======
+        while not (self.is_outside_of_the_environment(posX, posY,objects) or self.is_inside_an_obstacle_in_the_environment(posX, posY,objects)):
+            posX+=1
+            posY+=1
+>>>>>>> a17b8e560b9b975b32a296cbb43db3b01c8ff85e
             pas+=1
         return pas

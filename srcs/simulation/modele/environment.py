@@ -115,5 +115,4 @@ class Environment:
         """
         self.objects.remove(obj)
 
-
-  
+   

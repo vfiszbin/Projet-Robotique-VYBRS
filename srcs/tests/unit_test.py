@@ -3,6 +3,8 @@ from simulation.modele.robot import Robot
 from simulation.modele.environment import Environment
 from simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
+from time import time
+
 
 # Commande pour lancer les unit_test depuis /srcs :
 # python3 -m unittest tests.unit_test
@@ -50,22 +52,51 @@ class TestRobot(unittest.TestCase):
         self.r1.changeWheelMode(2)
         self.assertEqual(self.r1.wheelMode,2)
 
-    def test_updateDir(self, angle_rotated):
-        """ verifie si la distance  entre le centre du robot et l'une de ses roues et mise a jour
+    def test_updateDir(self):
+        first_direction=self.r1.dir
+        self.r1.updateDir(25)
+        self.assertEqual(self.r1.dir, (first_direction+25))
+
+    def test_changeSpeed(self):
+        first_speed=self.r1.speed
+        self.r1.changeSpeed(50)
+        self.assertEqual(self.r1.speed,(first_speed+50))
+
+
+    def test_deplacerRobot(self):
+
+        first_positionX = self.r1.positionX
+        first_positionY = self.r1.positionY
+        self.r1.deplacerRobot(70)
+        dir = self.r1.dir * pi / 180 #conversion des degrés en radians
+        distance = (2 * pi * self.r1.radius_of_wheels) * (70 / 360) #distance parcourue à partir de l'angle effectué par les roues
+        dx = distance * cos(dir)
+        dy = distance * sin(dir)
+        self.assertEqual(self.r1.positionX,first_positionX+dx)
+        self.assertEqual(self.r1.positionY,first_positionY-dy)
+
+
+
+    def test_update(self):
+        """ verifie si la distance  entre le centre du robot est l'une de ses roues et mise a jour
         """
-        self.r1.updateDir(55)
-        self.assertEqual(self.r1.angle_rotated_left_wheel,20)
-        self.r1.updateDir(70)
-        self.assertEqual(self.r1.angle_rotated_right_wheel,15)
+        current_time = time()
+        elapsed_time = current_time - self.r1.last_time
+        angle_rotated = self.r1.speed * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
+        first_angle_rotated_left_wheel=self.r1.angle_rotated_left_wheel
+        first_angle_rotated_right_wheel=self.r1.angle_rotated_right_wheel
+        self.r1.update()
+        if self.r1.wheelMode == 1: #roues en mode 1 pour avancer/reculer
+            self.assertEqual(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel+angle_rotated))
+            self.assertEqual(self.r1.angle_rotated_right_wheel ,(first_angle_rotated_right_wheel+angle_rotated))
 
-    def test_is_outside_of_the_environment(self):
-        self.r1.is_outside_of_the_environment(400,300)
+        elif self.wheelMode == 2: #roues en mode 2 pour tourner
+            self.assertEqual(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel-angle_rotated))
+            self.assertEqual(self.r1.angle_rotated_right_wheel ,( first_angle_rotated_right_wheel+angle_rotated))
 
-    def test_is_inside_an_obstacle_in_the_environment(self):
-        test_obj=Obstacle(10,50,100,30)
+        self.r1.last_time = time()
 
-    def test_getDistance(self):
-        test_obj=Obstacle(10,50,100,30)
+
 
 
     if __name__ == '__main__':
