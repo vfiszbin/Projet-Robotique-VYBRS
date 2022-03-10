@@ -200,8 +200,11 @@ class Robot:
         pas=0
         posX=self.positionX
         posY=self.positionY
+        dir = self.dir * pi / 180
+        dx = distance * cos(dir)
+        dy = distance * sin(dir)
         while(not(is_inside_an_obstacle_in_the_environment(posX,posY,objects))):
-            posX+=1
-            posY+=1
+            posX=posX+dx
+            posY=posY+dy
             pas+=1
         return pas

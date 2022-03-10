@@ -5,7 +5,7 @@ from simulation.modele.obstacle import Obstacle
 from math import cos,sin,pi
 
 # Commande pour lancer les unit_test depuis /srcs :
-# python3 -m unittest tests.unit_test 
+# python3 -m unittest tests.unit_test
 
 class TestRobot(unittest.TestCase):
 
@@ -57,7 +57,16 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.r1.angle_rotated_left_wheel,20)
         self.r1.updateDir(70)
         self.assertEqual(self.r1.angle_rotated_right_wheel,15)
-        
+
+    def test_is_outside_of_the_environment(self):
+        self.r1.is_outside_of_the_environment(400,300)
+
+    def test_is_inside_an_obstacle_in_the_environment(self):
+        test_obj=Obstacle(10,50,100,30)
+
+    def test_getDistance(self):
+        test_obj=Obstacle(10,50,100,30)
+
 
     if __name__ == '__main__':
         unittest.main()
