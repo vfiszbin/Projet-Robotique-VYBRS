@@ -5,12 +5,17 @@ from simulation import config
 
 def importProxy(rob):
 	global AngleRotatedProxy #proxy déclaré en global pour y avoir accès partout dans le controleur
+	global ResetAngleRotatedProxy
 	if config.simu_or_real == 1: #importe proxy simulation
-		from .proxy import AngleRotatedSimu
+		from .proxy import AngleRotatedSimu,ResetAngleRotatedSimu
 		AngleRotatedProxy = AngleRotatedSimu(rob)
+		ResetAngleRotatedProxy = ResetAngleRotatedSimu(rob)
+		
 	elif config.simu_or_real == 2: #importe proxy réel
-		from .proxy import AngleRotatedReal
+		from .proxy import AngleRotatedReal,ResetAngleRotatedReal
 		AngleRotatedProxy = AngleRotatedReal(rob)
+		ResetAngleRotatedProxy = ResetAngleRotatedReal(rob)
+
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
@@ -126,8 +131,7 @@ class moveForwardStrategy:
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
-		self.rob.angle_rotated_left_wheel = 0
-		self.rob.angle_rotated_right_wheel = 0
+		ResetAngleRotatedProxy.resetAngleRotated()
 		self.rob.changeWheelMode(1) #passe les roues en mode avancer
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
@@ -169,8 +173,7 @@ class TurnStrategy:
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
-		self.rob.angle_rotated_left_wheel = 0
-		self.rob.angle_rotated_right_wheel = 0
+		ResetAngleRotatedProxy.resetAngleRotated()
 		self.rob.changeWheelMode(2) #passe les roues en mode tourner
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
