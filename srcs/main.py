@@ -49,9 +49,21 @@ def main_simu():
 	update_modele = UpdateModele(env,rob)
 	update_modele.start()
 
+	#Prépare des séquences de stratégies que le controleur va executer
+	sequences = [] #la liste contenant les séquences de stratégies
+	seq1 = SquareStrategy(rob,300,50)
+	sequences.append(seq1)
+	seq2=StrategySeq(rob)
+	s1=moveForwardStrategy(rob,200,50)
+	s2=TurnStrategy(rob,-70,-80)
+	s3=moveBackwardStrategy(rob, 250, 30)
+	seq2.addStrategy(s1)
+	seq2.addStrategy(s2)
+	seq2.addStrategy(s3)
+	sequences.append(seq2)
 
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(rob,))
+	controller_thread = Thread(target=strategySequences, args=(rob, sequences))
 	controller_thread.start()
 
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
@@ -69,11 +81,24 @@ def main_real():
 	env.addRob(rob)
 
 	#Lance updateModele qui s'execute dans un thread secondaire
-	update_modele = UpdateModele(env,rob)
+	update_modele = UpdateModele(env, rob)
 	update_modele.start()
 
+	#Prépare des séquences de stratégies que le controleur va executer
+	sequences = [] #la liste contenant les séquences de stratégies
+	seq1 = SquareStrategy(rob,300,50)
+	sequences.append(seq1)
+	seq2=StrategySeq(rob)
+	s1=moveForwardStrategy(rob,200,50)
+	s2=TurnStrategy(rob,-70,-80)
+	s3=moveBackwardStrategy(rob, 250, 30)
+	seq2.addStrategy(s1)
+	seq2.addStrategy(s2)
+	seq2.addStrategy(s3)
+	sequences.append(seq2)
+
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(rob,))
+	controller_thread = Thread(target=strategySequences, args=(rob, sequences))
 	controller_thread.start()
 
 

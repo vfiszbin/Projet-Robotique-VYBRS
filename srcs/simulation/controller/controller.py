@@ -47,25 +47,14 @@ def TestStrategy(rob):
 	# sleep(3)
 	# rob.changeSpeed(0)
 
-def strategySequences(rob):
-	sleep(2)
+def strategySequences(rob, sequences):
 
 	importProxy(rob)
 
-	seq1 = SquareStrategy(rob,300,50)
+	for seq in sequences: #execute chaque séquence de stratégies de la liste sequences
+		execStrategySeq(seq)
 
-	seq2=StrategySeq(rob)
-	s1=moveForwardStrategy(rob,200,50)
-	s2=TurnStrategy(rob,-70,-80)
-	s3=moveBackwardStrategy(rob, 250, 30)
-	seq2.addStrategy(s1)
-	seq2.addStrategy(s2)
-	seq2.addStrategy(s3)
-
-	executeStrategySeq(seq1)
-	executeStrategySeq(seq2)
-
-def executeStrategySeq(seq):
+def execStrategySeq(seq):
 	#Execute la sequence de strategies
 	while not seq.stop():
 		seq.step()
