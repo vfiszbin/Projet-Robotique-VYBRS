@@ -2,13 +2,15 @@ from time import sleep
 from math import pi
 from simulation import config
 
+
 def importProxy(rob):
+	global AngleRotatedProxy #proxy déclaré en global pour y avoir accès partout dans le controleur
 	if config.simu_or_real == 1: #importe proxy simulation
-		from .proxy import AngleRotatedProxySimu
-		global AngleRotatedProxy #proxy déclaré en global pour y avoir accès partout dans le controleur
-		AngleRotatedProxy = AngleRotatedProxySimu(rob)
+		from .proxy import AngleRotatedSimu
+		AngleRotatedProxy = AngleRotatedSimu(rob)
 	elif config.simu_or_real == 2: #importe proxy réel
-		pass
+		from .proxy import AngleRotatedReal
+		AngleRotatedProxy = AngleRotatedReal(rob)
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
@@ -101,8 +103,8 @@ class SquareStrategy(StrategySeq) :
 	"""
 	def __init__(self, rob, speed,length):
 		super().__init__(rob)
-		move = moveForwardStrategy(rob ,speed, length )
-		turnLeft = TurnStrategy(rob,90, speed)
+		move = moveForwardStrategy(rob , speed, length )
+		turnLeft = TurnStrategy(rob, 90, speed/2)
 		self.sequence = [move, turnLeft] * 3 + [move]
 
 
