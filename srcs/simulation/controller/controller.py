@@ -15,10 +15,6 @@ def importProxy(rob):
 UPDATE_FREQUENCY = 0.1 #en secondes
 
 def TestStrategy(rob):
-	sleep(2)
-
-	importProxy(rob)
-	launchStrategySeq(rob)
 	print("dir=" + str(rob.dir))
 	print("posX=" + str(rob.positionX))
 	print("posY=" + str(rob.positionY))
@@ -51,24 +47,30 @@ def TestStrategy(rob):
 	# sleep(3)
 	# rob.changeSpeed(0)
 
-def launchStrategySeq(rob):
-	seq0=StrategySeq(rob)
+def strategySequences(rob):
+	sleep(2)
+
+	importProxy(rob)
+
 	seq1 = SquareStrategy(rob,300,50)
+
+	seq2=StrategySeq(rob)
 	s1=moveForwardStrategy(rob,200,50)
 	s2=TurnStrategy(rob,-70,-80)
 	s3=moveBackwardStrategy(rob, 250, 30)
-	seq0.addStrategy(s1)
-	seq0.addStrategy(s2)
-	seq0.addStrategy(s3)
+	seq2.addStrategy(s1)
+	seq2.addStrategy(s2)
+	seq2.addStrategy(s3)
+
+	executeStrategySeq(seq1)
+	executeStrategySeq(seq2)
+
+def executeStrategySeq(seq):
 	#Execute la sequence de strategies
-	while not seq1.stop():
-		seq1.step()
+	while not seq.stop():
+		seq.step()
 		sleep(UPDATE_FREQUENCY)
 	sleep(1) #pause dans la démo
-	#Execute la sequence de strategies
-	while not seq0.stop():
-		seq0.step()
-		sleep(UPDATE_FREQUENCY)
 
 class StrategySeq :
 	"""

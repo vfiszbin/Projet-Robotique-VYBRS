@@ -51,7 +51,7 @@ def main_simu():
 
 
 	#Lance le thread du controleur
-	controller_thread = Thread(target=TestStrategy, args=(rob,))
+	controller_thread = Thread(target=strategySequences, args=(rob,))
 	controller_thread.start()
 
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
@@ -73,7 +73,7 @@ def main_real():
 	update_modele.start()
 
 	#Lance le thread du controleur
-	controller_thread = Thread(target=TestStrategy, args=(rob,))
+	controller_thread = Thread(target=strategySequences, args=(rob,))
 	controller_thread.start()
 
 
