@@ -106,5 +106,5 @@ if __name__ == '__main__':
 	if len(sys.argv) > 1 and sys.argv[1] == "-real": #le main_real s'execute si on passe l'arg -real en ligne de commande
 		print(sys.argv[1])
 		main_real()
-	else:
+	else: #sans argument spécifique, c'est le main_simu qui s'execute
 		main_simu()
