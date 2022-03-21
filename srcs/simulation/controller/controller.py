@@ -152,7 +152,7 @@ class moveForwardStrategy:
 		"""
 		rend True si le robot est proche d'un obstacle
 		"""
-		self.rob.getDistance() <= safe_distance
+		return self.rob.getDistance() <= safe_distance
 
 	def stop(self):
 		if self.distance_to_cover >= 0 :
