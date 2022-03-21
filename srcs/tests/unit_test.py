@@ -7,7 +7,7 @@ from time import time
 
 
 # Commande pour lancer les unit_test depuis /srcs :
-# python3 -m unittest tests.unit_test 
+# python3 -m unittest tests.unit_test -v
 
 class TestRobot(unittest.TestCase):
 
