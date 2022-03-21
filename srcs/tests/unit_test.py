@@ -64,7 +64,7 @@ class TestRobot(unittest.TestCase):
 
 
     def test_deplacerRobot(self):
-       
+
         first_positionX = self.r1.positionX
         first_positionY = self.r1.positionY
         self.r1.deplacerRobot(70)
@@ -96,7 +96,7 @@ class TestRobot(unittest.TestCase):
 
         self.r1.last_time = time()
 
-    
+
 
 
     if __name__ == '__main__':

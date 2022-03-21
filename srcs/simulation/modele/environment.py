@@ -8,7 +8,7 @@ class Environment:
         """
         :width: int
         :length: int
-        Cree l'envirronemment de dimensions width x height 
+        Cree l'envirronemment de dimensions width x height
         """
         if (width <= 0 or height <= 0):
             self.height = 300
@@ -18,6 +18,7 @@ class Environment:
             self.height = height
             self.width = width
         self.objects = [] #liste des objets présents dans l'environnement
+
     def testCollisionRob (self, rob):
         """
 		test s'il y a un conflit entre la position du robot et les objets de l'environment
@@ -27,7 +28,7 @@ class Environment:
         x0 = rob.positionX
         y0 = rob.positionY
         x1 = x0 + rob.width
-        y1 = y0 + rob.height		
+        y1 = y0 + rob.height
         if (x0 < 0 or x0 > self.width or y0 < 0 or y0 > self.height\
         or x1 < 0 or x1 > self.width or y1 < 0 or y1 > self.height):
             print("Coordonnées ({x},{y}) du robot incompatibles avec les dimensions (largeur={self.width},hauteur={self.height}) de l'environnement")
@@ -38,11 +39,11 @@ class Environment:
             y2=obj.positionY
             y3=y2+obj.height
             if overlap(x0,x1,y0,y1,x2,x3,y2,y3) or overlap(x2,x3,y2,y3,x0,x1,y0,y1) :
-                print("l'espace est occupé par un object, l'ajout du robot a échoué") 
+                print("l'espace est occupé par un object, l'ajout du robot a échoué")
                 return False
 
         return add
-	
+
     def testCollisionObs(self, obs):
         """
 		test s'il y a un conflit entre la position du robot et les objets de l'environment
@@ -68,12 +69,13 @@ class Environment:
                 print("l'espace est occupé par un object, l'ajout de l'obstacle a échoué")
                 return False
         return add
-			
+
     def addRob(self,rob):
         """
         ajoute un robot à l'environnement
         """
         self.testCollisionRob(rob) and self.objects.append(rob)
+
     def addObs(self,obs):
         """
         ajoute un robot à l'environnement
@@ -114,5 +116,3 @@ class Environment:
         fonction statique qui enlève un objet obj de l'environnement
         """
         self.objects.remove(obj)
-
-   

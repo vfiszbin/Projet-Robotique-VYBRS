@@ -14,7 +14,7 @@ class FoV:
         self.degree=degree #degree du champs de vision
         self.length=length #longueur jusqu'à laquelle le robot peut percevoir
         self.collision=False
-        self.safespace=None
+        self.safespace=0.1
         #self.safespace
 
     def setSafespace(self,newss): #newss: new safe space
