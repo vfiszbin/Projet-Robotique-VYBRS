@@ -203,11 +203,14 @@ class Robot:
         dir = self.dir * pi / 180
         dx = distance * cos(dir)
         dy = distance * sin(dir)
-        while(not(is_inside_an_obstacle_in_the_environment(posX,posY,objects))):
+        while(not(slef.is_inside_an_obstacle_in_the_environment(posX,posY,objects))):
             posX=posX+dx
             posY=posY+dy
+        print("pas = ",pas)
         while not (self.is_outside_of_the_environment(posX, posY,objects) or self.is_inside_an_obstacle_in_the_environment(posX, posY,objects)):
             posX+=1
             posY+=1
             pas+=1
+            print("pas =",pas)
+        print("pas = ",pas)
         return pas
