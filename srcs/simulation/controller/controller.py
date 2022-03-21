@@ -156,7 +156,7 @@ class moveForwardStrategy:
 
 	def stop(self):
 		if self.distance_to_cover >= 0 :
-			return self.distance_covered >= self.distance_to_cover and self.collision()
+			return self.distance_covered >= self.distance_to_cover
 		else :
 			return self.distance_covered <= self.distance_to_cover
 
