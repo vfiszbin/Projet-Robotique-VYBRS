@@ -1,23 +1,20 @@
 from time import sleep
 from math import pi
 from simulation import config
+from .proxy import ProxySimu, ProxyReal
 
 
 def importProxy(rob):
-	global AngleRotatedProxy #proxy déclaré en global pour y avoir accès partout dans le controleur
-	global ResetAngleRotatedProxy
+	global Proxy #proxy déclaré en global pour y avoir accès partout dans le controleur
 	if config.simu_or_real == 1: #importe proxy simulation
-		from .proxy import AngleRotatedSimu,ResetAngleRotatedSimu
-		AngleRotatedProxy = AngleRotatedSimu(rob)
-		ResetAngleRotatedProxy = ResetAngleRotatedSimu(rob)
+		Proxy = ProxySimu(rob)
 		
 	elif config.simu_or_real == 2: #importe proxy réel
-		from .proxy import AngleRotatedReal,ResetAngleRotatedReal
-		AngleRotatedProxy = AngleRotatedReal(rob)
-		ResetAngleRotatedProxy = ResetAngleRotatedReal(rob)
+		Proxy = ProxyReal(rob)
 
 
-UPDATE_FREQUENCY = 0.1 #en secondes
+
+UPDATE_FREQUENCY = 0.01 #en secondes
 
 def TestStrategy(rob):
 	print("dir=" + str(rob.dir))
@@ -131,7 +128,7 @@ class moveForwardStrategy:
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
-		ResetAngleRotatedProxy.resetAngleRotated()
+		Proxy.resetAngleRotated()
 		self.rob.changeWheelMode(1) #passe les roues en mode avancer
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
@@ -173,14 +170,14 @@ class TurnStrategy:
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
-		ResetAngleRotatedProxy.resetAngleRotated()
+		Proxy.resetAngleRotated()
 		self.rob.changeWheelMode(2) #passe les roues en mode tourner
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
-		self.angle_rotated_left_wheel = AngleRotatedProxy.getAngleRotatedLeft()
-		self.angle_rotated_right_wheel = AngleRotatedProxy.getAngleRotatedRight()
+		self.angle_rotated_left_wheel = Proxy.getAngleRotatedLeft()
+		self.angle_rotated_right_wheel = Proxy.getAngleRotatedRight()
 		if self.stop():
 			self.rob.changeSpeed(0) #arrête la rotation du robot
 			return
