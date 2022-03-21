@@ -129,8 +129,8 @@ class moveForwardStrategy:
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
 		Proxy.resetAngleRotated()
-		self.rob.changeWheelMode(1) #passe les roues en mode avancer
-		self.rob.setSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
+		Proxy.setWheelMode(1) #passe les roues en mode avancer
+		Proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
@@ -138,7 +138,7 @@ class moveForwardStrategy:
 		self.angle_rotated_right_wheel = Proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
 		if self.stop():
-			self.rob.setSpeed(0)
+			Proxy.setSpeed(0)
 			return
 
 	def covered_distance(self):
@@ -177,15 +177,15 @@ class TurnStrategy:
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
 		Proxy.resetAngleRotated()
-		self.rob.changeWheelMode(2) #passe les roues en mode tourner
-		self.rob.setSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
+		Proxy.setWheelMode(2) #passe les roues en mode tourner
+		Proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
 		self.angle_rotated_left_wheel = Proxy.getAngleRotatedLeft()
 		self.angle_rotated_right_wheel = Proxy.getAngleRotatedRight()
 		if self.stop():
-			self.rob.setSpeed(0) #arrête la rotation du robot
+			Proxy.setSpeed(0) #arrête la rotation du robot
 			return
 
 	def stop(self):
