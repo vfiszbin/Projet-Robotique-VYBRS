@@ -1,13 +1,25 @@
 from time import sleep
 from math import pi
+from simulation import config
+
+
+def importProxy(rob):
+	global AngleRotatedProxy #proxy déclaré en global pour y avoir accès partout dans le controleur
+	global ResetAngleRotatedProxy
+	if config.simu_or_real == 1: #importe proxy simulation
+		from .proxy import AngleRotatedSimu,ResetAngleRotatedSimu
+		AngleRotatedProxy = AngleRotatedSimu(rob)
+		ResetAngleRotatedProxy = ResetAngleRotatedSimu(rob)
+		
+	elif config.simu_or_real == 2: #importe proxy réel
+		from .proxy import AngleRotatedReal,ResetAngleRotatedReal
+		AngleRotatedProxy = AngleRotatedReal(rob)
+		ResetAngleRotatedProxy = ResetAngleRotatedReal(rob)
+
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
 def TestStrategy(rob):
-
-	sleep(2)
-	
-	launchStrategySeq(rob)
 	print("dir=" + str(rob.dir))
 	print("posX=" + str(rob.positionX))
 	print("posY=" + str(rob.positionY))
@@ -40,24 +52,19 @@ def TestStrategy(rob):
 	# sleep(3)
 	# rob.changeSpeed(0)
 
-def launchStrategySeq(rob):
-	seq0=StrategySeq(rob)
-	seq1 = SquareStrategy(rob,300,50)
-	s1=moveForwardStrategy(rob,200,50)
-	s2=TurnStrategy(rob,-70,-80)
-	s3=moveBackwardStrategy(rob, 250, 30)
-	seq0.addStrategy(s1)
-	seq0.addStrategy(s2)
-	seq0.addStrategy(s3)
+def strategySequences(rob, sequences):
+
+	importProxy(rob)
+
+	for seq in sequences: #execute chaque séquence de stratégies de la liste sequences
+		execStrategySeq(seq)
+
+def execStrategySeq(seq):
 	#Execute la sequence de strategies
-	while not seq1.stop():
-		seq1.step()
+	while not seq.stop():
+		seq.step()
 		sleep(UPDATE_FREQUENCY)
 	sleep(1) #pause dans la démo
-	#Execute la sequence de strategies
-	while not seq0.stop():
-		seq0.step()
-		sleep(UPDATE_FREQUENCY)
 
 class StrategySeq :
 	"""
@@ -80,9 +87,6 @@ class StrategySeq :
 
 		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine strat
 			self.current_strat += 1
-			#reset l'angle dont ont tourné les roues avant de démarrer la prochaine stratégie
-			self.rob.angle_rotated_left_wheel = 0
-			self.rob.angle_rotated_right_wheel = 0
 			self.sequence[self.current_strat].start()
 
 		self.sequence[self.current_strat].step()
@@ -95,8 +99,8 @@ class SquareStrategy(StrategySeq) :
 	"""
 	def __init__(self, rob, speed,length):
 		super().__init__(rob)
-		move = moveForwardStrategy(rob ,speed, length )
-		turnLeft = TurnStrategy(rob,90, speed)
+		move = moveForwardStrategy(rob , speed, length )
+		turnLeft = TurnStrategy(rob, 90, speed/2)
 		self.sequence = [move, turnLeft] * 3 + [move]
 
 
@@ -126,6 +130,8 @@ class moveForwardStrategy:
 		self.angle_rotated_right_wheel = 0
 
 	def start(self):
+		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
+		ResetAngleRotatedProxy.resetAngleRotated()
 		self.rob.changeWheelMode(1) #passe les roues en mode avancer
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
@@ -166,15 +172,15 @@ class TurnStrategy:
 		self.angle_rotated_right_wheel = 0
 
 	def start(self):
-		self.angle_rotated_left_wheel = 0
-		self.angle_rotated_right_wheel = 0
+		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
+		ResetAngleRotatedProxy.resetAngleRotated()
 		self.rob.changeWheelMode(2) #passe les roues en mode tourner
 		self.rob.changeSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
-		self.angle_rotated_left_wheel = self.rob.angle_rotated_left_wheel
-		self.angle_rotated_right_wheel = self.rob.angle_rotated_right_wheel
+		self.angle_rotated_left_wheel = AngleRotatedProxy.getAngleRotatedLeft()
+		self.angle_rotated_right_wheel = AngleRotatedProxy.getAngleRotatedRight()
 		if self.stop():
 			self.rob.changeSpeed(0) #arrête la rotation du robot
 			return
