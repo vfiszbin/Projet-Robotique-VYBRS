@@ -150,10 +150,14 @@ class moveForwardStrategy:
 		"""
 		distance = (2 * pi * self.rob.radius_of_wheels) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
 		return distance
-
+	def collision(self):
+		"""
+		rend True si le robot est proche d'un obstacle
+		"""
+		self.rob.getDistance() <= safe_distance
 	def stop(self):
 		if self.distance_to_cover >= 0 :
-			return self.distance_covered >= self.distance_to_cover
+			return self.distance_covered >= self.distance_to_cover and self.collision()
 		else :
 			return self.distance_covered <= self.distance_to_cover
 

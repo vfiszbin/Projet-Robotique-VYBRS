@@ -1,3 +1,28 @@
+class SetRobDataSimu:
+	def __init__(self,rob):
+		self.rob = rob
+	def setSpeed(speed):
+		self.rob.changeSpeed(speed)
+		
+
+
+
+claclass SetRobDataReal:
+	def __init__(self,rob):
+		self.rob = rob
+		self.left_wheel_speed=0
+		self.right_wheel_speed=0
+	def setSpeed(speed):
+		self.right_wheel_speed=speed
+		self.left_wheel_speed=speed
+	def turnRight(speed):
+		self.right_wheel_speed=0
+		self.left_wheel_speed=speed
+	def turnleft(speed):
+		self.right_wheel_speed=speed
+		self.left_wheel_speed= 0
+
+
 class AngleRotatedSimu:
 	def __init__(self, rob):
 		self.rob = rob
