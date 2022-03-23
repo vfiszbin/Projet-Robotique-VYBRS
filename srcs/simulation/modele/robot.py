@@ -46,7 +46,8 @@ class Robot:
         if wheelMode == 1 or wheelMode == 2:
             self.wheelMode = wheelMode
         else:
-            print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
+            #print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
+            pass
 
 
     def updateDir(self, angle_rotated):

@@ -3,7 +3,7 @@ from math import pi
 from simulation import config
 from .proxy import ProxySimu, ProxyReal
 
-SAFE_DISTANCE = 20
+SAFE_DISTANCE = 5
 
 def importProxy(rob, env):
 	global Proxy #proxy déclaré en global pour y avoir accès partout dans le controleur
