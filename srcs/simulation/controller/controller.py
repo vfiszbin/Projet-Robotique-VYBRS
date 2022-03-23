@@ -3,12 +3,13 @@ from math import pi
 from simulation import config
 from .proxy import ProxySimu, ProxyReal
 
-SAFE_DISTANCE = 5
+SAFE_DISTANCE = 20
 
-def importProxy(rob):
+def importProxy(rob, env):
 	global Proxy #proxy déclaré en global pour y avoir accès partout dans le controleur
+
 	if config.simu_or_real == 1: #importe proxy simulation
-		Proxy = ProxySimu(rob)
+		Proxy = ProxySimu(rob, env)
 		
 	elif config.simu_or_real == 2: #importe proxy réel
 		Proxy = ProxyReal(rob)
@@ -50,9 +51,8 @@ def TestStrategy(rob):
 	# sleep(3)
 	# rob.changeSpeed(0)
 
-def strategySequences(rob, sequences):
-
-	importProxy(rob)
+def strategySequences(rob, sequences, env):
+	importProxy(rob, env)
 
 	for seq in sequences: #execute chaque séquence de stratégies de la liste sequences
 		execStrategySeq(seq)
@@ -131,13 +131,13 @@ class moveForwardStrategy:
 		"""
 		rend True si le robot est proche d'un obstacle
 		"""
-		return self.rob.getDistance() <= SAFE_DISTANCE
+		return Proxy.getDistance() <= SAFE_DISTANCE
 
 	def stop(self):
-		if self.distance_to_cover >= 0 :
-			return self.distance_covered >= self.distance_to_cover
+		if self.distance_to_cover >= 0 or self.collision():
+			return self.distance_covered >= self.distance_to_cover or self.collision()
 		else :
-			return self.distance_covered <= self.distance_to_cover
+			return self.distance_covered <= self.distance_to_cover or self.collision()
 
 
 

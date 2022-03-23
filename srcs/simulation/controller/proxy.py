@@ -1,6 +1,7 @@
 class ProxySimu:
-	def __init__(self, rob):
+	def __init__(self, rob, env):
 		self.rob = rob
+		self.env = env
 
 	def getAngleRotatedLeft(self):
 		return self.rob.angle_rotated_left_wheel
@@ -20,6 +21,9 @@ class ProxySimu:
 
 	def getRadius(self) :
 		return self.rob.radius_of_wheels
+
+	def getDistance(self):
+		return self.rob.getDistance(self.env)
 
 class ProxyReal:
 	def __init__(self, rob):
@@ -51,7 +55,10 @@ class ProxyReal:
 
 	def setWheelMode(self, mode):
 		self.wheelMode = mode
-		
+
 	def getRadius(self) :
 		return self.rob.WHEEL_DIAMETER / 2 
+
+	def getDistance(self):
+		return self.rob.get_distance()
 

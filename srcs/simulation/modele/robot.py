@@ -175,7 +175,6 @@ class Robot:
         height = env.height
 
         if (positionX < 0) or (positionY > width) or (positionY < 0) or (positionY > height):
-            print("HERE1")
             return True
         else:
             return False
@@ -189,28 +188,24 @@ class Robot:
         for x in env.objects:
             if isinstance(x, Obstacle):
                 if posX >= x.positionX and posX <= (x.positionX + x.width) and posY >= x.positionY and posY <= (x.positionY + x.height):
-                    print("HERE2")
                     return True
         return False
 
-    # def getDistance(self, env):
-    #     """
-    #     :objects: [Obstacles]
-    #     """
-    #     pas=0
-    #     taille_pas = 1
-    #     posX = self.positionX
-    #     posY = self.positionY
-    #     dir = self.dir * pi / 180
-    #     dx = taille_pas * cos(dir)
-    #     dy = taille_pas * sin(dir)
+    def getDistance(self, env):
+        """
+        :objects: [Obstacles]
+        """
+        pas=0
+        taille_pas = 1
+        posX = self.positionX
+        posY = self.positionY
+        dir = self.dir * pi / 180
+        dx = taille_pas * cos(dir)
+        dy = taille_pas * sin(dir)
 
-    #     print("posX")
-    #     print(posX)
-    #     while(not(self.is_inside_an_obstacle_in_the_environment(posX, posY, env) or self.is_outside_of_the_environment(posX, posY, env))):
-    #         print(posY)
-    #         posX+=dx
-    #         posY+=dy
-    #         pas+=1
+        while(not(self.is_inside_an_obstacle_in_the_environment(posX, posY, env) or self.is_outside_of_the_environment(posX, posY, env))):
+            posX+=dx
+            posY-=dy
+            pas+=1
 
-    #     return pas
+        return pas

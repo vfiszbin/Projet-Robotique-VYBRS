@@ -32,7 +32,7 @@ def main_simu():
 	obs2 = Obstacle(600,180,30,100)
 	env.addObs(obs2)
 
-	obs3 = Obstacle(280,180,40,10)
+	obs3 = Obstacle(280,150,40,10)
 	env.addObs(obs3)
 	print(env.objects)
 
@@ -66,10 +66,10 @@ def main_simu():
 	sequences.append(seq2)
 
 	#Lance le thread du controleur
-	# controller_thread = Thread(target=strategySequences, args=(rob, sequences))
-	# controller_thread.start()
+	controller_thread = Thread(target=strategySequences, args=(rob, sequences, env))
+	controller_thread.start()
 
-	print("RETURN GETDISTANCE=" + str(rob.getDistance(env)))
+	# print("RETURN GETDISTANCE=" + str(rob.getDistance(env)))
 
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 	View2D(env)
@@ -106,7 +106,7 @@ def main_real():
 	sequences.append(seq2)
 
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(rob, sequences))
+	controller_thread = Thread(target=strategySequences, args=(rob, sequences, env))
 	controller_thread.start()
 
 
