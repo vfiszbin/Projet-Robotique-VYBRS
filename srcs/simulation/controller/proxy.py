@@ -1,20 +1,3 @@
-
-# class SetRobDataReal:
-# 	def __init__(self,rob):
-# 		self.rob = rob
-# 		self.left_wheel_speed=0
-# 		self.right_wheel_speed=0
-# 	def setSpeed(speed):
-# 		self.right_wheel_speed=speed
-# 		self.left_wheel_speed=speed
-# 	def turnRight(speed):
-# 		self.right_wheel_speed=0
-# 		self.left_wheel_speed=speed
-# 	def turnleft(speed):
-# 		self.right_wheel_speed=speed
-# 		self.left_wheel_speed= 0
-
-
 class ProxySimu:
 	def __init__(self, rob):
 		self.rob = rob
@@ -34,6 +17,8 @@ class ProxySimu:
 
 	def setWheelMode(self, mode):
 		self.rob.changeWheelMode(mode)
+	def getRadius(self) :
+		return self.rob.radius_of_wheels
 
 class ProxyReal:
 	def __init__(self, rob):
@@ -65,4 +50,6 @@ class ProxyReal:
 
 	def setWheelMode(self, mode):
 		self.wheelMode = mode
+	def getRadius(self) :
+		return self.rob.WHEEL_DIAMETER / 2 
 

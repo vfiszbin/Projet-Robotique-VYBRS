@@ -116,3 +116,24 @@ class Environment:
         fonction statique qui enlève un objet obj de l'environnement
         """
         self.objects.remove(obj)
+
+    def getDistance(self,rob):
+        x0 =rob.positionX
+        y0 =rob.positionY
+        ListeDis=[]
+        for obj in self.objects :
+            if obj == rob:
+                continue
+            x1=obj.positionX
+            x2=x1+ obj.width
+            y1=obj.positionY
+            y2=y1+obj.height
+            #on calcule la plus petite distance entre l'obstacle et le robot :
+            c1= dist(x1,y1,x1,y2,x0,y0)
+            c2= dist(x1,y1,x2,y1,x0,y0)
+            c3= dist(x2,y1,x2,y2,x0,y0)
+            c4= dist(x2,y2,x1,y2,x0,y0)
+
+            tmpDis=inf([c1,c2,c3,c4])
+            ListeDis.append(tmpDis)
+        return inf(ListeDis)

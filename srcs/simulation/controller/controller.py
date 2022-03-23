@@ -3,6 +3,7 @@ from math import pi
 from simulation import config
 from .proxy import ProxySimu, ProxyReal
 
+SAFE_DISTANCE = 5
 
 def importProxy(rob):
 	global Proxy #proxy déclaré en global pour y avoir accès partout dans le controleur
@@ -91,28 +92,6 @@ class StrategySeq :
 	def stop(self):
 		return self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop() #on a atteint la dernière strat et elle est terminée
 
-class SquareStrategy(StrategySeq) :
-	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
-	"""
-	def __init__(self, rob, speed,length):
-		super().__init__(rob)
-		move = moveForwardStrategy(rob , speed, length )
-		turnLeft = TurnStrategy(rob, 90, speed/2)
-		self.sequence = [move, turnLeft] * 3 + [move]
-
-
-class moveToPositionXY(StrategySeq) :
-	"""classe qui organise une séquences de stratégie pour faire un deplacement vers un point
-	"""
-	def __init__(self,rob,speed,X,Y) :
-		super().__init__(rob)
-		robx = self.positionX
-		roby = self.positionY
-		dir = self.dir * pi / 180
-		dx =  robx * cos(dir) + roby * sin(dir)
-		dy = robx * sin(dir) + roby * cos(dir)
-
-
 class moveForwardStrategy:
 	"""
 	Stratégie faisant avancer ou reculer un robot d'une certaine distance à une certaine vitesse
@@ -145,14 +124,14 @@ class moveForwardStrategy:
 		"""
 		calcule la distance parcourue par le robot selon l'angle dont les roues ont tourné
 		"""
-		distance = (2 * pi * self.rob.radius_of_wheels) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
+		distance = (2 * pi * Proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
 		return distance
 
 	def collision(self):
 		"""
 		rend True si le robot est proche d'un obstacle
 		"""
-		return self.rob.getDistance() <= safe_distance
+		return self.rob.getDistance() <= SAFE_DISTANCE
 
 	def stop(self):
 		if self.distance_to_cover >= 0 :
@@ -199,4 +178,52 @@ class moveBackwardStrategy(moveForwardStrategy):
 	def __init__(self,rob,speed,distance):
 		super().__init__(rob, -abs(speed), -abs(distance))
 
-	
+
+
+class SquareStrategy(StrategySeq) :
+	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
+	"""
+	def __init__(self, rob, speed,length):
+		super().__init__(rob)
+		move = moveForwardStrategy(rob , speed, length )
+		turnLeft = TurnStrategy(rob, 90, speed/2)
+		self.sequence = [move, turnLeft] * 3 + [move]
+
+class Navigate :
+	""" classe qui permet d'alterner l'execution des deux stratégies 'moveForwardStrategy' et 'TurnStrategy' afin de naviger l'environment  sur une distance donner et tourner lorsque le robot s'approche d'un obstacle
+	"""
+	def __init__(self,rob,speed,distance) :
+		self.rob=rob
+		self.speed=speed
+		self.distance
+		self.move=moveForwardStrategy(rob,speed,distance)
+		self.turn=TurnStrategy(rob,90,speed)
+		self.running = None #pour savoir la stratégie en cours d'execution
+		self.coverdDistance = 0 # 
+
+	def start(self) :
+		self.running= self.move
+		self.move.start()
+
+	def step(self) :
+		if self.stop():
+			Proxy.setSpeed(0) #arrête le mouvement du robot
+			return
+		if self.running.stop() : #si la startegie courante s'arrete on bouscule vers la seconde
+			if self.running == self.move : #si move s'arrete on lance turn
+				self.running = self.turn
+				self.running.start()
+			else :  # si turn s'arrete on réninitialise move et on la lance
+				self.coverdDistance = self.move.covered_distance 
+				move= moveForwardStrategy(self.rob,self.speed,self.distance-self.coverdDistance)
+				self.running = moveBackwardStrategy		
+				self.running.start()
+		self.running.step()	
+			
+	def stop(self) : 
+		if self.move.distance_to_cover >= 0 :
+			return self.move.distance_covered >= self.move.distance_to_cover
+		else :
+			return self.move.distance_covered <= self.move.distance_to_cover
+
+

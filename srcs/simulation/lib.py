@@ -16,6 +16,38 @@ def overlap(x0,x1,y0,y1,x2,x3,y2,y3):
 	if ((x0 >= x2 )and(x0<=x3)and(y0>=y2)and(y0<= y3)) or ((x0 >= x2 )and(x0<=x3)and(y1>=y2)and(y1<= y3)) or ((x1 >= x2 )and(x1<=x3)and(y0>=y1)and(y0<=y3)) or ((x1 >= x2 )and(x1<=x3)and(y1>=y2)and(y1<= y3)):
 		return True
 
+def dist(x1, y1, x2, y2, x3, y3): # x3,y3 is the point
+	""" calcul la distance entre un point et un segement """
+
+	px = x2-x1
+	py = y2-y1
+
+	norm = px*px + py*py
+
+	u =  ((x3 - x1) * px + (y3 - y1) * py) / float(norm)
+
+	if u > 1:
+		u = 1
+	elif u < 0:
+		u = 0
+
+	x = x1 + u * px
+	y = y1 + u * py
+
+	dx = x - x3
+	dy = y - y3
+
+	dist = (dx*dx + dy*dy)**.5
+	print("dist ", dist)
+	return dist
+
+def inf(liste):
+	"""
+	retourne le plus petit element de liste
+	"""
+	tmp=min(liste)
+	print("inf :", tmp)
+	return tmp 
 
 def angle_of_vectors(a,b,c,d):
 	dotProduct = a*c + b*d

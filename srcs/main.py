@@ -31,6 +31,9 @@ def main_simu():
 	print(env.objects)
 	obs2 = Obstacle(600,180,30,100)
 	env.addObs(obs2)
+
+	obs3 = Obstacle(310,250,40,10)
+	env.addObs(obs3)
 	print(env.objects)
 
 
@@ -45,6 +48,7 @@ def main_simu():
 	env.addObs(mur3)
 	env.addObs(mur4)
 
+	print(env.getDistance(rob))
 	#Lance updateModele qui s'execute dans un thread secondaire
 	update_modele = UpdateModele(env,rob)
 	update_modele.start()
