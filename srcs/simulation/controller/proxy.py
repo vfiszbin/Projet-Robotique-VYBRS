@@ -17,6 +17,7 @@ class ProxySimu:
 
 	def setWheelMode(self, mode):
 		self.rob.changeWheelMode(mode)
+
 	def getRadius(self) :
 		return self.rob.radius_of_wheels
 
@@ -50,6 +51,7 @@ class ProxyReal:
 
 	def setWheelMode(self, mode):
 		self.wheelMode = mode
+		
 	def getRadius(self) :
 		return self.rob.WHEEL_DIAMETER / 2 
 

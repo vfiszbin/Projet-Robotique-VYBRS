@@ -17,7 +17,7 @@ def main_simu():
 	env = Environment(800,300)
 
 	#Tests robot
-	rob = Robot(300,240)
+	rob = Robot(300,200)
 	env.addRob(rob)
 	print(env.objects)
 	print("dir=" + str(rob.dir))
@@ -32,7 +32,7 @@ def main_simu():
 	obs2 = Obstacle(600,180,30,100)
 	env.addObs(obs2)
 
-	obs3 = Obstacle(310,250,40,10)
+	obs3 = Obstacle(280,180,40,10)
 	env.addObs(obs3)
 	print(env.objects)
 
@@ -48,7 +48,6 @@ def main_simu():
 	env.addObs(mur3)
 	env.addObs(mur4)
 
-	print(env.getDistance(rob))
 	#Lance updateModele qui s'execute dans un thread secondaire
 	update_modele = UpdateModele(env,rob)
 	update_modele.start()
@@ -67,11 +66,16 @@ def main_simu():
 	sequences.append(seq2)
 
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(rob, sequences))
-	controller_thread.start()
+	# controller_thread = Thread(target=strategySequences, args=(rob, sequences))
+	# controller_thread.start()
+
+	print("RETURN GETDISTANCE=" + str(rob.getDistance(env)))
 
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 	View2D(env)
+
+	
+
 
 def main_real():
 	from robot2I013 import Robot2I013 as Robot

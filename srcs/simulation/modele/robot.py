@@ -165,52 +165,52 @@ class Robot:
                 return False
             ####
 
-    def is_outside_of_the_environment(self,width, height):
+    def is_outside_of_the_environment(self,positionX, positionY, env):
         """
         :width: float
         :height: float
         Renvoie True si le robot se trouve à l'extérieur des bords de l'environnement et False sinon.
         """
-        if (self.positionX < 0) or (self.positionY > width) or (self.positionY < 0) or (self.positiony > height):
+        width = env.width
+        height = env.height
+
+        if (positionX < 0) or (positionY > width) or (positionY < 0) or (positionY > height):
+            print("HERE1")
             return True
         else:
             return False
 
 
-    def is_inside_an_obstacle_in_the_environment(posX,posY,objects):
+    def is_inside_an_obstacle_in_the_environment(self, posX, posY, env):
         """
         :objects: [Obstacles]
         Renvoie True si le robot se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
         """
-
-        for obj in objects :
-
-            if isinstance (obj,Obstacle):
-
-                if (obj.positionX<= posX <= obj.positionX + obj.width) and (obj.positionY <= posY <= obj.positionY + obj.height):
+        for x in env.objects:
+            if isinstance(x, Obstacle):
+                if posX >= x.positionX and posX <= (x.positionX + x.width) and posY >= x.positionY and posY <= (x.positionY + x.height):
+                    print("HERE2")
                     return True
+        return False
 
-            return False
+    # def getDistance(self, env):
+    #     """
+    #     :objects: [Obstacles]
+    #     """
+    #     pas=0
+    #     taille_pas = 1
+    #     posX = self.positionX
+    #     posY = self.positionY
+    #     dir = self.dir * pi / 180
+    #     dx = taille_pas * cos(dir)
+    #     dy = taille_pas * sin(dir)
 
-    def getDistance(self,objects):
-        """
-        :objects: [Obstacles]
+    #     print("posX")
+    #     print(posX)
+    #     while(not(self.is_inside_an_obstacle_in_the_environment(posX, posY, env) or self.is_outside_of_the_environment(posX, posY, env))):
+    #         print(posY)
+    #         posX+=dx
+    #         posY+=dy
+    #         pas+=1
 
-        """
-        pas=0
-        posX=self.positionX
-        posY=self.positionY
-        dir = self.dir * pi / 180
-        dx = distance * cos(dir)
-        dy = distance * sin(dir)
-        while(not(slef.is_inside_an_obstacle_in_the_environment(posX,posY,objects))):
-            posX=posX+dx
-            posY=posY+dy
-        print("pas = ",pas)
-        while not (self.is_outside_of_the_environment(posX, posY,objects) or self.is_inside_an_obstacle_in_the_environment(posX, posY,objects)):
-            posX+=1
-            posY+=1
-            pas+=1
-            print("pas =",pas)
-        print("pas = ",pas)
-        return pas
+    #     return pas
