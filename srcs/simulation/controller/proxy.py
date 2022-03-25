@@ -40,7 +40,7 @@ class ProxyReal:
 		
 	def resetAngleRotated(self):
 		#lit la position des moteurs
-		l_pos, r_pos = self.robot.get_motor_position()
+		l_pos, r_pos = self.rob.get_motor_position()
 		# remet à 0 l'offset du moteur gauche et droit
 		self.rob.offset_motor_encoder(self.rob.MOTOR_LEFT, l_pos)
 		self.rob.offset_motor_encoder(self.rob.MOTOR_RIGHT, r_pos)

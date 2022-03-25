@@ -13,7 +13,7 @@ class Environment:
         if (width <= 0 or height <= 0):
             self.height = 300
             self.width = 400
-            print(f"Dimensions invalides, retour aux dimensions par défaut (largeur={self.width},hauteur={self.height})")
+            #print(f"Dimensions invalides, retour aux dimensions par défaut (largeur={self.width},hauteur={self.height})")
         else:
             self.height = height
             self.width = width
@@ -58,7 +58,7 @@ class Environment:
         y1 = y0 + obs.height
         if (x0 < 0 or x0 > self.width or y0 < 0 or y0 > self.height\
         or x1 < 0 or x1 > self.width or y1 < 0 or y1 > self.height):
-            print(f"Dimensions (({x0},{y0}),largeur={obs.width},hauteur={obs.height}) de l'obstacle incompatibles avec celles (largeur={self.width},hauteur={self.height}) de l'environnement")
+            #print(f"Dimensions (({x0},{y0}),largeur={obs.width},hauteur={obs.height}) de l'obstacle incompatibles avec celles (largeur={self.width},hauteur={self.height}) de l'environnement")
             add = False
         for obj in self.objects :
             x2=obj.positionX
@@ -92,7 +92,8 @@ class Environment:
             x = obj.positionX
             y = obj.positionY
             if (x < 0 or x > self.width or y < 0 or y > self.height):
-                print(f"Coordonnées ({x},{y}) du robot incompatibles avec les dimensions (largeur={self.width},hauteur={self.height}) de l'environnement")
+                #print(f"Coordonnées ({x},{y}) du robot incompatibles avec les dimensions (largeur={self.width},hauteur={self.height}) de l'environnement")
+                pass
             else:
                 self.objects.append(obj)
 
@@ -106,7 +107,8 @@ class Environment:
             y1 = y0 + obj.height
             if (x0 < 0 or x0 > self.width or y0 < 0 or y0 > self.height\
             or x1 < 0 or x1 > self.width or y1 < 0 or y1 > self.height):
-                print(f"Dimensions (({x0},{y0}),largeur={obj.width},hauteur={obj.height}) de l'obstacle incompatibles avec celles (largeur={self.width},hauteur={self.height}) de l'environnement")
+                #print(f"Dimensions (({x0},{y0}),largeur={obj.width},hauteur={obj.height}) de l'obstacle incompatibles avec celles (largeur={self.width},hauteur={self.height}) de l'environnement")
+                pass
             else:
                 self.objects.append(obj)
 
@@ -117,23 +119,3 @@ class Environment:
         """
         self.objects.remove(obj)
 
-    def getDistance(self,rob):
-        x0 =rob.positionX
-        y0 =rob.positionY
-        ListeDis=[]
-        for obj in self.objects :
-            if obj == rob:
-                continue
-            x1=obj.positionX
-            x2=x1+ obj.width
-            y1=obj.positionY
-            y2=y1+obj.height
-            #on calcule la plus petite distance entre l'obstacle et le robot :
-            c1= dist(x1,y1,x1,y2,x0,y0)
-            c2= dist(x1,y1,x2,y1,x0,y0)
-            c3= dist(x2,y1,x2,y2,x0,y0)
-            c4= dist(x2,y2,x1,y2,x0,y0)
-
-            tmpDis=inf([c1,c2,c3,c4])
-            ListeDis.append(tmpDis)
-        return inf(ListeDis)
