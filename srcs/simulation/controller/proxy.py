@@ -29,6 +29,9 @@ class ProxyReal:
 	def __init__(self, rob):
 		self.rob = rob
 		self.wheelMode = 1
+		
+		print("WHEEL_DIAMETER=")
+		print(self.rob.WHEEL_DIAMETER)
 
 	def getAngleRotatedLeft(self):
 		l_pos, r_pos = self.rob.get_motor_position()
@@ -58,6 +61,7 @@ class ProxyReal:
 
 	def getRadius(self) :
 		return self.rob.WHEEL_DIAMETER / 2 
+
 
 	def getDistance(self):
 		return self.rob.get_distance()
