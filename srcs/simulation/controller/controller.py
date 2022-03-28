@@ -3,7 +3,7 @@ from math import pi
 from simulation import config
 from .proxy import ProxySimu, ProxyReal
 
-SAFE_DISTANCE = 5
+SAFE_DISTANCE = 10
 
 def importProxy(rob, env):
 	global Proxy #proxy déclaré en global pour y avoir accès partout dans le controleur
@@ -195,28 +195,30 @@ class Navigate :
 	def __init__(self,rob,speed,distance) :
 		self.rob=rob
 		self.speed=speed
-		self.distance
+		self.distance=distance
 		self.move=moveForwardStrategy(rob,speed,distance)
 		self.turn=TurnStrategy(rob,90,speed)
 		self.running = None #pour savoir la stratégie en cours d'execution
-		self.coverdDistance = 0 # 
+		self.coverd_distance = 0 
 
 	def start(self) :
-		self.running= self.move
+		self.running= self.move #on commence avec moveForwardStrategy
 		self.move.start()
 
 	def step(self) :
-		if self.stop():
+		if self.stop(): 
 			Proxy.setSpeed(0) #arrête le mouvement du robot
 			return
 		if self.running.stop() : #si la startegie courante s'arrete on bouscule vers la seconde
 			if self.running == self.move : #si move s'arrete on lance turn
+				#self.turn=TurnStrategy(self.rob,90,self.speed)
 				self.running = self.turn
-				self.running.start()
+				self.turn.start()
 			else :  # si turn s'arrete on réninitialise move et on la lance
-				self.coverdDistance = self.move.covered_distance 
-				move= moveForwardStrategy(self.rob,self.speed,self.distance-self.coverdDistance)
-				self.running = moveBackwardStrategy		
+				self.coverd_distance = self.move.distance_covered 
+				dist = self.distance -self.coverd_distance # on recalcule la distance qui reste a faire
+				self.move= moveForwardStrategy(self.rob,self.speed,dist)
+				self.running = self.move		
 				self.running.start()
 		self.running.step()	
 			
