@@ -20,18 +20,11 @@ class SetStrategies :
 		self.sequences = [] #la liste contenant les séquences de stratégies
 		seq1 = SquareStrategy(proxy,300,50)
 		self.sequences.append(seq1)
-<<<<<<< HEAD
 		seq2=StrategySeq()
 		s1=moveForwardStrategy(proxy,200,50)
 		s2=TurnStrategy(proxy,-70,-80)
 		s3=moveBackwardStrategy(proxy, 250, 30)
-=======
-		seq2=StrategySeq(rob)
-		s1=moveForwardStrategy(rob,200,50)
-		s2=TurnStrategy(rob,-70,-80)
-		s3=moveBackwardStrategy(rob, 250, 30)
-		s4=Navigate(rob,250,200) # tester avec une plus grande distance pour voir comment se comporte le robot. 
->>>>>>> 7c4e3495270a4bbc7b344abc2cc97c746465e465
+		s4=Navigate(proxy,250,200) # tester avec une plus grande distance pour voir comment se comporte le robot. 
 		seq2.addStrategy(s1)
 		seq2.addStrategy(s2)
 		seq2.addStrategy(s3)
