@@ -20,9 +20,10 @@ def main_simu():
 	update_modele = UpdateModele(env,rob)
 	update_modele.start()
 	#Creation des Strategies :
-	SetS= SetStrategies(rob)
+	SetS = SetStrategies(rob, env)
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(rob, SetS.sequences, env))
+	print()
+	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
 	controller_thread.start()
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 	View2D(env)
@@ -37,10 +38,10 @@ def main_real():
 	#Ajoute robot à l'environnement
 	rob = Robot()
 	#Preparation des Strategies
-	SetS= SetStrategies(rob)
+	SetS = SetStrategies(rob, None)
 
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(rob, SetS.sequences, None))
+	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
 	controller_thread.start()
 
 

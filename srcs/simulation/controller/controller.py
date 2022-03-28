@@ -1,58 +1,13 @@
 from time import sleep
 from math import pi
 from simulation import config
-from .proxy import ProxySimu, ProxyReal
 
 SAFE_DISTANCE = 5
-
-def importProxy(rob, env):
-	global Proxy #proxy déclaré en global pour y avoir accès partout dans le controleur
-
-	if config.simu_or_real == 1: #importe proxy simulation
-		Proxy = ProxySimu(rob, env)
-		
-	elif config.simu_or_real == 2: #importe proxy réel
-		Proxy = ProxyReal(rob)
-
 
 
 UPDATE_FREQUENCY = 0.01 #en secondes
 
-def TestStrategy(rob):
-	print("dir=" + str(rob.dir))
-	print("posX=" + str(rob.positionX))
-	print("posY=" + str(rob.positionY))
-
-	# rob.changeWheelMode(2)
-	# rob.changeSpeed(100)
-	# sleep(1)
-	# rob.changeSpeed(0)
-	# sleep(1)
-	# rob.changeSpeed(-120)
-	# sleep(1)
-	# rob.changeSpeed(0)
-	# sleep(1)
-	# rob.changeSpeed(380)
-	# sleep(1)
-	# rob.changeSpeed(0)
-
-	# rob.changeWheelMode(1)
-	# rob.changeSpeed(360)
-	# sleep(5)
-	# rob.changeSpeed(0)
-	# rob.changeWheelMode(2)
-	# rob.changeSpeed(-260)
-	# sleep(1)
-	# rob.changeWheelMode(1)
-	# rob.changeSpeed(360)
-	# sleep(3)
-	# rob.changeSpeed(0)
-	# rob.changeSpeed(-180)
-	# sleep(3)
-	# rob.changeSpeed(0)
-
-def strategySequences(rob, sequences, env):
-	importProxy(rob, env)
+def strategySequences(sequences):
 
 	for seq in sequences: #execute chaque séquence de stratégies de la liste sequences
 		execStrategySeq(seq)
@@ -68,8 +23,7 @@ class StrategySeq :
 	"""
 	classe qui organise des séquences de strategie
 	"""
-	def __init__(self, rob):
-		self.rob = rob
+	def __init__(self):
 		self.sequence=[]
 		self.current_strat = -1
 
@@ -96,9 +50,9 @@ class moveForwardStrategy:
 	"""
 	Stratégie faisant avancer ou reculer un robot d'une certaine distance à une certaine vitesse
 	"""
-	def __init__(self,rob,speed,distance):
+	def __init__(self,proxy,speed,distance):
 		#Vitesse et distance_to_cover doivent avoir le même signe (aller dans la même direction)
-		self.rob = rob
+		self.proxy = proxy
 		self.distance_to_cover = distance
 		self.distance_covered = 0
 		self.speed = speed
@@ -107,31 +61,31 @@ class moveForwardStrategy:
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
-		Proxy.resetAngleRotated()
-		Proxy.setWheelMode(1) #passe les roues en mode avancer
-		Proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
+		self.proxy.resetAngleRotated()
+		self.proxy.setWheelMode(1) #passe les roues en mode avancer
+		self.proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
-		self.angle_rotated_left_wheel = Proxy.getAngleRotatedLeft()
-		self.angle_rotated_right_wheel = Proxy.getAngleRotatedRight()
+		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
+		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
 		if self.stop():
-			Proxy.setSpeed(0)
+			self.proxy.setSpeed(0)
 			return
 
 	def covered_distance(self):
 		"""
 		calcule la distance parcourue par le robot selon l'angle dont les roues ont tourné
 		"""
-		distance = (2 * pi * Proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
+		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
 		return distance
 
 	def collision(self):
 		"""
 		rend True si le robot est proche d'un obstacle
 		"""
-		return Proxy.getDistance() <= SAFE_DISTANCE
+		return self.proxy.getDistance() <= SAFE_DISTANCE
 
 	def stop(self):
 		if self.distance_to_cover >= 0 or self.collision():
@@ -145,9 +99,9 @@ class TurnStrategy:
 	"""
 	Stratégie faisant tourner un robot d'un certain angle à une certaine vitesse
 	"""
-	def __init__(self, rob, angle, speed):
+	def __init__(self, proxy, angle, speed):
 		#Vitesse et angle doivent avoir le même signe (aller dans la même direction)
-		self.rob = rob
+		self.proxy = proxy
 		self.speed = speed
 		self.angle_to_rotate = angle
 		self.angle_rotated_left_wheel = 0
@@ -155,16 +109,16 @@ class TurnStrategy:
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
-		Proxy.resetAngleRotated()
-		Proxy.setWheelMode(2) #passe les roues en mode tourner
-		Proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
+		self.proxy.resetAngleRotated()
+		self.proxy.setWheelMode(2) #passe les roues en mode tourner
+		self.proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à tourner
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
-		self.angle_rotated_left_wheel = Proxy.getAngleRotatedLeft()
-		self.angle_rotated_right_wheel = Proxy.getAngleRotatedRight()
+		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
+		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		if self.stop():
-			Proxy.setSpeed(0) #arrête la rotation du robot
+			self.proxy.setSpeed(0) #arrête la rotation du robot
 			return
 
 	def stop(self):
@@ -175,29 +129,29 @@ class TurnStrategy:
 			return self.angle_rotated_left_wheel >= -(self.angle_to_rotate) and self.angle_rotated_right_wheel <= self.angle_to_rotate
 
 class moveBackwardStrategy(moveForwardStrategy):
-	def __init__(self,rob,speed,distance):
-		super().__init__(rob, -abs(speed), -abs(distance))
+	def __init__(self,proxy,speed,distance):
+		super().__init__(proxy, -abs(speed), -abs(distance))
 
 
 
 class SquareStrategy(StrategySeq) :
 	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
 	"""
-	def __init__(self, rob, speed,length):
-		super().__init__(rob)
-		move = moveForwardStrategy(rob , speed, length )
-		turnLeft = TurnStrategy(rob, 90, speed/2)
+	def __init__(self, proxy, speed,length):
+		super().__init__()
+		move = moveForwardStrategy(proxy, speed, length )
+		turnLeft = TurnStrategy(proxy, 90, speed / 2)
 		self.sequence = [move, turnLeft] * 3 + [move]
 
 class Navigate :
 	""" classe qui permet d'alterner l'execution des deux stratégies 'moveForwardStrategy' et 'TurnStrategy' afin de naviger l'environment  sur une distance donner et tourner lorsque le robot s'approche d'un obstacle
 	"""
-	def __init__(self,rob,speed,distance) :
-		self.rob=rob
+	def __init__(self,proxy,speed,distance) :
+		self.proxy=proxy
 		self.speed=speed
 		self.distance
-		self.move=moveForwardStrategy(rob,speed,distance)
-		self.turn=TurnStrategy(rob,90,speed)
+		self.move=moveForwardStrategy(proxy,speed,distance)
+		self.turn=TurnStrategy(proxy,90,speed)
 		self.running = None #pour savoir la stratégie en cours d'execution
 		self.coverdDistance = 0 # 
 
@@ -207,7 +161,7 @@ class Navigate :
 
 	def step(self) :
 		if self.stop():
-			Proxy.setSpeed(0) #arrête le mouvement du robot
+			self.proxy.setSpeed(0) #arrête le mouvement du robot
 			return
 		if self.running.stop() : #si la startegie courante s'arrete on bouscule vers la seconde
 			if self.running == self.move : #si move s'arrete on lance turn
@@ -215,7 +169,7 @@ class Navigate :
 				self.running.start()
 			else :  # si turn s'arrete on réninitialise move et on la lance
 				self.coverdDistance = self.move.covered_distance 
-				move= moveForwardStrategy(self.rob,self.speed,self.distance-self.coverdDistance)
+				move= moveForwardStrategy(self.proxy,self.speed,self.distance-self.coverdDistance)
 				self.running = moveBackwardStrategy		
 				self.running.start()
 		self.running.step()	
