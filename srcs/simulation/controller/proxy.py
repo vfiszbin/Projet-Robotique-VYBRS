@@ -22,6 +22,9 @@ class ProxySimu:
 	def getRadius(self) :
 		return self.rob.radius_of_wheels
 
+	def getHalfDistBetweenWheels(self):
+		return self.rob.WHEEL_BASE_WIDTH / 2 
+
 	def getDistance(self):
 		return self.rob.getDistance(self.env)
 
@@ -61,6 +64,9 @@ class ProxyReal:
 
 	def getRadius(self) :
 		return self.rob.WHEEL_DIAMETER / 2 
+	
+	def getHalfDistBetweenWheels(self):
+		return self.rob.WHEEL_BASE_WIDTH / 2 
 
 	def getDistance(self):
 		return self.rob.get_distance()

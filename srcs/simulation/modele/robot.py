@@ -2,6 +2,8 @@ from math import *
 from .obstacle import Obstacle
 from time import time
 
+WHEEL_DIAMETER = 66.5 #en mm, tiré de l'attribut WHEEL_DIAMETER du vrai robot
+WHEEL_BASE_WIDTH = 1300 #en mm
 
 
 class Robot:
@@ -25,7 +27,8 @@ class Robot:
         self.height = 2
         self.last_time = time() #pour savoir combien de temps s'est écoulé depuis le dernier update()
 
-        self.radius_of_wheels = 5 #le rayon des roues
+        self.radius_of_wheels = WHEEL_DIAMETER / 2 #le rayon des roues
+        self.WHEEL_BASE_WIDTH = WHEEL_BASE_WIDTH
         #L'angle dont les deux roues ont tourné depuis le dernier reset. C'est le controleur qui interroge et reset ces deux variables :
         self.angle_rotated_left_wheel = 0
         self.angle_rotated_right_wheel = 0
