@@ -42,6 +42,7 @@ def main_real():
 	#Lance le thread du controleur
 	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
 	controller_thread.start()
+	print("TERMINE")
 
 
 if __name__ == '__main__':
