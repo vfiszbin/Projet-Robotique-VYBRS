@@ -153,7 +153,7 @@ class Navigate :
 		self.move=moveForwardStrategy(proxy,speed,distance)
 		self.turn=TurnStrategy(proxy,90,speed)
 		self.running = None #pour savoir la stratégie en cours d'execution
-		self.coverd_distance = 0 
+		self.covered_distance = 0 
 
 	def start(self) :
 		self.running= self.move #on commence avec moveForwardStrategy
@@ -169,8 +169,8 @@ class Navigate :
 				self.running = self.turn
 				self.turn.start()
 			else :  # si turn s'arrete on réninitialise move et on la lance
-				self.coverd_distance = self.move.distance_covered 
-				dist = self.distance -self.coverd_distance # on recalcule la distance qui reste a faire
+				self.covered_distance = self.move.distance_covered 
+				dist = self.distance -self.covered_distance # on recalcule la distance qui reste a faire
 				self.move= moveForwardStrategy(self.proxy,self.speed,dist)
 				self.running = self.move		
 				self.running.start()

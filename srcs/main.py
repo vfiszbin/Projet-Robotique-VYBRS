@@ -1,6 +1,3 @@
-from simulation.modele.environment import Environment
-from simulation.viewer.view2D import View2D
-from simulation.modele.updateModele import UpdateModele
 from threading import Thread
 from simulation.controller.controller import *
 from SetStrategies import SetStrategies
@@ -9,6 +6,9 @@ import sys
 
 
 def main_simu():
+	from simulation.modele.environment import Environment
+	from simulation.viewer.view2D import View2D
+	from simulation.modele.updateModele import UpdateModele
 	from SetEnvironment import SetEnvironment
 	from simulation.modele.robot import Robot
 	config.simu_or_real = 1 #var globale dans config, indique si le robot est simulé (1) ou réel (2)
@@ -22,7 +22,6 @@ def main_simu():
 	#Creation des Strategies :
 	SetS = SetStrategies(rob, env)
 	#Lance le thread du controleur
-	print()
 	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
 	controller_thread.start()
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal

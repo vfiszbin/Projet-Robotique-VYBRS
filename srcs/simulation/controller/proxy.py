@@ -62,7 +62,6 @@ class ProxyReal:
 	def getRadius(self) :
 		return self.rob.WHEEL_DIAMETER / 2 
 
-
 	def getDistance(self):
 		return self.rob.get_distance()
 
