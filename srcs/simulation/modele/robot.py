@@ -3,7 +3,7 @@ from .obstacle import Obstacle
 from time import time
 
 WHEEL_DIAMETER = 66.5 #en mm, tiré de l'attribut WHEEL_DIAMETER du vrai robot
-WHEEL_BASE_WIDTH = 1300 #en mm
+WHEEL_BASE_WIDTH = 130 #en mm, distance entre les roues du robot, tiré de l'attribut WHEEL_BASE_WIDTH du vrai robot
 
 
 class Robot:
@@ -28,7 +28,7 @@ class Robot:
         self.last_time = time() #pour savoir combien de temps s'est écoulé depuis le dernier update()
 
         self.radius_of_wheels = WHEEL_DIAMETER / 2 #le rayon des roues
-        self.WHEEL_BASE_WIDTH = WHEEL_BASE_WIDTH
+        self.half_dist_between_wheels = WHEEL_BASE_WIDTH / 2 #distance entre le centre du robot et l'une de ses roues
         #L'angle dont les deux roues ont tourné depuis le dernier reset. C'est le controleur qui interroge et reset ces deux variables :
         self.angle_rotated_left_wheel = 0
         self.angle_rotated_right_wheel = 0
@@ -54,9 +54,10 @@ class Robot:
 
 
     def updateDir(self, angle_rotated):
-        # r = 5 #rayon / DOIT REFLETER LA DISTANCE ENTRE LE CENTRE DU ROBOT ET L'UNE DE SES ROUES !!!
-        # alpha = (360 * distance) / (2 * pi * r)
-        self.dir += angle_rotated
+        distance = (2 * pi * self.radius_of_wheels ) * (angle_rotated/ 360) #distance parcourue à partir de l'angle effectué par les roues
+        r = self.half_dist_between_wheels #rayon / DOIT REFLETER LA DISTANCE ENTRE LE CENTRE DU ROBOT ET L'UNE DE SES ROUES !!!
+        angle_rotated_by_robot = (360 * distance) / (2 * pi * r)
+        self.dir += angle_rotated_by_robot
 
     def changeSpeed(self, speed):
         self.speed = speed
