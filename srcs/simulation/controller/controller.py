@@ -1,9 +1,9 @@
 from time import sleep
 from math import pi
 from simulation import config
-
-SAFE_DISTANCE = 300
-
+from threading import Thread
+SAFE_DISTANCE = 100
+Latest_Dist=0
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
@@ -13,11 +13,19 @@ def strategySequences(sequences):
 		execStrategySeq(seq)
 	print("fin stratseq")
 
+#def updateLatestDist(proxy):
+#	sleep(5)
+#	Latest_Dist=proxy.getDistance()
+
 def execStrategySeq(seq):
+	
+#	Dist_thread =Thread(target=updateLatestDist(seq.proxy))
+#	Dist_thread.start()
 	#Execute la sequence de strategies
 	while not seq.stop():
 		seq.step()
 		sleep(UPDATE_FREQUENCY)
+		
 	sleep(1) #pause dans la démo
 	print("fin execstrat")
 
@@ -74,8 +82,8 @@ class moveForwardStrategy:
 		self.distance_covered = self.covered_distance()
 		print("dst_covrd="+str(self.distance_covered))
 		if self.stop():
-			print("STOP ROBOT")
-			self.proxy.setSpeed(0)
+			#print("STOP ROBOT")
+			#self.proxy.setSpeed(0)
 			return
 
 	def covered_distance(self):
@@ -98,9 +106,15 @@ class moveForwardStrategy:
 		print("pas=" + str(pas))
 		if pas <= SAFE_DISTANCE :
 			print("pas <= safe")
+			self.proxy.setSpeed(0)	
+			print("STOP ROBOT")
 			return True
 		if self.distance_to_cover >= 0 :
-			return self.distance_covered >= self.distance_to_cover
+			if self.distance_covered >= self.distance_to_cover :
+				print("STOP ROBOT")
+				self.proxy.setSpeed(0)
+				return True
+
 		else :
 			return self.distance_covered <= self.distance_to_cover
 
@@ -127,7 +141,7 @@ class TurnStrategy:
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
 		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
-		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
+		self.angle_rotated_right_wheel =  self.proxy.getAngleRotatedRight()
 		print(self.angle_rotated_left_wheel)
 		print(self.angle_rotated_right_wheel)
 		if self.stop():

@@ -19,8 +19,8 @@ class SetStrategies :
 		#Prépare des séquences de stratégies que le controleur va executer
 		self.sequences = [] #la liste contenant les séquences de stratégies
 		seq2=StrategySeq()
-		s2=moveForwardStrategy(proxy, 500, 50)
-		#s2=TurnStrategy(proxy,360,30)
+		#s2=moveForwardStrategy(proxy, 700, 50)
+		s2=TurnStrategy(proxy,90,50)
 		seq2.addStrategy(s2)
 		self.sequences.append(seq2)
 
