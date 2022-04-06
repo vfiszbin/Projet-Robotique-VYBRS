@@ -15,9 +15,9 @@ def main_simu():
 	#Creation de l'environnement
 	rob = Robot(300,200)
 	env = Environment(800,300)
-	SetE = SetEnvironment(env,rob)
+	SetE = SetEnvironment(env, rob)
 	#Lance updateModele qui s'execute dans un thread secondaire
-	update_modele = UpdateModele(env,rob)
+	update_modele = UpdateModele(env, rob)
 	update_modele.start()
 	#Creation des Strategies :
 	SetS = SetStrategies(rob, env)
