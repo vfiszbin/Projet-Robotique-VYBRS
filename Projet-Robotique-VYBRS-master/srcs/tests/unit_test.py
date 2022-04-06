@@ -167,6 +167,11 @@ class TestEnvironment(unittest.TestCase):
         b = self.env1.testCollisionObs(self.obs)
         # on verifie si on a une collision entre la position du robot et les objets de son environnements
         self.assertTrue(b)
+    
+    def test_testCollisionRob(self):
+        # b : bool
+        b = self.env1.testCollisionRob(self.rob)
+        self.assertTrue(b)
 
     
     
