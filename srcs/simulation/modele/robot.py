@@ -164,7 +164,7 @@ class Robot:
             if(prodvsup<0 and prodsvup<0):
                 return True
             #-------------------------------------------------------------
-            if(prodvslow<0 and prodsvlow<0):
+            if(prodsvslow<0 and prodsvlow<0):
                 return True
             else:
                 return False
