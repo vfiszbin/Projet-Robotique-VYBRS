@@ -144,6 +144,7 @@ class TestEnvironment(unittest.TestCase):
         self.env=Environment(800,300)
         self.rob=Robot(2,3)
         self.obs = Obstacle(3,9,8,19)
+        self.obs1 = Obstacle(7,9,20,19)
 
 
     def test_addObject(self):
@@ -172,6 +173,11 @@ class TestEnvironment(unittest.TestCase):
         # b : bool
         b = self.env1.testCollisionRob(self.rob)
         self.assertTrue(b)
+    
+    def test_addObs(self):
+        self.env1.addObs(self.obs) # on l'ajoute à l'objet
+        self.assertTrue(self.env1) # on verifie si le robot est ajoute à l'environnement
+    
 
     
     
