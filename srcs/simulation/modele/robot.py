@@ -21,7 +21,8 @@ class Robot:
         self.positionX = positionX
         self.positionY = positionY
         self.dir = 90 #direction par défaut en degrés
-        self.speed = 0 #vitesse du robot en Degrés Par Secondes (DPS)
+        self.speedLeftWheel = 0 #vitesse du robot en Degrés Par Secondes (DPS)
+        self.speedRightWheel = 0
         self.wheelMode = 1
         self.width= 2
         self.height = 2
@@ -60,7 +61,14 @@ class Robot:
         self.dir += angle_rotated_by_robot
 
     def changeSpeed(self, speed):
-        self.speed = speed
+        self.speedLeftWheel = speed
+        self.speedRightWheel = speed
+
+    def setSpeedLeftWheel(self, speed):
+        self.speedLeftWheel = speed
+
+    def setSpeedRightWheel(self, speed):
+        self.speedRightWheel = speed
 
     #merge les deux fonctions suivantes
     def deplacerRobot(self, angle_rotated):
@@ -75,13 +83,25 @@ class Robot:
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
+    def getNewPositionOfWheel(self, angle_rotated):
+        """
+        :distance: int
+        fonction qui deplace  le robot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
+        """
+        dir = self.dir * pi / 180 #conversion des degrés en radians
+        distance = (2 * pi * self.radius_of_wheels) * (angle_rotated / 360) #distance parcourue à partir de l'angle effectué par la roue
+        dx = distance * cos(dir)
+        dy = distance * sin(dir)
+        self.positionX = self.positionX + dx
+        self.positionY = self.positionY - dy
+
     def update(self):
         """
         Maj la position ou la direction du robot selon la distance parcourue et le wheelMode du robot
         """
         current_time = time()
         elapsed_time = current_time - self.last_time
-        angle_rotated = self.speed * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
+        angle_rotated = abs(self.speedLeftWheel) * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
 
         if self.wheelMode == 1: #roues en mode 1 pour avancer/reculer
             self.deplacerRobot(angle_rotated)
@@ -92,6 +112,9 @@ class Robot:
             self.updateDir(angle_rotated)
             self.angle_rotated_left_wheel -= angle_rotated
             self.angle_rotated_right_wheel += angle_rotated
+
+        elif self.wheelMode == 3: #roues en mode 3 pour tracer un arc de cercle
+            
 
         self.last_time = time()
 
