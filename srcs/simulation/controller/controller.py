@@ -13,14 +13,14 @@ def strategySequences(sequences):
 		execStrategySeq(seq)
 	print("fin stratseq")
 
-#def updateLatestDist(proxy):
-#	sleep(5)
-#	Latest_Dist=proxy.getDistance()
+def updateLatestDist(proxy):
+	sleep(5)
+	Latest_Dist=proxy.getDistance()
 
 def execStrategySeq(seq):
 	
-#	Dist_thread =Thread(target=updateLatestDist(seq.proxy))
-#	Dist_thread.start()
+	Dist_thread =Thread(target=updateLatestDist(seq.proxy))
+	Dist_thread.start()
 	#Execute la sequence de strategies
 	while not seq.stop():
 		seq.step()
@@ -131,6 +131,7 @@ class TurnStrategy:
 		self.angle_to_rotate = angle
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
+		self.angle_covered = 0
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
@@ -144,16 +145,26 @@ class TurnStrategy:
 		self.angle_rotated_right_wheel =  self.proxy.getAngleRotatedRight()
 		print(self.angle_rotated_left_wheel)
 		print(self.angle_rotated_right_wheel)
+		self.angle_covered = self.covered_angle()
 		if self.stop():
 			self.proxy.setSpeed(0) #arrête la rotation du robot
 			return
 
+	def covered_angle(self):
+		"""
+		calcule l'angle dont a tourné par le robot depuis le début de la stratégie selon l'angle tourné par les roues
+		"""
+		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_right_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
+		angle_covered = (360 * distance) / (2 * pi * self.proxy.getHalfDistBetweenWheels()) #angle dont le robot a tourné
+		print("angle_covered=" + str(angle_covered))
+		return angle_covered
+
 	def stop(self):
 		#Vérifie si les roues ont tourné de l'angle demandé
 		if self.angle_to_rotate >= 0:
-			return self.angle_rotated_left_wheel <= -(self.angle_to_rotate) and self.angle_rotated_right_wheel >= self.angle_to_rotate
+			return self.angle_covered >= self.angle_to_rotate
 		else:
-			return self.angle_rotated_left_wheel >= -(self.angle_to_rotate) and self.angle_rotated_right_wheel <= self.angle_to_rotate
+			return self.angle_covered <= self.angle_to_rotate
 
 class moveBackwardStrategy(moveForwardStrategy):
 	def __init__(self,proxy,speed,distance):
@@ -164,10 +175,10 @@ class moveBackwardStrategy(moveForwardStrategy):
 class SquareStrategy(StrategySeq) :
 	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
 	"""
-	def __init__(self, proxy, speed,length):
+	def __init__(self, proxy, length,speed):
 		super().__init__()
-		move = moveForwardStrategy(proxy, speed, length )
-		turnLeft = TurnStrategy(proxy, 90, speed / 2)
+		move = moveForwardStrategy(proxy, length, speed )
+		turnLeft = TurnStrategy(proxy, 90, speed)
 		self.sequence = [move, turnLeft] * 3 + [move]
 
 class Navigate :
