@@ -2,25 +2,34 @@ from time import sleep
 from math import pi
 from simulation import config
 from threading import Thread
-SAFE_DISTANCE = 100
-Latest_Dist=0
+
+SAFE_DISTANCE = 20
 
 UPDATE_FREQUENCY = 0.1 #en secondes
+
+def updateLatestDist(proxy):
+
+	while not config.Fin_Strat :
+		print("fin strat",config.Fin_Strat)
+		sleep(1)
+		config.Latest_Dist=proxy.getDistance()  #initialisé à 100 dans config.py
+		print("la get distance",config.Latest_Dist)
+
+def launchThreadDist(proxy):
+
+	Dist_thread =Thread(target=updateLatestDist,args=(proxy,))
+	Dist_thread.start()
+	
 
 def strategySequences(sequences):
 
 	for seq in sequences: #execute chaque séquence de stratégies de la liste sequences
 		execStrategySeq(seq)
 	print("fin stratseq")
-
-def updateLatestDist(proxy):
-	sleep(5)
-	Latest_Dist=proxy.getDistance()
+	config.Fin_Strat = True
+	print("in StratSeq ",config.Fin_Strat)
 
 def execStrategySeq(seq):
-	
-	Dist_thread =Thread(target=updateLatestDist(seq.proxy))
-	Dist_thread.start()
 	#Execute la sequence de strategies
 	while not seq.stop():
 		seq.step()
@@ -33,9 +42,11 @@ class StrategySeq :
 	"""
 	classe qui organise des séquences de strategie
 	"""
-	def __init__(self):
+	def __init__(self,proxy):
 		self.sequence=[]
-		self.current_strat = -1
+		self.current_strat = -1	
+		launchThreadDist(proxy)
+		print("sortie")
 
 	def addStrategy(self, strat):
 		self.sequence.append(strat)
@@ -93,16 +104,8 @@ class moveForwardStrategy:
 		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
 		return distance
 
-	def collision(self):
-		"""
-		rend True si le robot est proche d'un obstacle
-		"""
-		pas = self.proxy.getDistance()
-		print("pas=" + str(pas))
-		return pas <= SAFE_DISTANCE
-
 	def stop(self):
-		pas = self.proxy.getDistance()
+		pas = config.Latest_Dist
 		print("pas=" + str(pas))
 		if pas <= SAFE_DISTANCE :
 			print("pas <= safe")
