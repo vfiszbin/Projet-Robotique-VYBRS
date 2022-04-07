@@ -1,6 +1,7 @@
 from math import *
 from .obstacle import Obstacle
 from time import time
+from ..lib import getdistancePoints,centreline
 
 WHEEL_DIAMETER = 66.5 #en mm, tiré de l'attribut WHEEL_DIAMETER du vrai robot
 WHEEL_BASE_WIDTH = 130 #en mm, distance entre les roues du robot, tiré de l'attribut WHEEL_BASE_WIDTH du vrai robot
@@ -47,7 +48,7 @@ class Robot:
     # Mode 2 : les deux roues tournent en sens opposés, le robot tourne sur lui même
 
     def changeWheelMode(self, wheelMode):
-        if wheelMode == 1 or wheelMode == 2:
+        if wheelMode == 1 or wheelMode == 2 or wheelMode == 3:
             self.wheelMode = wheelMode
         else:
             #print(f"Le mode {wheelMode} est incorrect, il doit être égal à 1 ou 2")
@@ -83,17 +84,145 @@ class Robot:
         self.positionX = self.positionX + dx
         self.positionY = self.positionY - dy
 
-    def getNewPositionOfWheel(self, angle_rotated):
+    def deplacerEnArcRobot(self, angle_rotated_left_wheel, angle_rotated_right_wheel):
         """
-        :distance: int
-        fonction qui deplace  le robot depuis les coordonnées(positionX,positionY) vers l'avant selon l'angle 'dir' et une distance
+        fonction qui deplace le robot depuis les coordonnées(positionX,positionY) en arc de cercle
         """
-        dir = self.dir * pi / 180 #conversion des degrés en radians
-        distance = (2 * pi * self.radius_of_wheels) * (angle_rotated / 360) #distance parcourue à partir de l'angle effectué par la roue
-        dx = distance * cos(dir)
-        dy = distance * sin(dir)
-        self.positionX = self.positionX + dx
-        self.positionY = self.positionY - dy
+        #calcule la position de départ de la roue gauche (point d)
+        dir = (self.dir + 90) * pi / 180 #conversion des degrés en radians. dir est la direction du centre du robot vers la roue gauche
+        dist_to_wheelX = self.half_dist_between_wheels * cos(dir)
+        dist_to_wheelY = self.half_dist_between_wheels * sin(dir)
+        dx = self.positionX + dist_to_wheelX
+        dy = self.positionY - dist_to_wheelY
+
+        # print("dir=" + str(dir))
+        # print("dist_to_wheelX =" + str(dist_to_wheelX))
+        # print("dx =" + str(dx))
+        # print("dy =" + str(dy))
+
+        #calcule la position de départ de la roue droite (point b)
+        dir = (self.dir - 90) * pi / 180 #conversion des degrés en radians. dir est la direction du centre du robot vers la roue droite
+        dist_to_wheelX = self.half_dist_between_wheels * cos(dir)
+        dist_to_wheelY = self.half_dist_between_wheels * sin(dir)
+        bx = self.positionX + dist_to_wheelX
+        by = self.positionY - dist_to_wheelY
+
+        # print("bx =" + str(bx))
+        # print("by =" + str(by))
+
+        #calcule la distance parcourue par la roue gauche
+        dg = (2 * pi * self.radius_of_wheels) * (angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue
+
+        #calcule la distance parcourue par la roue droite
+        dd = (2 * pi * self.radius_of_wheels) * (angle_rotated_right_wheel / 360)
+
+        # print("dg =" + str(dg))
+        # print("dd =" + str(dd))
+
+        ratio = dg / dd
+
+
+        db = WHEEL_BASE_WIDTH #distance entre d et b (c'est la dist entre les roues dans les 2 cas)
+        ad = - ((db * ratio) / (ratio - 1)) #distance entre a l'origine de l'arc de cercle décrit par le robot et e
+
+        # print("db =" + str(db))
+        # print("ad =" + str(ad))
+    
+        ec = WHEEL_BASE_WIDTH #distance entre e et c est égale à celle entre d et b 
+        ae = - ((ec * ratio) / (ratio - 1)) #distance entre a l'origine de l'arc de cercle décrit par le robot et e
+
+        # print("ec =" + str(ec))s
+        # print("ae =" + str(ae))
+
+        # print("dg =" + str(dg))
+        # print("ae =" + str(ae))
+        alpha = (360 * dg)  / (2 * pi * ae) #angle de l'arc de cercle décrit
+
+        # print("alpha=" + str(alpha))
+       
+        #calcule position de l'origine
+        dir = (self.dir + 90) * pi / 180 #conversion des degrés en radians. dir est la direction du centre du robot vers l'origine du cercle
+        dist_X = ad * cos(dir)
+        dist_Y = ad * sin(dir)
+        ax = dx + dist_X
+        ay = dy - dist_Y
+        
+        # print("dir=" + str(dir))
+        # print("ad =" + str(ad))
+        # print("dist_X =" + str(dist_X))
+        # print("ax =" + str(ax))
+        # print("ay =" + str(ay))
+
+
+        #calcule position de fin de la roue gauche (point e)
+        alpha = alpha * pi / 180 #conversion des degrés en radians
+        dist_X = ae * cos(alpha)
+        dist_Y = ae * sin(alpha)
+        ex = ax + dist_X
+        ey = ay - dist_Y
+
+        # print("ex =" + str(ex))
+        # print("ey =" + str(ey))
+
+
+        #calcule position de fin de la roue droite (point c)
+        ac = ae + ec
+        dist_X = ac * cos(alpha)
+        dist_Y = ac * sin(alpha)
+        cx = ax + dist_X
+        cy = ay - dist_Y
+
+
+
+        pos_robot = centreline(ex, ey, cx, cy) #retourne le couple de la position finale du robot (milieu de la pos finale des roues)
+        # print("pos_robot =" + str(pos_robot))
+
+        #Maj la position du robot
+        self.positionX = pos_robot[0]
+        self.positionY = pos_robot[1]
+
+        # dir = self.dir * (pi / 180)
+        # alpha = (dd - dg) / WHEEL_BASE_WIDTH + dir
+        self.dir = self. dir - alpha * (180 / pi) #maj la direction du robot
+
+        # print("self.positionX =" + str(self.positionX))
+        # print("self.positionY =" + str(self.positionY))
+
+    def deplacerEnArcRobot2(self, angle_rotated_left_wheel, angle_rotated_right_wheel):
+
+        #calcule la distance parcourue par la roue gauche
+        dg = (2 * pi * self.radius_of_wheels) * (angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue
+
+        #calcule la distance parcourue par la roue droite
+        dd = (2 * pi * self.radius_of_wheels) * (angle_rotated_right_wheel / 360)
+
+        dir = self.dir * (pi / 180)
+        alpha = (dd - dg) / WHEEL_BASE_WIDTH + dir
+
+        self.positionX = self.positionX + ( (WHEEL_BASE_WIDTH * (dd + dg)) / (2 * (dd - dg)) ) * ( sin(alpha) - sin(dir) )
+        self.positionY = self.positionY + ( (WHEEL_BASE_WIDTH * (dd + dg)) / (2 * (dd - dg)) ) * ( cos(alpha) - cos(dir) )
+
+        self.dir = alpha * (180 / pi) #maj la direction du robot
+
+
+    def deplacerEnArcRobot3(self, angle_rotated_left_wheel, angle_rotated_right_wheel):
+
+        #calcule la distance parcourue par la roue gauche
+        dg = (2 * pi * self.radius_of_wheels) * (angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue
+
+        #calcule la distance parcourue par la roue droite
+        dd = (2 * pi * self.radius_of_wheels) * (angle_rotated_right_wheel / 360)
+
+        s = (dd + dg) / 2
+        dir = self.dir * (pi / 180)
+        alpha = (dd - dg) / WHEEL_BASE_WIDTH + dir
+
+        self.positionX = s * cos(alpha) + self.positionX
+        self.positionY = -(s * sin(alpha)) + self.positionY
+
+        self.dir = alpha * (180 / pi)
+
+
 
     def update(self):
         """
@@ -101,20 +230,25 @@ class Robot:
         """
         current_time = time()
         elapsed_time = current_time - self.last_time
-        angle_rotated = abs(self.speedLeftWheel) * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
+        angle_rotated_left_wheel = self.speedLeftWheel * elapsed_time # Angle effectué par la roue = Vitesse (Degrés Par Seconde) * Temps (Secondes)
 
         if self.wheelMode == 1: #roues en mode 1 pour avancer/reculer
-            self.deplacerRobot(angle_rotated)
-            self.angle_rotated_left_wheel += angle_rotated
-            self.angle_rotated_right_wheel += angle_rotated
+            self.deplacerRobot(angle_rotated_left_wheel)
+            self.angle_rotated_left_wheel += angle_rotated_left_wheel
+            self.angle_rotated_right_wheel += angle_rotated_left_wheel
 
         elif self.wheelMode == 2: #roues en mode 2 pour tourner
-            self.updateDir(angle_rotated)
-            self.angle_rotated_left_wheel -= angle_rotated
-            self.angle_rotated_right_wheel += angle_rotated
+            self.updateDir(angle_rotated_left_wheel)
+            self.angle_rotated_left_wheel -= angle_rotated_left_wheel
+            self.angle_rotated_right_wheel += angle_rotated_left_wheel
 
         elif self.wheelMode == 3: #roues en mode 3 pour tracer un arc de cercle
-            
+            angle_rotated_right_wheel = self.speedRightWheel * elapsed_time
+            self.deplacerEnArcRobot(angle_rotated_left_wheel, angle_rotated_right_wheel)
+            self.angle_rotated_left_wheel += angle_rotated_left_wheel
+            self.angle_rotated_right_wheel += angle_rotated_right_wheel
+            # print("angle_rotated_left=" + str(self.angle_rotated_left_wheel))
+            # print("angle_rotated_right=" + str(self.angle_rotated_right_wheel))
 
         self.last_time = time()
 

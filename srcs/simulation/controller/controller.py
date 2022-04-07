@@ -2,7 +2,7 @@ from time import sleep
 from math import pi
 from simulation import config
 
-SAFE_DISTANCE = 300
+SAFE_DISTANCE = 10 #bonne valeur pour le vrai robot = 300 mm
 
 
 UPDATE_FREQUENCY = 0.1 #en secondes
@@ -220,7 +220,7 @@ class ArcStrategy:
 		self.speed = speed #vitesse de référence est celle de la roue intérieure
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
-		self.covered_distance = 0
+		self.distance_covered = 0
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
@@ -229,16 +229,16 @@ class ArcStrategy:
 
 		#Calcul de la vitesse et de la distance pour les roues
 		r1 = self.diameter / 2 #rayon entre le centre du cercle décrit par le robot et la roue intérieure
-		r2 = r1 + (self.proxy.getHalfDistBetweenWheels * 2) #rayon entre le centre du cercle décrit par le robot et la roue extérieure
+		r2 = r1 + (self.proxy.getHalfDistBetweenWheels() * 2) #rayon entre le centre du cercle décrit par le robot et la roue extérieure
 		dg = (self.angle / 360) * 2 * pi * r1 #distance que la roue gauche doit parcourir
 		dd = (self.angle / 360) * 2 * pi * r2 #distance que la roue droite doit parcourir
-		ratio = dd / dg #ratio entre les distances
+		ratio = dg / dd #ratio entre les distances
 
 		self.distance_to_cover = dg #la roue intérieure sert de référence pour savoir si la stratégie est achevée
 
 		#Le différentiel de vitesse entre les roues permet un trajectoire en arc de cercle
-		self.proxy.setSpeedLeftWheel(self.speed) #vitesse de référence est celle de la roue intérieure
-		self.proxy.setSpeedRightWheel(self.speed * ratio) #vitesse de la roue extérieure est ratio plus rapide
+		self.proxy.setSpeedLeftWheel(self.speed * ratio) #vitesse de référence est celle de la roue intérieure
+		self.proxy.setSpeedRightWheel(self.speed) #vitesse de la roue extérieure est ratio plus rapide
 
 
 	def step(self):
@@ -246,9 +246,8 @@ class ArcStrategy:
 		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
 		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
-		print("dst_covrd="+str(self.distance_covered))
 		if self.stop():
-			print("STOP ROBOT")
+			print("FIN DE STRAT !!!")
 			self.proxy.setSpeed(0)
 			return
 
@@ -261,10 +260,9 @@ class ArcStrategy:
 
 	def stop(self):
 		pas = self.proxy.getDistance()
-		print("pas=" + str(pas))
-		if pas <= SAFE_DISTANCE :
-			print("pas <= safe")
-			return True
+		# if pas <= SAFE_DISTANCE :
+		# 	print("pas <= safe")
+		# 	return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover
 		else :

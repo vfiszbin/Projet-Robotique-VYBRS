@@ -11,7 +11,7 @@ def main_simu():
 	from simulation.modele.updateModele import UpdateModele
 	from SetEnvironment import SetEnvironment
 	from simulation.modele.robot import Robot
-	from simulation.modele.obstacle import Obstacle
+	
 	config.simu_or_real = 1 #var globale dans config, indique si le robot est simulé (1) ou réel (2)
 	#Creation de l'environnement
 	rob = Robot(300,200)
