@@ -2,7 +2,7 @@ from time import sleep
 from math import pi
 from simulation import config
 
-SAFE_DISTANCE = 10 #bonne valeur pour le vrai robot = 300 mm
+SAFE_DISTANCE = 50 #bonne valeur pour le vrai robot = 300 mm
 
 
 UPDATE_FREQUENCY = 0.1 #en secondes
@@ -211,9 +211,14 @@ class Navigate :
 class ArcStrategy:
 	"""
 	Stratégie faisant tracer au robot un arc de cercle d'un certain angle et d'un certain diametre
+	Si to_left_or_right == 0 : le robot trace un arc de cercle à sa gauche
+	Vitesse et angle positifs : le robot trace un arc de cercle dans le sens anti horaire en roulant vers l'avant
+	Vitesse et angle négatifs : le robot trace un arc de cercle dans le sens horaire en roulant en reculant
+	Si to_left_or_right == 1 : le robot trace un arc de cercle à sa droite
+	C'est l'inverse
 	"""
-	def __init__(self, proxy, angle, speed, diameter):
-		#Vitesse et angle doivent avoir le même signe (aller dans la même direction)
+	def __init__(self, proxy, angle, speed, diameter, to_left_or_right):
+
 		self.proxy = proxy
 		self.diameter = diameter #on considere que le diametre va du centre du cercle tracé par le robot à la roue intérieur (la plus proche du centre du cercle) du robot
 		self.angle = angle
@@ -221,6 +226,7 @@ class ArcStrategy:
 		self.angle_rotated_left_wheel = 0
 		self.angle_rotated_right_wheel = 0
 		self.distance_covered = 0
+		self.to_left_or_right = to_left_or_right
 
 	def start(self):
 		#reset l'angle dont ont tourné les roues avant de démarrer la stratégie
@@ -230,16 +236,31 @@ class ArcStrategy:
 		#Calcul de la vitesse et de la distance pour les roues
 		r1 = self.diameter / 2 #rayon entre le centre du cercle décrit par le robot et la roue intérieure
 		r2 = r1 + (self.proxy.getHalfDistBetweenWheels() * 2) #rayon entre le centre du cercle décrit par le robot et la roue extérieure
-		dg = (self.angle / 360) * 2 * pi * r1 #distance que la roue gauche doit parcourir
-		dd = (self.angle / 360) * 2 * pi * r2 #distance que la roue droite doit parcourir
-		ratio = dg / dd #ratio entre les distances
 
-		self.distance_to_cover = dg #la roue intérieure sert de référence pour savoir si la stratégie est achevée
+		#on veut decrire un arc de cercle a gauche du robot
+		if (self.to_left_or_right == 0): 
+			dg = (self.angle / 360) * 2 * pi * r1 #distance que la roue gauche doit parcourir
+			dd = (self.angle / 360) * 2 * pi * r2 #distance que la roue droite doit parcourir
 
-		#Le différentiel de vitesse entre les roues permet un trajectoire en arc de cercle
-		self.proxy.setSpeedLeftWheel(self.speed * ratio) #vitesse de référence est celle de la roue intérieure
-		self.proxy.setSpeedRightWheel(self.speed) #vitesse de la roue extérieure est ratio plus rapide
+			ratio = dg / dd #ratio entre les distances
 
+			self.distance_to_cover = dg #la roue gauche sert de référence pour savoir si la stratégie est achevée
+
+			#Le différentiel de vitesse entre les roues permet un trajectoire en arc de cercle
+			self.proxy.setSpeedLeftWheel(self.speed * ratio) #vitesse de la roue intérieure est ratio moins rapide que celle de la roue exterieure
+			self.proxy.setSpeedRightWheel(self.speed)
+
+		#on veut decrire un arc de cercle a droite du robot
+		else : 
+			#inverse dd et dg
+			dd = (self.angle / 360) * 2 * pi * r1
+			dg = (self.angle / 360) * 2 * pi * r2
+
+			ratio = dd / dg #ratio entre les distances inversé
+			self.distance_to_cover = dg
+
+			self.proxy.setSpeedLeftWheel(self.speed)
+			self.proxy.setSpeedRightWheel(self.speed * ratio)
 
 	def step(self):
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
@@ -255,14 +276,15 @@ class ArcStrategy:
 		"""
 		calcule la distance parcourue par le robot selon l'angle dont les roues ont tourné
 		"""
-		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue intérieure
+		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue gauche
 		return distance
 
 	def stop(self):
 		pas = self.proxy.getDistance()
-		# if pas <= SAFE_DISTANCE :
-		# 	print("pas <= safe")
-		# 	return True
+		if pas <= SAFE_DISTANCE :
+			print("pas <= safe")
+			self.proxy.setSpeed(0)
+			return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover
 		else :
