@@ -6,7 +6,7 @@ class Obstacle:
     def __init__(self,positionX,positionY,width,height):
         """
         :positionX: int
-        :positionX: int
+        :positionY: int
 	    :width: int
         :height: int
         Cree un obstacle avec (positionX,positionY) : les coordonnes  int du point d'extremites en haut a gauche.

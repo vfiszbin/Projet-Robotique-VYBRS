@@ -141,6 +141,7 @@ class TestEnvironment(unittest.TestCase):
     def setUp(self):
         self.env1=Environment(500,300)
         self.rob=Robot(2,3)
+        self.obs=Obstacle(9,7,20,13)
 
 
     def test_addObject(self):
@@ -163,7 +164,11 @@ class TestEnvironment(unittest.TestCase):
         #c : bool
         c = self.env1.testCollisionRob(self.rob) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
         self.assertTrue(c)
-
+    
+    def test_testCollisionObs(self):
+        #c : bool
+        c = self.env1.testCollisionObs(self.obs) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
+        self.assertTrue(c)
 
 
 
