@@ -14,8 +14,8 @@ class SetEnvironment :
 		obs2 = Obstacle(600,160,30,100)
 		env.addObs(obs2)
 
-		obs3 = Obstacle(280,150,40,10)
-		env.addObs(obs3)
+		# obs3 = Obstacle(280,150,40,10)
+		# env.addObs(obs3)
 
 
 

@@ -20,7 +20,8 @@ class SetStrategies :
 		self.sequences = [] #la liste contenant les séquences de stratégies
 		seq2=StrategySeq()
 		# s2=moveForwardStrategy(proxy, 500, 50)
-		s2=TurnStrategy(proxy,90,50)
+		s2=TurnStrategy(proxy, 90, 50)
+		# s2 = ArcStrategy(proxy, 45, 120, 10, 0)
 		seq2.addStrategy(s2)
 		self.sequences.append(seq2)
 

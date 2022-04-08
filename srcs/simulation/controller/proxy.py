@@ -16,6 +16,12 @@ class ProxySimu:
 	def setSpeed(self, speed):
 		self.rob.changeSpeed(speed)
 
+	def setSpeedLeftWheel(self, speed):
+		self.rob.setSpeedLeftWheel(speed)
+
+	def setSpeedRightWheel(self, speed):
+		self.rob.setSpeedRightWheel(speed)
+
 	def setWheelMode(self, mode):
 		self.rob.changeWheelMode(mode)
 
@@ -58,6 +64,12 @@ class ProxyReal:
 		elif self.wheelMode == 2:
 			self.rob.set_motor_dps(self.rob.MOTOR_LEFT, -speed)
 			self.rob.set_motor_dps(self.rob.MOTOR_RIGHT, speed)
+
+	def setSpeedLeftWheel(self, speed):
+		self.rob.set_motor_dps(self.rob.MOTOR_LEFT, speed)
+
+	def setSpeedRightWheel(self, speed):
+		self.rob.set_motor_dps(self.rob.MOTOR_LEFT, speed)
 
 	def setWheelMode(self, mode):
 		self.wheelMode = mode
