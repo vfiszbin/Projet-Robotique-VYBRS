@@ -170,8 +170,6 @@ class TestEnvironment(unittest.TestCase):
         c = self.env1.testCollisionObs(self.obs) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
         self.assertTrue(c)
 
-
-
     if __name__ == '__main__':
         unittest.main()
     
