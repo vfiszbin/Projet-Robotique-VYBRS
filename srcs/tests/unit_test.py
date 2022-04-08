@@ -44,10 +44,9 @@ class TestRobot(unittest.TestCase):
 
 
     def test_changeSpeed(self):
-        self.r1.changeSpeed(0)
-        self.r1.changeSpeed(20)
-        self.r2.changeSpeed(10)
-        self.r2.changeSpeed(-40)
+        first_speed=self.r1.speedLeftWheel
+        self.r1.changeSpeed(50)
+        self.assertEqual(self.r1.speedLeftWheel,(first_speed+50))
 
     def test_detecteCollision(self):
         test_obj = Obstacle(10,50,100,30)
