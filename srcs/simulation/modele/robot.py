@@ -222,6 +222,21 @@ class Robot:
 
         self.dir = alpha * (180 / pi)
 
+    def deplacerEnArcRobot4(self, angle_rotated_left_wheel, angle_rotated_right_wheel):
+        #calcule la distance parcourue par la roue gauche
+        dg = (2 * pi * self.radius_of_wheels) * (angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue
+
+        #calcule la distance parcourue par la roue droite
+        dd = (2 * pi * self.radius_of_wheels) * (angle_rotated_right_wheel / 360)
+
+        dir = self.dir * (pi / 180)
+        alpha = (dd - dg) / WHEEL_BASE_WIDTH + dir
+
+        self.positionX = self.positionX + (dd + dg) / 2 * cos(alpha)
+        self.positionY = self.positionY - (dd + dg) / 2 * sin(alpha)
+
+        self.dir = alpha * (180 / pi) #maj la direction du robot
+
 
 
     def update(self):
@@ -244,7 +259,7 @@ class Robot:
 
         elif self.wheelMode == 3: #roues en mode 3 pour tracer un arc de cercle
             angle_rotated_right_wheel = self.speedRightWheel * elapsed_time
-            self.deplacerEnArcRobot(angle_rotated_left_wheel, angle_rotated_right_wheel)
+            self.deplacerEnArcRobot4(angle_rotated_left_wheel, angle_rotated_right_wheel)
             self.angle_rotated_left_wheel += angle_rotated_left_wheel
             self.angle_rotated_right_wheel += angle_rotated_right_wheel
             # print("angle_rotated_left=" + str(self.angle_rotated_left_wheel))

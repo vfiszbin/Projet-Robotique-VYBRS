@@ -21,7 +21,7 @@ class SetStrategies :
 		seq2=StrategySeq()
 		# s2=moveForwardStrategy(proxy, 500, 50)
 		# s2=TurnStrategy(proxy, 90, 50)
-		s2 = ArcStrategy(proxy, 90, 10, 10)
+		s2 = ArcStrategy(proxy, 360, 100, 10)
 		seq2.addStrategy(s2)
 		self.sequences.append(seq2)
 
