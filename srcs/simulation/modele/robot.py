@@ -1,7 +1,6 @@
 from math import *
 from .obstacle import Obstacle
 from time import time
-from ..lib import getdistancePoints,centreline
 
 WHEEL_DIAMETER = 66.5 #en mm, tiré de l'attribut WHEEL_DIAMETER du vrai robot
 WHEEL_BASE_WIDTH = 130 #en mm, distance entre les roues du robot, tiré de l'attribut WHEEL_BASE_WIDTH du vrai robot
