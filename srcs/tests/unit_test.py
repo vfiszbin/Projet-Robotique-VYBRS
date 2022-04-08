@@ -85,21 +85,21 @@ class TestRobot(unittest.TestCase):
 
 
     def test_update(self):
-        """ verifie si la distance  entre le centre du robot est l'une de ses roues et mise a jour
+        """ verifie si la distance  entre le centre du robot et l'une de ses roues est mise a jour
         """
         current_time = time()
         elapsed_time = current_time - self.r1.last_time
-        angle_rotated = self.r1.speed * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
+        angle_rotated = self.r1.dir * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
         first_angle_rotated_left_wheel=self.r1.angle_rotated_left_wheel
         first_angle_rotated_right_wheel=self.r1.angle_rotated_right_wheel
         self.r1.update()
         if self.r1.wheelMode == 1: #roues en mode 1 pour avancer/reculer
-            self.assertEqual(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel+angle_rotated))
-            self.assertEqual(self.r1.angle_rotated_right_wheel ,(first_angle_rotated_right_wheel+angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel+angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_right_wheel ,(first_angle_rotated_right_wheel+angle_rotated))
 
         elif self.wheelMode == 2: #roues en mode 2 pour tourner
-            self.assertEqual(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel-angle_rotated))
-            self.assertEqual(self.r1.angle_rotated_right_wheel ,( first_angle_rotated_right_wheel+angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel-angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_right_wheel ,( first_angle_rotated_right_wheel+angle_rotated))
 
         self.r1.last_time = time()
     
