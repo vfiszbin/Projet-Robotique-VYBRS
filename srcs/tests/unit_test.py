@@ -140,6 +140,7 @@ class TestEnvironment(unittest.TestCase):
 
     def setUp(self):
         self.env1=Environment(500,300)
+        self.env2=Environment(800,200)
         self.rob=Robot(2,3)
         self.obs=Obstacle(9,7,20,13)
 
@@ -169,6 +170,16 @@ class TestEnvironment(unittest.TestCase):
         #c : bool
         c = self.env1.testCollisionObs(self.obs) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
         self.assertTrue(c)
+    
+    def test_addObject(self):
+        # addObject prend un objet de type Environment puis l'ajoute à l'environnement.
+        test_obj = Obstacle(5,25,102,30)
+        self.env1.addObject(test_obj) 
+        self.assertIn(test_obj,self.env1.objects) # un environement est un ensemble d'objets
+        
+        
+
+
 
     if __name__ == '__main__':
         unittest.main()
