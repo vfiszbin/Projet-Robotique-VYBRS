@@ -65,9 +65,9 @@ class TestRobot(unittest.TestCase):
         self.assertAlmostEqual(self.r1.dir, (first_direction+angle_rotated_by_robot))
 
     def test_changeSpeed(self):
-        first_speed=self.r1.speed
+        first_speed=self.r1.speedLeftWheel
         self.r1.changeSpeed(50)
-        self.assertEqual(self.r1.speed,(first_speed+50))
+        self.assertEqual(self.r1.speedLeftWheel,(first_speed+50))
 
 
     def test_deplacerRobot(self):
@@ -158,9 +158,18 @@ class TestEnvironment(unittest.TestCase):
     def test_addRob(self):
         self.env1.addRob(self.rob)
         self.assertIn(self.rob,self.env1.objects)
+    
+    def test_testCollisionRob(self):
+        #c : bool
+        c = self.env1.testCollisionRob(self.rob) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
+        self.assertTrue(c)
+
+
+
 
     if __name__ == '__main__':
         unittest.main()
+    
 
 
 class TestObstacle(unittest.TestCase):
