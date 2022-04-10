@@ -44,10 +44,9 @@ class TestRobot(unittest.TestCase):
 
 
     def test_changeSpeed(self):
-        self.r1.changeSpeed(0)
-        self.r1.changeSpeed(20)
-        self.r2.changeSpeed(10)
-        self.r2.changeSpeed(-40)
+        first_speed=self.r1.speedLeftWheel
+        self.r1.changeSpeed(50)
+        self.assertEqual(self.r1.speedLeftWheel,(first_speed+50))
 
     def test_detecteCollision(self):
         test_obj = Obstacle(10,50,100,30)
@@ -66,9 +65,9 @@ class TestRobot(unittest.TestCase):
         self.assertAlmostEqual(self.r1.dir, (first_direction+angle_rotated_by_robot))
 
     def test_changeSpeed(self):
-        first_speed=self.r1.speed
+        first_speed=self.r1.speedLeftWheel
         self.r1.changeSpeed(50)
-        self.assertEqual(self.r1.speed,(first_speed+50))
+        self.assertEqual(self.r1.speedLeftWheel,(first_speed+50))
 
 
     def test_deplacerRobot(self):
@@ -86,21 +85,21 @@ class TestRobot(unittest.TestCase):
 
 
     def test_update(self):
-        """ verifie si la distance  entre le centre du robot est l'une de ses roues et mise a jour
+        """ verifie si la distance  entre le centre du robot et l'une de ses roues est mise a jour
         """
         current_time = time()
         elapsed_time = current_time - self.r1.last_time
-        angle_rotated = self.r1.speed * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
+        angle_rotated = self.r1.dir * elapsed_time # Angle effectué par les roues = Vitesse (Degrés Par Seconde) * Temps (Secondes)
         first_angle_rotated_left_wheel=self.r1.angle_rotated_left_wheel
         first_angle_rotated_right_wheel=self.r1.angle_rotated_right_wheel
         self.r1.update()
         if self.r1.wheelMode == 1: #roues en mode 1 pour avancer/reculer
-            self.assertEqual(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel+angle_rotated))
-            self.assertEqual(self.r1.angle_rotated_right_wheel ,(first_angle_rotated_right_wheel+angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel+angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_right_wheel ,(first_angle_rotated_right_wheel+angle_rotated))
 
         elif self.wheelMode == 2: #roues en mode 2 pour tourner
-            self.assertEqual(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel-angle_rotated))
-            self.assertEqual(self.r1.angle_rotated_right_wheel ,( first_angle_rotated_right_wheel+angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_left_wheel ,( first_angle_rotated_left_wheel-angle_rotated))
+            self.assertFalse(self.r1.angle_rotated_right_wheel ,( first_angle_rotated_right_wheel+angle_rotated))
 
         self.r1.last_time = time()
     
@@ -141,7 +140,9 @@ class TestEnvironment(unittest.TestCase):
 
     def setUp(self):
         self.env1=Environment(500,300)
+        self.env2=Environment(800,200)
         self.rob=Robot(2,3)
+        self.obs=Obstacle(9,7,20,13)
 
 
     def test_addObject(self):
@@ -159,9 +160,30 @@ class TestEnvironment(unittest.TestCase):
     def test_addRob(self):
         self.env1.addRob(self.rob)
         self.assertIn(self.rob,self.env1.objects)
+    
+    def test_testCollisionRob(self):
+        #c : bool
+        c = self.env1.testCollisionRob(self.rob) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
+        self.assertTrue(c)
+    
+    def test_testCollisionObs(self):
+        #c : bool
+        c = self.env1.testCollisionObs(self.obs) # on s'assure qu'il y a  un conflit entre la position du robot et les objets de l'environment
+        self.assertTrue(c)
+    
+    def test_addObject(self):
+        # addObject prend un objet de type Environment puis l'ajoute à l'environnement.
+        test_obj = Obstacle(5,25,102,30)
+        self.env1.addObject(test_obj) 
+        self.assertIn(test_obj,self.env1.objects) # un environement est un ensemble d'objets
+        
+        
+
+
 
     if __name__ == '__main__':
         unittest.main()
+    
 
 
 class TestObstacle(unittest.TestCase):

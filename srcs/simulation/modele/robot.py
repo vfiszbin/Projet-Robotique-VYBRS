@@ -233,6 +233,7 @@ class Robot:
     def getDistance(self, env):
         """
         :objects: [Obstacles]
+        Connaitre la distance d'un obstacle devant le robot.
         """
         pas=0
         taille_pas = 1
