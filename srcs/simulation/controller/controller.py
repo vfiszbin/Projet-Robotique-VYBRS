@@ -289,4 +289,17 @@ class ArcStrategy:
 			return self.distance_covered >= self.distance_to_cover
 		else :
 			return self.distance_covered <= self.distance_to_cover
+
+class moveToWallStrategy:
+	"""
+	Le robot doit atteindre le mur à une vitesse la plus raisonnable sans le toucher.
+	"""
+	def __init__(self,proxy,speed,wall,to_left_or_right):
+		self.proxy = proxy
+		self.speed = speed 
+		self.wall = wall 
+		self.to_left_or_right=to_left_or_right
+	
+	
+
 	
