@@ -10,17 +10,16 @@ UPDATE_FREQUENCY = 0.1 #en secondes
 
 def strategySequences(sequences):
 
+
 	for seq in sequences: #execute chaque séquence de stratégies de la liste sequences
 		execStrategySeq(seq)
-	print("fin stratseq")
 
 def execStrategySeq(seq):
 	#Execute la sequence de strategies
 	while not seq.stop():
 		seq.step()
 		sleep(UPDATE_FREQUENCY)
-	sleep(1) #pause dans la démo
-	print("fin execstrat")
+	# sleep(1) #pause dans la démo
 
 class StrategySeq :
 	"""
@@ -73,9 +72,8 @@ class moveForwardStrategy:
 		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
 		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
-		print("dst_covrd="+str(self.distance_covered))
+
 		if self.stop():
-			print("STOP ROBOT")
 			self.proxy.setSpeed(0)
 			return
 
@@ -91,14 +89,11 @@ class moveForwardStrategy:
 		rend True si le robot est proche d'un obstacle
 		"""
 		pas = self.proxy.getDistance()
-		print("pas=" + str(pas))
 		return pas <= SAFE_DISTANCE
 
 	def stop(self):
 		pas = self.proxy.getDistance()
-		print("pas=" + str(pas))
 		if pas <= SAFE_DISTANCE :
-			print("pas <= safe")
 			return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover
@@ -130,8 +125,6 @@ class TurnStrategy:
 		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
 		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
 		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
-		print(self.angle_rotated_left_wheel)
-		print(self.angle_rotated_right_wheel)
 		self.angle_covered = self.covered_angle()
 		if self.stop():
 			self.proxy.setSpeed(0) #arrête la rotation du robot
@@ -143,7 +136,6 @@ class TurnStrategy:
 		"""
 		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_right_wheel / 360) #distance parcourue à partir de l'angle effectué par les roues
 		angle_covered = (360 * distance) / (2 * pi * self.proxy.getHalfDistBetweenWheels()) #angle dont le robot a tourné
-		print("angle_covered=" + str(angle_covered))
 		return angle_covered
 
 	def stop(self):
@@ -268,7 +260,6 @@ class ArcStrategy:
 		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
 		if self.stop():
-			print("FIN DE STRAT !!!")
 			self.proxy.setSpeed(0)
 			return
 
@@ -282,11 +273,12 @@ class ArcStrategy:
 	def stop(self):
 		pas = self.proxy.getDistance()
 		if pas <= SAFE_DISTANCE :
-			print("pas <= safe")
 			self.proxy.setSpeed(0)
 			return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover
 		else :
 			return self.distance_covered <= self.distance_to_cover
+
+
 	
