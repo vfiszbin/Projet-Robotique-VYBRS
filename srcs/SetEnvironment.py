@@ -8,11 +8,11 @@ class SetEnvironment :
 		env.addRob(rob)
 
 
-		#Ajout des obstacle
-		obs = Obstacle(10,50,100,30)
-		env.addObs(obs)
-		obs2 = Obstacle(600,160,30,100)
-		env.addObs(obs2)
+		# #Ajout des obstacle
+		# obs = Obstacle(10,50,100,30)
+		# env.addObs(obs)
+		# obs2 = Obstacle(600,160,30,100)
+		# env.addObs(obs2)
 
 		# obs3 = Obstacle(280,150,40,10)
 		# env.addObs(obs3)

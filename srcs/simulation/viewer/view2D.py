@@ -47,7 +47,7 @@ class View2D:
 		y0 = y - r
 		x1 = x + r
 		y1 = y + r
-		self.canvas.create_oval(x0, y0, x1, y1, fill="red")
+		self.canvas.create_oval(x0, y0, x1, y1, fill=rob.color)
 
 		#Création d'une flèche représentant la direction du robot
 		#Voir Schéma explicatif des calculs de direction

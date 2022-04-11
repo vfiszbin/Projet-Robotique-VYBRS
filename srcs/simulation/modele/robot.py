@@ -34,6 +34,8 @@ class Robot:
         self.angle_rotated_left_wheel = 0
         self.angle_rotated_right_wheel = 0
 
+        self.color = "#FD6C9E"
+
 
     def changeDir(self, dir):
         """
