@@ -115,8 +115,30 @@ class movePolygone(moveForwardStrategy):
         self.proxy.resetAngleRotated()
 		self.proxy.setWheelMode(1) 
 		self.proxy.setSpeed(self.speed) # on passe une vitesse au robot au demarage
+    def step(self):
+        """effectue le motif 1"""
+
+        self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft() # on recupere l'angle de totation de la roue gauche et droite
+		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
+        while(self.angle_rotated_left_wheel != 90 and self.angle_rotated_right_wheel!=90):
+            self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft() 
+		    self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()  #un triangle rectangle a un angle de 90 degres
         
-             
+        if self.stop():
+			self.proxy.setSpeed(0)
+			return
+            
+    def stop(self):
+            """ Arreter le parcour du robot"""
+
+            if self.distance >= 0:
+			    return self.distance_covered >= self.distance
+		    else:
+			    return self.distance_covered <= self.distance
+
+
+
+
 
 
 
