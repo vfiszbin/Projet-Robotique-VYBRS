@@ -35,8 +35,3 @@ class Wall(Obstacle):
             super().__init__(positionX,positionY,length,5)
 
 
-class Gemmes(Obstacle):
-	def __init__(self,positionX,positionY,length) :
-            super().__init__(positionX,positionY,length,length)
-
-
