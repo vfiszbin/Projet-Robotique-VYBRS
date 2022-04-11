@@ -3,7 +3,7 @@ from math import pi
 from simulation import config
 from threading import Thread
 
-SAFE_DISTANCE = 20
+SAFE_DISTANCE = 100
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
@@ -179,7 +179,7 @@ class SquareStrategy(StrategySeq) :
 	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
 	"""
 	def __init__(self, proxy, length,speed):
-		super().__init__()
+		super().__init__(proxy)
 		move = moveForwardStrategy(proxy, length, speed )
 		turnLeft = TurnStrategy(proxy, 90, speed)
 		self.sequence = [move, turnLeft] * 3 + [move]
@@ -191,7 +191,7 @@ class Navigate :
 		self.proxy=proxy
 		self.speed=speed
 		self.distance=distance
-		self.move=moveForwardStrategy(proxy,speed,distance)
+		self.move=moveForwardStrategy(proxy,distance,speed)
 		self.turn=TurnStrategy(proxy,90,speed)
 		self.running = None #pour savoir la stratégie en cours d'execution
 		self.covered_distance = 0 
@@ -212,7 +212,7 @@ class Navigate :
 			else :  # si turn s'arrete on réninitialise move et on la lance
 				self.covered_distance = self.move.distance_covered 
 				dist = self.distance -self.covered_distance # on recalcule la distance qui reste a faire
-				self.move= moveForwardStrategy(self.proxy,self.speed,dist)
+				self.move= moveForwardStrategy(self.proxy,dist,self.speed)
 				self.running = self.move		
 				self.running.start()
 		self.running.step()	
