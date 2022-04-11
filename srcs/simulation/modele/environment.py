@@ -1,6 +1,7 @@
 from math import *
 from .robot import Robot
 from .obstacle import Obstacle
+from .gemmes import Gemmes
 from ..lib import *
 
 class Environment:
@@ -81,6 +82,13 @@ class Environment:
         ajoute un robot à l'environnement
         """
         self.testCollisionObs(obs) and self.objects.append(obs)
+
+    def addGemmes(self,obj):
+        """
+        ajoute un robot à l'environnement
+        """
+        self.testCollisionObs(obj) and self.objects.append(obj)
+
 
     def addObject(self, obj):
         """

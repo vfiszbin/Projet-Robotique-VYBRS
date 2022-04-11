@@ -1,6 +1,7 @@
 from tkinter import Tk, Canvas
 from math import cos, sin, pi
 from ..modele.robot import Robot
+from ..modele.gemmes import Gemmes
 from ..modele.obstacle import Obstacle
 from .. import config
 
@@ -33,7 +34,10 @@ class View2D:
 			if isinstance(obj, Robot):
 				self.displayRobot(obj)
 
-			elif isinstance(obj, Obstacle):
+			if isinstance(obj, Gemmes):
+				self.displayGemmes(obj)
+
+			if isinstance(obj, Obstacle):
 				self.displayObstacle(obj)
 
 		self.window.after(UPDATE_FREQUENCY, self.update) # update() se rappelle elle même toutes les x ms
@@ -47,7 +51,7 @@ class View2D:
 		y0 = y - r
 		x1 = x + r
 		y1 = y + r
-		self.canvas.create_oval(x0, y0, x1, y1, fill="red")
+		self.canvas.create_oval(x0, y0, x1, y1, fill="pink")
 
 		#Création d'une flèche représentant la direction du robot
 		#Voir Schéma explicatif des calculs de direction
@@ -69,3 +73,11 @@ class View2D:
 		x1 = x0 + obs.width
 		y1 = y0 + obs.height
 		self.canvas.create_rectangle(x0, y0, x1, y1, fill="grey")
+
+	def displayGemmes(self,obj):
+		x0 = obj.positionX
+		y0 = obj.positionY
+		x1 = x0 + obj.width
+		y1 = y0 + obj.height
+		self.canvas.create_rectangle(x0, y0, x1, y1, fill="red")
+

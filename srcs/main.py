@@ -14,8 +14,8 @@ def main_simu():
 	from simulation.modele.obstacle import Obstacle
 	config.simu_or_real = 1 #var globale dans config, indique si le robot est simulé (1) ou réel (2)
 	#Creation de l'environnement
-	rob = Robot(300,200)
-	env = Environment(800,300)	
+	rob = Robot(300,400)
+	env = Environment(800,500)	
 	SetE = SetEnvironment(env,rob)
 	#Lance updateModele qui s'execute dans un thread secondaire
 	update_modele = UpdateModele(env,rob)

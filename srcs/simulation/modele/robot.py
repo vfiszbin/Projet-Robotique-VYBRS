@@ -1,5 +1,6 @@
 from math import *
 from .obstacle import Obstacle
+from .gemmes import Gemmes
 from time import time
 
 WHEEL_DIAMETER = 66.5 #en mm, tiré de l'attribut WHEEL_DIAMETER du vrai robot
@@ -196,6 +197,17 @@ class Robot:
                     return True
         return False
 
+    def is_inside_a_Gemmes_in_the_environment(self, posX, posY, env):
+        """
+        :objects: [Obstacles]
+        Renvoie True si le robot se trouve à l'intérieur d'un obstacle de l'environnement et False sinon.
+        """
+        for x in env.objects:
+            if isinstance(x, Gemmes):
+                if posX >= x.positionX and posX <= (x.positionX + x.width) and posY >= x.positionY and posY <= (x.positionY + x.height):
+                    return True
+        return False
+
     def getDistance(self, env):
         """
         :objects: [Obstacles]
@@ -214,3 +226,25 @@ class Robot:
             pas+=1
 
         return pas
+
+
+
+    def get_distance_gemmes(self, env):
+        """
+        :objects: [Obstacles]
+        """
+        pas=0
+        taille_pas = 1
+        posX = self.positionX
+        posY = self.positionY
+        dir = self.dir * pi / 180
+        dx = taille_pas * cos(dir)
+        dy = taille_pas * sin(dir)
+
+        while(not(self.is_inside_a_Gemmes_in_the_environment(posX, posY, env) or self.is_outside_of_the_environment(posX, posY, env))):
+            posX+=dx
+            posY-=dy
+            pas+=1
+
+        return pas
+

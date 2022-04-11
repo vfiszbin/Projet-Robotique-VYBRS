@@ -27,7 +27,10 @@ class ProxySimu:
 
 	def getDistance(self):
 		return self.rob.getDistance(self.env)
-
+	def getDistanceGemmes(self):
+		return self.rob.get_distance_gemmes(self.env)
+	def suppGemmes(self):
+		self.env.removeObject() #fonction qui doit supprimer la gemmes atteint
 class ProxyReal:
 	def __init__(self, rob):
 		self.rob = rob

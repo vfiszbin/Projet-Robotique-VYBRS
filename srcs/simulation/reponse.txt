@@ -1,0 +1,22 @@
+TME Solo Ranya ACHEK 
+q1 : couleur modifier dans view2D.py dans viewer
+
+Exo 2 :
+
+q2.1 : Reponse la strategie Motif1Strategy dans controller.py
+	à tester dans SetStrategies.py 
+
+
+q2.2 : Reponse la strategie Motif2Strategy dans controller.py
+	à tester dans SetStrategies.py 
+
+
+Exo3 : fichiers modifiés :
+q3.1
+	environment.py
+	gemmes.py #les gemmes sont de couleur rouge dans la simulation
+	view2D.py
+
+q3.2 
+	robot.py
+q3.3 : controller.py

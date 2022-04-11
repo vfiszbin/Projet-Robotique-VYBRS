@@ -15,11 +15,23 @@ class SetStrategies :
 
 	def __init__(self,rob, env) :
 		proxy = initializeProxy(rob,env)
+		self.sequences = [] #la liste contenant les séquences de stratégies
+		#test de seq motif1 :
+		#seqMotif1=StrategySeq(proxy)
+		#seqMotif1= Motif1Strategy(proxy,50,80)
+	
+		#self.sequences.append(seqMotif1)
+
+		#test de seq motif2 :
+		seqMotif2=StrategySeq(proxy)
+		seqMotif2=Motif2Strategy(proxy,50,80)
+		self.sequences.append(seqMotif2)
+
+
+
 
 		#Prépare des séquences de stratégies que le controleur va executer
-		self.sequences = [] #la liste contenant les séquences de stratégies
-		seq2=StrategySeq(proxy)
-
+		#seq2=StrategySeq(proxy)
 		#s2=moveForwardStrategy(proxy, 500, 50)
 		#s2=TurnStrategy(proxy,90,50)
 		#seq2.addStrategy(s2)
@@ -31,9 +43,9 @@ class SetStrategies :
 		# s1=moveForwardStrategy(proxy,200,50)
 		# s2=TurnStrategy(proxy,-70,-80)
 		# s3=moveBackwardStrategy(proxy, 250, 30)
-		s4=Navigate(proxy,100,700)
+		#s4=Navigate(proxy,100,700)
 		# seq2.addStrategy(s1)
 		# seq2.addStrategy(s2)
 		# seq2.addStrategy(s3)
-		seq2.addStrategy(s4)
-		self.sequences.append(seq2)
+		#seq2.addStrategy(s4)
+		#self.sequences.append(seq2)

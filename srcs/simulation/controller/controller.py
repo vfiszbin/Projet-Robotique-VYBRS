@@ -3,12 +3,12 @@ from math import pi
 from simulation import config
 from threading import Thread
 
-SAFE_DISTANCE = 100
+SAFE_DISTANCE = 20
 
 UPDATE_FREQUENCY = 0.1 #en secondes
 
 def updateLatestDist(proxy):
-
+	 #recupere les getdistances() toutes les 1 secondes
 	while not config.Fin_Strat :
 		print("fin strat",config.Fin_Strat)
 		sleep(1)
@@ -184,6 +184,23 @@ class SquareStrategy(StrategySeq) :
 		turnLeft = TurnStrategy(proxy, 90, speed)
 		self.sequence = [move, turnLeft] * 3 + [move]
 
+class Motif1Strategy(StrategySeq):
+	
+	def __init__(self,proxy,length,speed):
+		super().__init__(proxy)
+		move = moveForwardStrategy(proxy, length, speed )
+		turnLeft = TurnStrategy(proxy, 300, speed)
+		turnright = TurnStrategy(proxy, 90, speed)
+		turnLeftAgain = TurnStrategy(proxy, 300, speed)
+		self.sequence =[move,turnLeft,move,turnright,move,turnLeftAgain,move]
+class Motif2Strategy(StrategySeq):
+	def __init__(self,proxy,length,speed):
+		super().__init__(proxy)
+		move = moveForwardStrategy(proxy, length, speed )
+		turnLeft = TurnStrategy(proxy, 270, speed)
+		turnright =TurnStrategy(proxy, 90, speed)
+		self.sequence = [move]*2 + [turnLeft] + [move]*2 + [turnright ] +[move]*3 +[turnright] + [move]*2 +[turnLeft] + [move]
+		
 class Navigate :
 	""" classe qui permet d'alterner l'execution des deux stratégies 'moveForwardStrategy' et 'TurnStrategy' afin de naviger l'environment  sur une distance donner et tourner lorsque le robot s'approche d'un obstacle
 	"""
@@ -223,4 +240,20 @@ class Navigate :
 		else :
 			return self.move.distance_covered <= self.move.distance_to_cover
 
+class GetGemmes:
+	def __init__(self,proxy,speed,distance) :
+		self.proxy=proxy
+		self.speed=speed
+		self.distance=distance
+		self.navigate=Navigate(proxy,speed,distance) 
+		self.ramasse= 0
+	def start(self) :
+		self.navigate.start()
 
+	def step(self):
+		if self.proxy.getDistanceGemmes <= 0 :
+			self.ramasse += 1	
+			self.proxy.suppGemmes() # fonctions du proxy qui supprime la gemmes
+		
+	def stop(self):
+		self.navigate.stop()
