@@ -337,7 +337,7 @@ class RepeatMotif1Strategy() :
 		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine strat
 			if (config.obstacle_ahead == True):
 				self.sequence = []
-				self.sequence = [self.demi_tour, self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
+				self.sequence = [self.demi_tour, self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1] #redémarre la séquence après un demi-tour
 				config.obstacle_ahead = False
 
 			self.current_strat += 1

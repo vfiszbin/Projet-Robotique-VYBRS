@@ -8,6 +8,7 @@ import sys
 def main_simu():
 	from simulation.modele.environment import Environment
 	from simulation.viewer.view2D import View2D
+	from simulation.viewer.view3D import View3D
 	from simulation.modele.updateModele import UpdateModele
 	from SetEnvironment import SetEnvironment
 	from simulation.modele.robot import Robot
@@ -27,9 +28,8 @@ def main_simu():
 	controller_thread.start()
 	
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
-	View2D(env)
+	View3D(env)
 
-	
 
 
 def main_real():
