@@ -2,6 +2,11 @@ from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 from .. import config
 
+
+def input(key):
+	if key == 'escape':
+		quit()
+
 class View3D:
     def __init__(self, environment):
         self.window = Ursina() # create a window
@@ -12,10 +17,6 @@ class View3D:
 
         # start running the window
         self.window.run()
-
-    def input(key):
-        if key == 'escape':
-            quit()
 
     # def update():
     #     print("update")

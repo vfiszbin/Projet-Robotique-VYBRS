@@ -1,21 +1,26 @@
 from ursina import *
 
 class view3D:
-	# create a window
-	app = Ursina()
+	def __init__(self):
+		# create a window
+		app = Ursina()
+		editor_camera = EditorCamera()
 
-	editor_camera = EditorCamera()
-	
-	cube = Entity(model='cube', color=color.orange, scale=(2,2,2))
+		cube = Entity(model='cube', color=color.orange, scale=(2,2,2))
 
-	def input(key):
-		if key == 'escape':
-			quit()
+		# start running the window
+		app.run()
 
-	# start running the window
-	app.run()
 
-view3D()
+def input(key):
+	if key == 'escape':
+		quit()
+
+
+def start():
+	view3D()
+
+start()
 
 # # create a window
 # app = Ursina()

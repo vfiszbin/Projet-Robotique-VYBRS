@@ -4,11 +4,13 @@ from SetStrategies import SetStrategies
 from simulation import config
 import sys
 
+	
 
 def main_simu():
 	from simulation.modele.environment import Environment
 	from simulation.viewer.view2D import View2D
 	from simulation.viewer.view3D import View3D
+	from simulation.viewer.view3D import input
 	from simulation.modele.updateModele import UpdateModele
 	from SetEnvironment import SetEnvironment
 	from simulation.modele.robot import Robot
@@ -24,9 +26,10 @@ def main_simu():
 	#Creation des Strategies :
 	SetS = SetStrategies(rob, env)
 	#Lance le thread du controleur
-	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
-	controller_thread.start()
-	
+	# controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
+	# controller_thread.start()
+
+
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
 	View3D(env)
 
