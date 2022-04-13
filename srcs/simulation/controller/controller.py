@@ -94,6 +94,7 @@ class moveForwardStrategy:
 	def stop(self):
 		pas = self.proxy.getDistance()
 		if pas <= SAFE_DISTANCE :
+			config.obstacle_ahead = True
 			return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover
@@ -289,7 +290,65 @@ class moveToWallStrategy:
 		self.speed = speed 
 		self.wall = wall 
 		self.to_left_or_right=to_left_or_right
-	
-	
+
+
+class Motif1Strategy(StrategySeq) :
+
+	def __init__(self, proxy, speed):
+		super().__init__()
+		move1 = moveForwardStrategy(proxy, 50, speed )
+		move2 = moveForwardStrategy(proxy, 100, speed )
+		turnRight = TurnStrategy(proxy, -45, -speed)
+		turnLeft = TurnStrategy(proxy, 90, speed)
+		self.sequence = [move1, turnRight, move2, turnLeft, move2, turnRight, move1]
+			
+
+class Motif2Strategy(StrategySeq) :
+
+	def __init__(self, proxy, speed):
+		super().__init__()
+		move1 = moveForwardStrategy(proxy, 50, speed )
+		move2 = moveForwardStrategy(proxy, 75, speed )
+		move3 = moveForwardStrategy(proxy, 100, speed )
+		turnRight = TurnStrategy(proxy, -90, -speed)
+		turnLeft = TurnStrategy(proxy, 90, speed)
+		self.sequence = [move1, turnRight, move2, turnLeft, move3, turnLeft, move2, turnRight, move1]
+
+
+class RepeatMotif1Strategy() :
+	"""
+	Effectue le motif1 de manière répétée jusqu'à rencontrer un obstacle, puis fait demi-tour
+	et repart en exécutant le même motif, et ainsi de suite
+	"""
+
+	def __init__(self, proxy, speed):
+		self.move1 = moveForwardStrategy(proxy, 50, speed )
+		self.move2 = moveForwardStrategy(proxy, 100, speed )
+		self.turnRight = TurnStrategy(proxy, -45, -speed)
+		self.turnLeft = TurnStrategy(proxy, 90, speed)
+		self.sequence = [self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
+		self.demi_tour = TurnStrategy(proxy, 180, speed)
+		self.current_strat = -1
+		self.proxy = proxy
+
+	def step(self):
+		self.stop() #check si toutes les strat de la seq ont été executées, si c'est le cas, relance la séquence
+
+		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine strat
+			if (config.obstacle_ahead == True):
+				self.sequence = []
+				self.sequence = [self.demi_tour, self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
+				config.obstacle_ahead = False
+
+			self.current_strat += 1
+			self.sequence[self.current_strat].start()
+
+		self.sequence[self.current_strat].step()
+
+	def stop(self):
+		if self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop(): #on a atteint la dernière strat et elle est terminée
+			#On redémarre la séquence, mais on ne stoppe jamais la stratégie
+			self.sequence = [self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
+			self.current_strat = -1
 
 	
