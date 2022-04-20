@@ -9,8 +9,8 @@ import sys
 def main_simu():
 	from simulation.modele.environment import Environment
 	from simulation.viewer.view2D import View2D
-	from simulation.viewer.view3D import View3D
-	from simulation.viewer.view3D import input
+	# from simulation.viewer.view3D import View3D
+	# from simulation.viewer.view3D import input
 	from simulation.modele.updateModele import UpdateModele
 	from SetEnvironment import SetEnvironment
 	from simulation.modele.robot import Robot

@@ -58,7 +58,7 @@ class ProxyReal:
 		self.rob.offset_motor_encoder(self.rob.MOTOR_RIGHT, r_pos)
 
 	def setSpeed(self, speed):
-		if self.wheelMode == 1:
+		if self.wheelMode == 1 or self.wheelMode == 3:
 			self.rob.set_motor_dps(self.rob.MOTOR_LEFT + self.rob.MOTOR_RIGHT, speed)
 
 		elif self.wheelMode == 2:
@@ -69,7 +69,7 @@ class ProxyReal:
 		self.rob.set_motor_dps(self.rob.MOTOR_LEFT, speed)
 
 	def setSpeedRightWheel(self, speed):
-		self.rob.set_motor_dps(self.rob.MOTOR_LEFT, speed)
+		self.rob.set_motor_dps(self.rob.MOTOR_RIGHT, speed)
 
 	def setWheelMode(self, mode):
 		self.wheelMode = mode

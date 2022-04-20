@@ -272,6 +272,7 @@ class ArcStrategy:
 		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
 		if self.stop():
+			print("FIN STRATEGIE STEP")
 			self.proxy.setSpeed(0)
 			return
 
@@ -280,6 +281,7 @@ class ArcStrategy:
 		calcule la distance parcourue par le robot selon l'angle dont les roues ont tourné
 		"""
 		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue gauche
+		print("distance parcourue=" + str(distance))
 		return distance
 
 	def stop(self):
@@ -289,9 +291,17 @@ class ArcStrategy:
 			print("SAFE DISTANCE STOP !")
 			return True
 		if self.distance_to_cover >= 0 :
-			return self.distance_covered >= self.distance_to_cover
+			if self.distance_covered >= self.distance_to_cover:
+				print("FIN STRATEGIE STOP 1")
+				self.proxy.setSpeed(0)
+				return True
+			return False
 		else :
-			return self.distance_covered <= self.distance_to_cover
+			if self.distance_covered <= self.distance_to_cover:
+				print("FIN STRATEGIE STOP 2")
+				self.proxy.setSpeed(0)
+				return True
+			return False
 
 class moveToWallStrategy:
 	"""
