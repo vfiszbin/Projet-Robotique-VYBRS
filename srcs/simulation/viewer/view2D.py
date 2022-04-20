@@ -29,7 +29,7 @@ class View2D:
 		on utilise donc after() qui va appeler cette fonction toutes les x ms pour mettre à jour l'affichage graphique
 		'''
 		self.canvas.delete("all") # efface tous les objets déjà affichés, cela évite de créer des doubles
-		for obj in self.environment.objects: #représentation visuelle de chaque objet ajouté à l'environnement
+		for obj in self.environment.objects: #représentation visuelle de chaque objet ajoutée à l'environnement
 			if isinstance(obj, Robot):
 				self.displayRobot(obj)
 

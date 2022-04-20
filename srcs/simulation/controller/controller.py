@@ -11,10 +11,10 @@ UPDATE_FREQUENCY = 0.1 #en secondes
 def updateLatestDist(proxy):
 
 	while not config.Fin_Strat :
-		print("fin strat",config.Fin_Strat)
+		# print("fin strat",config.Fin_Strat)
 		sleep(1)
 		config.Latest_Dist=proxy.getDistance()  #initialisé à 100 dans config.py
-		print("la get distance",config.Latest_Dist)
+		# print("la get distance",config.Latest_Dist)
 
 def launchThreadDist(proxy):
 
@@ -103,7 +103,7 @@ class moveForwardStrategy:
 
 	def stop(self):
 		pas = config.Latest_Dist
-		print("pas=" + str(pas))
+		# print("pas=" + str(pas))
 		if pas <= SAFE_DISTANCE :
 			config.obstacle_ahead = True
 			return True
@@ -286,6 +286,7 @@ class ArcStrategy:
 		pas = config.Latest_Dist
 		if pas <= SAFE_DISTANCE :
 			self.proxy.setSpeed(0)
+			print("SAFE DISTANCE STOP !")
 			return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover

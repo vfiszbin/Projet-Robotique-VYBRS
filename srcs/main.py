@@ -26,12 +26,12 @@ def main_simu():
 	#Creation des Strategies :
 	SetS = SetStrategies(rob, env)
 	#Lance le thread du controleur
-	# controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
-	# controller_thread.start()
+	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
+	controller_thread.start()
 
 
 	#Lance l'affichage graphique 2D de la simulation qui s'execute sur le thread principal
-	View3D(env)
+	View2D(env)
 
 
 

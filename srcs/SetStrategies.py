@@ -21,9 +21,9 @@ class SetStrategies :
 		seq2=StrategySeq(proxy)
 		
 		#seq=RepeatMotif1Strategy(proxy, 100)
-		s2=moveForwardStrategy(proxy, 500, 50)
+		# s2=moveForwardStrategy(proxy, 100, 5)
 		# s2=TurnStrategy(proxy, 90, 50)
-		# s2 = ArcStrategy(proxy, 45, 120, 10, 0)
+		s2 = ArcStrategy(proxy, 180, 100, 50, 0)
 		seq2.addStrategy(s2)
 		self.sequences.append(seq2)
 
