@@ -106,6 +106,7 @@ class moveForwardStrategy:
 		# print("pas=" + str(pas))
 		if pas <= SAFE_DISTANCE :
 			config.obstacle_ahead = True
+			self.proxy.setSpeed(0)
 			return True
 		if self.distance_to_cover >= 0 :
 			return self.distance_covered >= self.distance_to_cover
@@ -281,7 +282,6 @@ class ArcStrategy:
 		calcule la distance parcourue par le robot selon l'angle dont les roues ont tourné
 		"""
 		distance = (2 * pi * self.proxy.getRadius() ) * (self.angle_rotated_left_wheel / 360) #distance parcourue à partir de l'angle effectué par la roue gauche
-		print("distance parcourue=" + str(distance))
 		return distance
 
 	def stop(self):
@@ -292,13 +292,11 @@ class ArcStrategy:
 			return True
 		if self.distance_to_cover >= 0 :
 			if self.distance_covered >= self.distance_to_cover:
-				print("FIN STRATEGIE STOP 1")
 				self.proxy.setSpeed(0)
 				return True
 			return False
 		else :
 			if self.distance_covered <= self.distance_to_cover:
-				print("FIN STRATEGIE STOP 2")
 				self.proxy.setSpeed(0)
 				return True
 			return False
