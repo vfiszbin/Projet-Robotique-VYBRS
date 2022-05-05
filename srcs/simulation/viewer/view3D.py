@@ -20,6 +20,7 @@ class View3D:
         self.arene = Entity(model="quad", color=color.gray, origin=(-0.5,0.5), scale=(environment.width, environment.height, 0))
         editor_camera = EditorCamera() #caméra éditeur d'Ursina
         self.entity_of_object = dict() #L'objet est identifié par son id()
+        editor_camera.position = (environment.width / 2, -(environment.height / 2), -100)
 
 
         #démarre le thread d'update de l'affichage
