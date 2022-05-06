@@ -419,5 +419,12 @@ class StopActionStrategy:
 	def demarre(self):
 		self.proxy.stop()
 		self.en_cours=True 
+class MovetoWallSpeedStrategy:
+	""" Fait avancer le robot vers un mur le plus vite possible et le plus pres sans jamais
+	le toucher """
+
+	def __init__(self,proxy,vitesse):
+		super.__init__(proxy,MoveActionStrategy(proxy,200,vitesse),StopActionStrategy(proxy),testProximitePbstacle)
+
 
 	
