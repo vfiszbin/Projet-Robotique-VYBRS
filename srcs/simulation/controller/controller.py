@@ -301,15 +301,6 @@ class ArcStrategy:
 				return True
 			return False
 
-class moveToWallStrategy:
-	"""
-	Le robot doit atteindre le mur à une vitesse la plus raisonnable sans le toucher.
-	"""
-	def __init__(self,proxy,speed,wall,to_left_or_right):
-		self.proxy = proxy
-		self.speed = speed 
-		self.wall = wall 
-		self.to_left_or_right=to_left_or_right
 
 
 class Motif1Strategy(StrategySeq) :
@@ -370,5 +361,33 @@ class RepeatMotif1Strategy() :
 			#On redémarre la séquence, mais on ne stoppe jamais la stratégie
 			self.sequence = [self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
 			self.current_strat = -1
+class ConditionActionStrategy:
+	""" Synthetise une strategie en un ensemble de conditions """
+	def __init__(self,proxy,actionPrincipale,actionAlternative,condition):
+		self.actionPrincipale=actionPrincipale
+		self.actionAlternative=actionAlternative
+		self.condition = condition
+		self.proxy=proxy
+		self.en_cours=False
+	
+	def done(self):
+		"""Met fin à une action principale ou une action en cours """
+		return self.actionPrincipale.stop() or self.actionAlternative.stop()
+	def update(self):
+		""" Verifie si une action principale est en cours ou une action alternative """
+		if self.done():
+			self.actionPrincipale.en_cours=False
+			self.actionAlternative.en_cours=False
+			return None 
+		if self.condition(self.proxy):
+			if not self.actionAlternative:
+				self.actionAlternative.start()
+			self.actionPrincipale.update
+		else:
+			self.actionPrincipale.update()	
+	def demarre(self):
+		""" Demarre une action principale """
+		self.actionPrincipale.start()
+		self.en_cours=True
 
 	
