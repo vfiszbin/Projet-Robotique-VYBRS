@@ -389,5 +389,19 @@ class ConditionActionStrategy:
 		""" Demarre une action principale """
 		self.actionPrincipale.start()
 		self.en_cours=True
+class MoveActionStrategy:
+	""" s'occupe d'effectuer une tache en etant mobile """
+	def __init__(self,proxy,distance,vitesse):
+		self.proxy=proxy
+		self.distance=distance
+		self.vitesse=vitesse
+		self.en_cours=False
+	
+	def done(self):
+		distance_covered=self.proxy.covered_distance()
+		return distance_covered > self.distance
+	def demarre(self):
+		"""Demarre une action """
+		self.en_cours=True
 
 	
