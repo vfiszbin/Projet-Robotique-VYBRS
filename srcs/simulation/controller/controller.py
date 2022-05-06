@@ -403,5 +403,21 @@ class MoveActionStrategy:
 	def demarre(self):
 		"""Demarre une action """
 		self.en_cours=True
+class StopActionStrategy:
+	"""Arrete une strategy en cours"""
+	def __init__(self,proxy):
+		self.proxy=proxy
+		self.en_cours=False
+	
+	def done(self):
+		return self.en_cours
+	
+	def update(self):
+		if self.stop():
+			return None
+	
+	def demarre(self):
+		self.proxy.stop()
+		self.en_cours=True 
 
 	
