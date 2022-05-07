@@ -301,15 +301,6 @@ class ArcStrategy:
 				return True
 			return False
 
-class moveToWallStrategy:
-	"""
-	Le robot doit atteindre le mur à une vitesse la plus raisonnable sans le toucher.
-	"""
-	def __init__(self,proxy,speed,wall,to_left_or_right):
-		self.proxy = proxy
-		self.speed = speed 
-		self.wall = wall 
-		self.to_left_or_right=to_left_or_right
 
 
 class Motif1Strategy(StrategySeq) :
@@ -370,5 +361,70 @@ class RepeatMotif1Strategy() :
 			#On redémarre la séquence, mais on ne stoppe jamais la stratégie
 			self.sequence = [self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
 			self.current_strat = -1
+class ConditionActionStrategy:
+	""" Synthetise une strategie en un ensemble de conditions """
+	def __init__(self,proxy,actionPrincipale,actionAlternative,condition):
+		self.actionPrincipale=actionPrincipale
+		self.actionAlternative=actionAlternative
+		self.condition = condition
+		self.proxy=proxy
+		self.en_cours=False
+	
+	def done(self):
+		"""Met fin à une action principale ou une action en cours """
+		return self.actionPrincipale.stop() or self.actionAlternative.stop()
+	def update(self):
+		""" Verifie si une action principale est en cours ou une action alternative """
+		if self.done():
+			self.actionPrincipale.en_cours=False
+			self.actionAlternative.en_cours=False
+			return None 
+		if self.condition(self.proxy):
+			if not self.actionAlternative:
+				self.actionAlternative.start()
+			self.actionPrincipale.update
+		else:
+			self.actionPrincipale.update()	
+	def demarre(self):
+		""" Demarre une action principale """
+		self.actionPrincipale.start()
+		self.en_cours=True
+class MoveActionStrategy:
+	""" s'occupe d'effectuer une tache en etant mobile """
+	def __init__(self,proxy,distance,vitesse):
+		self.proxy=proxy
+		self.distance=distance
+		self.vitesse=vitesse
+		self.en_cours=False
+	
+	def done(self):
+		distance_covered=self.proxy.covered_distance()
+		return distance_covered > self.distance
+	def demarre(self):
+		"""Demarre une action """
+		self.en_cours=True
+class StopActionStrategy:
+	"""Arrete une strategy en cours"""
+	def __init__(self,proxy):
+		self.proxy=proxy
+		self.en_cours=False
+	
+	def done(self):
+		return self.en_cours
+	
+	def update(self):
+		if self.stop():
+			return None
+	
+	def demarre(self):
+		self.proxy.stop()
+		self.en_cours=True 
+class MovetoWallSpeedStrategy:
+	""" Fait avancer le robot vers un mur le plus vite possible et le plus pres sans jamais
+	le toucher """
+
+	def __init__(self,proxy,vitesse):
+		super.__init__(proxy,MoveActionStrategy(proxy,200,vitesse),StopActionStrategy(proxy),testProximitePbstacle)
+
 
 	
