@@ -75,6 +75,7 @@ def pick_biggest_rectangle(rectangles):
 	return biggest_rect
 
 ###SCANNER QUE LE CENTRE DE LIMAGE POUR LIMITER LES CALCULS ET ASSURER QUE ROBOT FAIT FACE A LOBJET ?
+###Calculer moyenne des coordonnées des pixels de la couleur recherchée et voir si c'est au centre ?
 
 def detect_biggest_RGB_rectangle(image_name, RGB_color):
 	'''Retourne le plus grand rectangle de la couleur RGB indiquée détécté dans l'image'''
@@ -113,7 +114,7 @@ def detect_biggest_RGB_rectangle(image_name, RGB_color):
 	print(mask)
 	print(mask.shape)
 
-	
+
 	# rectangles = detect_RGB_rectangles_in_mask(mask)
 	# print(pick_biggest_rectangle(rectangles))
 
