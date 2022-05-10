@@ -427,4 +427,25 @@ class MovetoWallSpeedStrategy:
 		super.__init__(proxy,MoveActionStrategy(proxy,200,vitesse),StopActionStrategy(proxy),testProximitePbstacle)
 
 
-	
+class detect_balise:
+	def __init__(self, proxy, speed):
+		self.turnLeft = TurnStrategy(proxy, 45, speed)
+		self.sequence = [self.turnLeft]
+		self.current_strat = -1
+		self.proxy = proxy
+
+	def step(self):
+		self.stop() #check si toutes les strat de la seq ont été executées, si c'est le cas, relance la séquence
+
+		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine strat
+			self.sequence = []
+			self.sequence = [self.demi_tour, self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1] #redémarre la séquence après un demi-tour
+
+			self.current_strat += 1
+			self.sequence[self.current_strat].start()
+
+		self.sequence[self.current_strat].step()
+
+	def stop(self):
+		if self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop(): #on a atteint la dernière strat et elle est terminée
+			print("FIN detect_balise")

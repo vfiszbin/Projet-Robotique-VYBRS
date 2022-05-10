@@ -1,5 +1,6 @@
 # Import the necessary libraries
 from lib2to3.pygram import python_grammar_no_print_statement
+from sqlite3 import PARSE_COLNAMES
 from PIL import Image
 from numpy import asarray
 import numpy
@@ -76,9 +77,12 @@ def pick_biggest_rectangle(rectangles):
 
 ###SCANNER QUE LE CENTRE DE LIMAGE POUR LIMITER LES CALCULS ET ASSURER QUE ROBOT FAIT FACE A LOBJET ?
 ###Calculer moyenne des coordonnées des pixels de la couleur recherchée et voir si c'est au centre ?
+###Réduire la qualité de l'image pour avoir moins de pixels
+
+
 
 def detect_biggest_RGB_rectangle(image_name, RGB_color):
-	'''Retourne le plus grand rectangle de la couleur RGB indiquée détécté dans l'image'''
+	'''Retourne le plus grand rectangle de la couleur RGB indiquée détecté dans l'image'''
 	img = Image.open(image_name)
 
 	#convertit RGB en HSV pour meilleure détection de couleur
@@ -119,7 +123,96 @@ def detect_biggest_RGB_rectangle(image_name, RGB_color):
 	# print(pick_biggest_rectangle(rectangles))
 
 
-detect_biggest_RGB_rectangle("test.jpg", "R")
+# detect_biggest_RGB_rectangle("test.jpg", "R")
+
+
+def blockshaped(arr, nrows, ncols):
+    """
+    Return an array of shape (n, nrows, ncols) where
+    n * nrows * ncols = arr.size
+
+    If arr is a 2D array, the returned array should look like n subblocks with
+    each subblock preserving the "physical" layout of arr.
+    """
+    h, w = arr.shape
+    assert h % nrows == 0, f"{h} rows is not evenly divisible by {nrows}"
+    assert w % ncols == 0, f"{w} cols is not evenly divisible by {ncols}"
+    return (arr.reshape(h//nrows, nrows, -1, ncols)
+               .swapaxes(1,2)
+               .reshape(-1, nrows, ncols))
+
+
+
+
+def detect_RGB_rectangle(image_name, RGB_color):
+	'''Retourne le plus grand rectangle de la couleur RGB indiquée détecté dans l'image'''
+	img = Image.open(image_name)
+
+	#convertit RGB en HSV pour meilleure détection de couleur
+	img_HSV = img.convert('HSV')
+	
+	#convertit image en numpy array
+	np_array = asarray(img_HSV)
+
+	print (np_array)
+	print (np_array.shape)
+
+	print(np_array.shape)
+	
+	splits = blockshaped(np_array[0], 50, 50)
+	# splits = numpy.array_split(np_array[0], 50)
+	
+	print(splits.shape)
+
+
+
+# detect_RGB_rectangle("rgb.jpg", "R")
+
+np_array = numpy.arange(120).reshape((10, 12))
+print (np_array)
+print (np_array.shape)
+
+#Nombre de de blocs en lignes/colonnes qu'on souhaite avoir
+n_lines = 3
+n_col = 2
+
+pas_lines = np_array.shape[0] // n_lines #de combien l'indice doit progresser dans l'image pour passer au bloc suivant
+pas_col = np_array.shape[1] // n_col
+
+print("pas_lines = " + str(pas_lines))
+print("pas_col = " + str(pas_col))
+
+#Calcule les dimensions que va avoir la matrice contenant les informations sur les blocs de couleur
+if np_array.shape[0] % n_lines != 0:
+	n_lines_color_blocks = n_lines + 1
+else:
+	n_lines_color_blocks = n_lines
+if np_array.shape[1] % n_col != 0:
+	n_col_color_blocks = n_col + 1
+else:
+	n_col_color_blocks = n_col
+color_blocks = numpy.zeros((n_lines_color_blocks, n_col_color_blocks), dtype=object)
+print("Shape color_block = " + str(color_blocks.shape))
+
+l = 0
+c = 0
+l_color_blocks = 0
+c_color_blocks = 0
+while(l < np_array.shape[0]):
+	while(c < np_array.shape[1]):
+		print(np_array[l:l+pas_lines, c:c+pas_col])
+		print('\n')
+		color_blocks[l_color_blocks, c_color_blocks] = ("R", ((l, l+pas_lines), (c, c+pas_col)))
+
+		c += pas_col
+		c_color_blocks += 1
+
+	c = 0
+	l += pas_lines
+	c_color_blocks = 0
+	l_color_blocks += 1
+
+print(color_blocks)
 
 
 
