@@ -33,7 +33,7 @@ class SetStrategies :
 		# s1=moveForwardStrategy(proxy,200,50)
 		# s2=TurnStrategy(proxy,-70,-80)
 		# s3=moveBackwardStrategy(proxy, 250, 30)
-		# s4=Navigate(proxy,250,200) # tester avec une plus grande distance pour voir comment se comporte le robot. 
+		# s4=Navigate(proxy,250,48) # tester avec une plus grande distance pour voir comment se comporte le robot. 
 		# seq2.addStrategy(s1)
 		# seq2.addStrategy(s2)
 		# seq2.addStrategy(s3)
