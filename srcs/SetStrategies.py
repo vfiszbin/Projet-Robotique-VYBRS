@@ -39,3 +39,7 @@ class SetStrategies :
 		# seq2.addStrategy(s3)
 		# seq2.addStrategy(s4)
 		# self.sequences.append(seq2)
+		# m type class MovetoWallSpeedStrategy
+		m = MovetoWallSpeedStrategy(proxy,50)
+		seq3.addStrategy(m)
+		self.sequences.append(seq3)
