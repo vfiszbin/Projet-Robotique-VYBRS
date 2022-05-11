@@ -486,7 +486,7 @@ class moveToWallStrategy:
 		i=1
 		while i<self.speed:
 			self.proxy.setSpeed(self.speed-i)	
-			i+=10
+			i+=69
 			pas = self.proxy.getDistance()	
 			if pas <= SAFE_DISTANCE :
 				self.proxy.setSpeed(0)
@@ -498,4 +498,5 @@ class moveToWallStrategy:
 	
 	def stop(self):
 		self.proxy.setSpeed(0)
+
 	
