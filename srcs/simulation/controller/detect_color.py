@@ -121,7 +121,7 @@ def detect_biggest_RGB_rectangle(image_name, RGB_color):
 
 detect_biggest_RGB_rectangle("test.jpg", "R")
 
+def getCenterofFrame(img):
+	"""fonction qui retourne la postion x,y du centre de la balise"""
 
-
-
-
+return x,y

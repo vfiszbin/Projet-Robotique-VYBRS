@@ -427,4 +427,42 @@ class MovetoWallSpeedStrategy:
 		super.__init__(proxy,MoveActionStrategy(proxy,200,vitesse),StopActionStrategy(proxy),testProximitePbstacle)
 
 
+
+
+class FindColorTag:
+	"""Startegie pour suivre une balise"""
+
+	def __init__(self, proxy, speed):
+		self.proxy=proxy
+		self.vitesse=vitesse
+		self.frame=proxy.getImg()
+		self.turnLeft=TurnStrategy(proxy,30,speed)
+		self.turnRight=TurnStrategy(proxy,-30,speed)
+		self.turn90=TurnStrategy(proxy,90,speed)
+		self.avancer = moveForwardStrategy(proxy, float("inf"), speed)
+
+	def getAngleOrientation(self):
+		"""Retourne l'angle de la balise par apport au robot"""
+		frame = self.proxy.get_image()
+		if frame == None :
+			return -1
+		#return arctan par rappor au centre de balise et celui de la frame ? 
+	
+	def step(self):
+		self.stop()
+		prox.turnHead(90)#set straight robot head
+		angle = getAngleOrientation()
+		if angle == -1 : #la balise n'est pas trouvé :est hors du champs de vision
+			self.turn90.start() #on tourne le robot pour avoir un nouveau champs de vision
+		if angle <= 30 : #la balise est reperer est +- en face du robot
+			self.avancer.start()
+
+		if angle >30 and angle < 180 :# l'angle est a gauche du robot
+        		self.turnLeft.start()
+
+		if angle >30 and angle >= 180 :# l'angle est a gauche du robot
+        		self.turnRight.start()
+
+	def stop():
+		#condition d'arret get distance ? 
 	
