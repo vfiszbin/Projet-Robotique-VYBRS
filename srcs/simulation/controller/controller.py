@@ -465,4 +465,37 @@ class FindColorTag:
 
 	def stop():
 		#condition d'arret get distance ? 
+class moveToWallStrategy:
+	"""
+	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher
+	"""
+	def __init__(self,proxy,speed):
+		self.proxy=proxy
+		self.speed=speed
+		
+
+	def start(self):
+		self.proxy.setWheelMode(1)
+		self.proxy.setSpeed(self.speed)
+
+	def step(self):
+		self.proxy.setSpeed(self.speed)
+		pas = self.proxy.getDistance()	
+
+		b=True
+		i=1
+		while i<self.speed:
+			self.proxy.setSpeed(self.speed-i)	
+			i+=10
+			pas = self.proxy.getDistance()	
+			if pas <= SAFE_DISTANCE :
+				self.proxy.setSpeed(0)
+				b=False
+
+		
+		#if pas <= SAFE_DISTANCE :
+		#	self.proxy.setSpeed(0)
+	
+	def stop(self):
+		self.proxy.setSpeed(0)
 	
