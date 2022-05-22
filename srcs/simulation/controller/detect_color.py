@@ -181,7 +181,7 @@ detect_RGB_rectangle(FICHIER, COLOR)
 
 
 
+def getCenterofFrame(img):
+	"""fonction qui retourne la postion x,y du centre de la balise"""
 
-
-
-
+	return x,y

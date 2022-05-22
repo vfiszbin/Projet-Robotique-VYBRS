@@ -449,3 +449,78 @@ class detect_balise:
 	def stop(self):
 		if self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop(): #on a atteint la dernière strat et elle est terminée
 			print("FIN detect_balise")
+
+
+class FindColorTag:
+	"""Startegie pour suivre une balise"""
+
+	def __init__(self, proxy, speed):
+		self.proxy=proxy
+		self.vitesse=vitesse
+		self.frame=proxy.getImg()
+		self.turnLeft=TurnStrategy(proxy,30,speed)
+		self.turnRight=TurnStrategy(proxy,-30,speed)
+		self.turn90=TurnStrategy(proxy,90,speed)
+		self.avancer = moveForwardStrategy(proxy, float("inf"), speed)
+
+	def getAngleOrientation(self):
+		"""Retourne l'angle de la balise par apport au robot"""
+		frame = self.proxy.get_image()
+		if frame == None :
+			return -1
+		#return arctan par rappor au centre de balise et celui de la frame ? 
+	
+	def step(self):
+		self.stop()
+		prox.turnHead(90)#set straight robot head
+		angle = getAngleOrientation()
+		if angle == -1 : #la balise n'est pas trouvé :est hors du champs de vision
+			self.turn90.start() #on tourne le robot pour avoir un nouveau champs de vision
+		if angle <= 30 : #la balise est reperer est +- en face du robot
+			self.avancer.start()
+
+		if angle >30 and angle < 180 :# l'angle est a gauche du robot
+			self.turnLeft.start()
+
+		if angle >30 and angle >= 180 :# l'angle est a gauche du robot
+			self.turnRight.start()
+
+	def stop():
+		pass
+		#condition d'arret get distance ? 
+
+class moveToWallStrategy:
+	"""
+	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher
+	"""
+	def __init__(self,proxy,speed):
+		self.proxy=proxy
+		self.speed=speed
+		
+
+	def start(self):
+		self.proxy.setWheelMode(1)
+		self.proxy.setSpeed(self.speed)
+
+	def step(self):
+		self.proxy.setSpeed(self.speed)
+		pas = self.proxy.getDistance()	
+
+		b=True
+		i=1
+		while i<self.speed:
+			self.proxy.setSpeed(self.speed-i)	
+			i+=69
+			pas = self.proxy.getDistance()	
+			if pas <= SAFE_DISTANCE :
+				self.proxy.setSpeed(0)
+				b=False
+
+		
+		#if pas <= SAFE_DISTANCE :
+		#	self.proxy.setSpeed(0)
+	
+	def stop(self):
+		self.proxy.setSpeed(0)
+
+	

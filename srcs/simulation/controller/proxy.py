@@ -33,6 +33,8 @@ class ProxySimu:
 
 	def getDistance(self):
 		return self.rob.getDistance(self.env)
+	def getImg(self):
+		return None
 
 class ProxyReal:
 	def __init__(self, rob):
@@ -82,4 +84,18 @@ class ProxyReal:
 
 	def getDistance(self):
 		return self.rob.get_distance()
+
+	def getImg(self):
+		return self.rob.get_image()
+	def turnHead(self, angle):
+		self.rob.servo_rotate(angle)
+
+	def setLed(self,a,b,c):
+        	"""
+        	Red	(255,0,0)
+		Lime	(0,255,0)
+		Blue	(0,0,255)
+		Yellow	(255,255,0)"""
+		self.rob.set_led(self.LED_RIGHT_EYE, a,b,c)
+		self.rob.set_led(self.LED_LEFT_EYE, a,b,c)
 
