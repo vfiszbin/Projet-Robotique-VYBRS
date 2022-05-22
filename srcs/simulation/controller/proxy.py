@@ -91,8 +91,8 @@ class ProxyReal:
 		self.rob.servo_rotate(angle)
 
 	def setLed(self,a,b,c):
-        	"""
-        	Red	(255,0,0)
+		"""
+		Red	(255,0,0)
 		Lime	(0,255,0)
 		Blue	(0,0,255)
 		Yellow	(255,255,0)"""

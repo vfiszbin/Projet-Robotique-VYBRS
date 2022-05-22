@@ -7,7 +7,7 @@ TAILLE_MIN_RECT = 1 #taille minimum du rectangle (carre) de blocks de la couleur
 # N_LINES = 40
 # N_COL = 40
 RATIO_LINES_COL = 0.1 #ratio pour obtenir le nombre de lignes/colonnes par qu'on utilise pour subdiviser l'image. ex : taille_verticale_img * ratio = nb_lignes
-COLOR = "R"
+COLOR = "B"
 FICHIER = "test1.jpg"
 RATIO_COLOR_IN_BLOCK = 0.5 #le nombre de pixels de la couleur cherchée (parmi toues les pixels du bloc) doit excéder ce ratio pour que le bloc soit considéré comme étant de cette couleur
 
@@ -70,7 +70,7 @@ def detect_rectangles(color_blocks):
 
 def pick_biggest_rectangle(rectangles):
 	'''Choisit le plus grand rectangle parmi une liste de rectangles'''
-	biggest_rect = ((0,0),(0,0))
+	biggest_rect = None
 	biggest_rect_surface = 0
 	for rect in rectangles:
 		y1 = rect[0][0]
@@ -96,20 +96,20 @@ def detect_RGB_rectangle(image_name, RGB_color):
 	
 	#convertit image en numpy array
 	np_array = asarray(img_HSV)
-	print (np_array.shape)
+	# print (np_array.shape)
 
 	#Nombre de blocs en lignes/colonnes qu'on souhaite avoir
 	n_lines = int(np_array.shape[0] * RATIO_LINES_COL)
 	n_col = int(np_array.shape[1] * RATIO_LINES_COL)
 
-	print("n_lines = " + str(n_lines))
-	print("n_col = " + str(n_col))
+	# print("n_lines = " + str(n_lines))
+	# print("n_col = " + str(n_col))
 
 	pas_lines = np_array.shape[0] // n_lines #de combien l'indice doit progresser dans l'image pour passer au bloc suivant
 	pas_col = np_array.shape[1] // n_col
 
-	print("pas_lines = " + str(pas_lines))
-	print("pas_col = " + str(pas_col))
+	# print("pas_lines = " + str(pas_lines))
+	# print("pas_col = " + str(pas_col))
 
 	#Calcule les dimensions que va avoir la matrice contenant les informations sur les blocs de couleur
 	if np_array.shape[0] % n_lines != 0:
@@ -121,7 +121,7 @@ def detect_RGB_rectangle(image_name, RGB_color):
 	else:
 		n_col_color_blocks = n_col
 	color_blocks = numpy.zeros((n_lines_color_blocks, n_col_color_blocks), dtype=object) #matrice contenant les informations de chaque bloc
-	print("Shape color_block = " + str(color_blocks.shape))
+	# print("Shape color_block = " + str(color_blocks.shape))
 
 	#Choisit les valeurs min/max pour détecter la couleur passée en argument
 	if RGB_color == "R":
@@ -144,14 +144,8 @@ def detect_RGB_rectangle(image_name, RGB_color):
 	if RGB_color == "R": #cas spécial pour l'intervalle Hue du rouge (autour de 0)
 		# Mask (array de True/False) des coordonnées où la couleur apparait
 		mask = (np_array[:,:,0] > val_min) | (np_array[:,:,0] < val_max) & (np_array[:,:,1] >= 60) & (np_array[:,:,2] >= 60)
-		print("val_min = " + str(val_min))
-		print("val_max = " + str(val_max))
-		print("sum_mask = " + str(numpy.sum(mask)))
 	else:
 		mask = (np_array[:,:,0] > val_min) & (np_array[:,:,0] < val_max) & (np_array[:,:,1] >= 60) & (np_array[:,:,2] >= 60)
-		print("val_min = " + str(val_min))
-		print("val_max = " + str(val_max))
-		print("sum_mask = " + str(numpy.sum(mask)))
 
 	l = 0
 	c = 0
@@ -173,11 +167,13 @@ def detect_RGB_rectangle(image_name, RGB_color):
 
 
 	rectangles = detect_rectangles(color_blocks)
-	print(rectangles)
+	# print(rectangles)
 	biggest_rect = pick_biggest_rectangle(rectangles)
-	print(biggest_rect)
+	# print(biggest_rect)
 
-detect_RGB_rectangle(FICHIER, COLOR)
+	return biggest_rect
+
+# detect_RGB_rectangle(FICHIER, COLOR)
 
 
 

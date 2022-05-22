@@ -2,6 +2,7 @@ from time import sleep
 from math import pi
 from simulation import config
 from threading import Thread
+from simulation.controller.detect_color import detect_RGB_rectangle
 
 SAFE_DISTANCE = 50 #bonne valeur pour le vrai robot = 300 mm
 
@@ -20,6 +21,19 @@ def launchThreadDist(proxy):
 
 	Dist_thread =Thread(target=updateLatestDist,args=(proxy,))
 	Dist_thread.start()
+
+
+def updateDetectColor(proxy, color):
+
+	while not config.Fin_Strat :
+		# image = proxy.getImg()
+		config.Coordinates_color_detected  = detect_RGB_rectangle("simulation/controller/test.jpg", color)
+		sleep(1)
+
+def launchThreadDetectColor(proxy, color):
+
+	Dist_image =Thread(target=updateDetectColor,args=(proxy,color))
+	Dist_image.start()
 	
 
 def strategySequences(sequences):
@@ -361,94 +375,47 @@ class RepeatMotif1Strategy() :
 			#On redémarre la séquence, mais on ne stoppe jamais la stratégie
 			self.sequence = [self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1]
 			self.current_strat = -1
-class ConditionActionStrategy:
-	""" Synthetise une strategie en un ensemble de conditions """
-	def __init__(self,proxy,actionPrincipale,actionAlternative,condition):
-		self.actionPrincipale=actionPrincipale
-		self.actionAlternative=actionAlternative
-		self.condition = condition
-		self.proxy=proxy
-		self.en_cours=False
-	
-	def done(self):
-		"""Met fin à une action principale ou une action en cours """
-		return self.actionPrincipale.stop() or self.actionAlternative.stop()
-	def update(self):
-		""" Verifie si une action principale est en cours ou une action alternative """
-		if self.done():
-			self.actionPrincipale.en_cours=False
-			self.actionAlternative.en_cours=False
-			return None 
-		if self.condition(self.proxy):
-			if not self.actionAlternative:
-				self.actionAlternative.start()
-			self.actionPrincipale.update
-		else:
-			self.actionPrincipale.update()	
-	def demarre(self):
-		""" Demarre une action principale """
-		self.actionPrincipale.start()
-		self.en_cours=True
-class MoveActionStrategy:
-	""" s'occupe d'effectuer une tache en etant mobile """
-	def __init__(self,proxy,distance,vitesse):
-		self.proxy=proxy
-		self.distance=distance
-		self.vitesse=vitesse
-		self.en_cours=False
-	
-	def done(self):
-		distance_covered=self.proxy.covered_distance()
-		return distance_covered > self.distance
-	def demarre(self):
-		"""Demarre une action """
-		self.en_cours=True
-class StopActionStrategy:
-	"""Arrete une strategy en cours"""
-	def __init__(self,proxy):
-		self.proxy=proxy
-		self.en_cours=False
-	
-	def done(self):
-		return self.en_cours
-	
-	def update(self):
-		if self.stop():
-			return None
-	
-	def demarre(self):
-		self.proxy.stop()
-		self.en_cours=True 
-class MovetoWallSpeedStrategy:
-	""" Fait avancer le robot vers un mur le plus vite possible et le plus pres sans jamais
-	le toucher """
-
-	def __init__(self,proxy,vitesse):
-		super.__init__(proxy,MoveActionStrategy(proxy,200,vitesse),StopActionStrategy(proxy),testProximitePbstacle)
 
 
 class detect_balise:
-	def __init__(self, proxy, speed):
+	def __init__(self, proxy, color, speed):
+		launchThreadDetectColor(proxy,color)
 		self.turnLeft = TurnStrategy(proxy, 45, speed)
-		self.sequence = [self.turnLeft]
+		self.moveForward = moveForwardStrategy(proxy, 100, speed )
+		self.strategy_to_repeat = self.turnLeft
+		self.sequence = [self.strategy_to_repeat]
 		self.current_strat = -1
 		self.proxy = proxy
+		self.color = color
 
 	def step(self):
 		self.stop() #check si toutes les strat de la seq ont été executées, si c'est le cas, relance la séquence
 
-		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine strat
-			self.sequence = []
-			self.sequence = [self.demi_tour, self.move1, self.turnRight, self.move2, self.turnLeft, self.move2, self.turnRight, self.move1] #redémarre la séquence après un demi-tour
+		if config.Coordinates_color_detected != None: #si on détecte un rectangle de la couleur cherchée dans le champ de vision du robot
+			print("Color detected !")
+			print(config.Coordinates_color_detected)
+			self.strategy_to_repeat = self.moveForward
 
-			self.current_strat += 1
+		else: #on ne détecte pas la couleur
+			self.strategy_to_repeat = self.turnLeft
+			
+		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): 
+			self.sequence = []
+			self.sequence = [self.strategy_to_repeat] #redémarre la séquence
+
+			self.current_strat = 0
 			self.sequence[self.current_strat].start()
 
 		self.sequence[self.current_strat].step()
+		
+
 
 	def stop(self):
-		if self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop(): #on a atteint la dernière strat et elle est terminée
+		#condition d'arrêt : le robot a trouvé la balise et a avancé vers elle jusqu'à dépasser la safe distance avec un obstacle
+		if (config.obstacle_ahead == True): 
 			print("FIN detect_balise")
+			return True
+		return False
 
 
 class FindColorTag:

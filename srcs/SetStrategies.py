@@ -23,9 +23,12 @@ class SetStrategies :
 		#seq=RepeatMotif1Strategy(proxy, 100)
 		# s2=moveForwardStrategy(proxy, 500, 30) 
 		# s2=TurnStrategy(proxy, 90, 30)
-		s2 = ArcStrategy(proxy, 180, 50, 20, 0)
-		seq2.addStrategy(s2)
-		self.sequences.append(seq2)
+		# s2 = ArcStrategy(proxy, 180, 50, 20, 0)
+		# seq2.addStrategy(s2)
+		# self.sequences.append(seq2)
+
+		seq = detect_balise(proxy, "B", 50)
+		self.sequences.append(seq)
 
 		# seq1 = SquareStrategy(proxy,300,50)
 		# self.sequences.append(seq1)
@@ -39,7 +42,8 @@ class SetStrategies :
 		# seq2.addStrategy(s3)
 		# seq2.addStrategy(s4)
 		# self.sequences.append(seq2)
+		
 		# m type class MovetoWallSpeedStrategy
-		m = MovetoWallSpeedStrategy(proxy,50)
-		seq3.addStrategy(m)
-		self.sequences.append(seq3)
+		# m = MovetoWallSpeedStrategy(proxy,50)
+		# seq3.addStrategy(m)
+		# self.sequences.append(seq3)
