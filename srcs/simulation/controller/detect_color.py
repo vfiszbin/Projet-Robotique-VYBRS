@@ -87,69 +87,6 @@ def pick_biggest_rectangle(rectangles):
 
 
 
-# def detect_biggest_rectangle(image_name, RGB_color):
-# 	'''Retourne le plus grand rectangle de la couleur RGB indiquée détecté dans l'image'''
-# 	img = Image.open(image_name)
-
-# 	#convertit RGB en HSV pour meilleure détection de couleur
-# 	img_HSV = img.convert('HSV')
-	
-# 	#convertit image en numpy array
-# 	np_array = asarray(img_HSV)
-
-# 	if RGB_color == "R":
-# 		# Degrés correspondants aux pixels rouges 340 < Hue < 20
-# 		val_min, val_max = 340,20
-# 	elif RGB_color == "G":
-# 		# Degrés correspondants aux pixels verts 100 < Hue < 140
-# 		val_min, val_max = 100,140
-# 	elif RGB_color == "B":
-# 		# Degrés correspondants aux pixels bleus 220 < Hue < 260
-# 		val_min, val_max = 220,260
-# 	else:
-# 		print("La couleur doit être R,G ou B")
-# 		return
-
-# 	# Passage des degrés 0-360 en valeur 0-255
-# 	val_min = int((val_min * 255) / 360)
-# 	val_max = int((val_max * 255) / 360)
-
-# 	if RGB_color == "R": #cas spécial pour l'intervalle Hue du rouge (autour de 0)
-# 		#Mask (array de True/False) des coordonnées où la couleur apparait
-# 		mask = (np_array[:,:,0] >= 170) & (np_array[:,:,1] >= 70) & (np_array[:,:,2] >= 50) & (np_array[:,:,0] <= 180) & (np_array[:,:,1] <= 255) & (np_array[:,:,2] <= 255)
-# 	else: 
-# 		#Mask (array de True/False) des coordonnées où la couleur apparait
-# 		mask = (np_array[:,:,0] > val_min) & (np_array[:,:,0] < val_max)
-
-# 	print(mask)
-# 	print(mask.shape)
-
-
-# 	# rectangles = detect_RGB_rectangles_in_mask(mask)
-# 	# print(pick_biggest_rectangle(rectangles))
-
-
-# detect_biggest_RGB_rectangle("test.jpg", "R")
-
-
-def blockshaped(arr, nrows, ncols):
-    """
-    Return an array of shape (n, nrows, ncols) where
-    n * nrows * ncols = arr.size
-
-    If arr is a 2D array, the returned array should look like n subblocks with
-    each subblock preserving the "physical" layout of arr.
-    """
-    h, w = arr.shape
-    assert h % nrows == 0, f"{h} rows is not evenly divisible by {nrows}"
-    assert w % ncols == 0, f"{w} cols is not evenly divisible by {ncols}"
-    return (arr.reshape(h//nrows, nrows, -1, ncols)
-               .swapaxes(1,2)
-               .reshape(-1, nrows, ncols))
-
-
-
-
 def detect_RGB_rectangle(image_name, RGB_color):
 	'''Retourne le plus grand rectangle de la couleur RGB indiquée détecté dans l'image'''
 	img = Image.open(image_name)
@@ -239,59 +176,10 @@ def detect_RGB_rectangle(image_name, RGB_color):
 	print(rectangles)
 	biggest_rect = pick_biggest_rectangle(rectangles)
 	print(biggest_rect)
-	
-	
-
-
 
 detect_RGB_rectangle(FICHIER, COLOR)
 
-# np_array = numpy.arange(120).reshape((10, 12))
-# print (np_array)
-# print (np_array.shape)
 
-# #Nombre de de blocs en lignes/colonnes qu'on souhaite avoir
-# n_lines = 3
-# n_col = 2
-
-# pas_lines = np_array.shape[0] // n_lines #de combien l'indice doit progresser dans l'image pour passer au bloc suivant
-# pas_col = np_array.shape[1] // n_col
-
-# print("pas_lines = " + str(pas_lines))
-# print("pas_col = " + str(pas_col))
-
-# #Calcule les dimensions que va avoir la matrice contenant les informations sur les blocs de couleur
-# if np_array.shape[0] % n_lines != 0:
-# 	n_lines_color_blocks = n_lines + 1
-# else:
-# 	n_lines_color_blocks = n_lines
-# if np_array.shape[1] % n_col != 0:
-# 	n_col_color_blocks = n_col + 1
-# else:
-# 	n_col_color_blocks = n_col
-# color_blocks = numpy.zeros((n_lines_color_blocks, n_col_color_blocks), dtype=object) #matrice contenant les informations de chaque bloc
-# print("Shape color_block = " + str(color_blocks.shape))
-
-# l = 0
-# c = 0
-# l_color_blocks = 0
-# c_color_blocks = 0
-# while(l < np_array.shape[0]):
-# 	while(c < np_array.shape[1]):
-# 		mask = (np_array[l:l+pas_lines, c:c+pas_col] > 0) & (np_array[l:l+pas_lines, c:c+pas_col] < 100)
-# 		print(mask)
-# 		print('\n')
-# 		color_blocks[l_color_blocks, c_color_blocks] = ("R", ((l, c), (l+pas_lines, c+pas_col))) #enregistre les infos du bloc
-
-# 		c += pas_col
-# 		c_color_blocks += 1
-
-# 	c = 0
-# 	l += pas_lines
-# 	c_color_blocks = 0
-# 	l_color_blocks += 1
-
-# print(color_blocks)
 
 
 
