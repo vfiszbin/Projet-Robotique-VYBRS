@@ -2,14 +2,14 @@ from PIL import Image
 from numpy import asarray
 import numpy
 
-TAILLE_MIN_RECT = 1 #taille minimum du rectangle (carre) de blocks de la couleur cherchée
+TAILLE_MIN_RECT = 5 #taille minimum du rectangle (carre) de blocks de la couleur cherchée
 #Nombre de blocs en lignes/colonnes qu'on souhaite avoir
 # N_LINES = 40
 # N_COL = 40
-RATIO_LINES_COL = 0.1 #ratio pour obtenir le nombre de lignes/colonnes par qu'on utilise pour subdiviser l'image. ex : taille_verticale_img * ratio = nb_lignes
+RATIO_LINES_COL = 0.2 #ratio pour obtenir le nombre de lignes/colonnes par qu'on utilise pour subdiviser l'image. ex : taille_verticale_img * ratio = nb_lignes
 COLOR = "B"
 FICHIER = "test1.jpg"
-RATIO_COLOR_IN_BLOCK = 0.5 #le nombre de pixels de la couleur cherchée (parmi toues les pixels du bloc) doit excéder ce ratio pour que le bloc soit considéré comme étant de cette couleur
+RATIO_COLOR_IN_BLOCK = 0.7 #le nombre de pixels de la couleur cherchée (parmi toues les pixels du bloc) doit excéder ce ratio pour que le bloc soit considéré comme étant de cette couleur
 
 
 
@@ -144,9 +144,9 @@ def detect_RGB_rectangle(img_array, RGB_color):
 
 	if RGB_color == "R": #cas spécial pour l'intervalle Hue du rouge (autour de 0)
 		# Mask (array de True/False) des coordonnées où la couleur apparait
-		mask = (np_array[:,:,0] > val_min) | (np_array[:,:,0] < val_max) & (np_array[:,:,1] >= 60) & (np_array[:,:,2] >= 60)
+		mask = (np_array[:,:,0] > val_min) | (np_array[:,:,0] < val_max) & (np_array[:,:,1] >= 70) & (np_array[:,:,2] >= 70)
 	else:
-		mask = (np_array[:,:,0] > val_min) & (np_array[:,:,0] < val_max) & (np_array[:,:,1] >= 60) & (np_array[:,:,2] >= 60)
+		mask = (np_array[:,:,0] > val_min) & (np_array[:,:,0] < val_max) & (np_array[:,:,1] >= 70) & (np_array[:,:,2] >= 70)
 
 	l = 0
 	c = 0

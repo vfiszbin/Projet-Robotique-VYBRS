@@ -6,10 +6,10 @@ from simulation.controller.detect_color import detect_RGB_rectangle
 from PIL import Image
 
 
-SAFE_DISTANCE = 50 #bonne valeur pour le vrai robot = 300 mm
+SAFE_DISTANCE = 300 #bonne valeur pour le vrai robot = 300 mm
 
 
-UPDATE_FREQUENCY = 0.1 #en secondes
+UPDATE_FREQUENCY = 0.5 #en secondes
 
 def updateLatestDist(proxy):
 
@@ -26,11 +26,8 @@ def launchThreadDist(proxy):
 
 
 def updateDetectColor(proxy, color):
-	print("\nDANS UPDATE !!!!\n")
-	count = 0
-	# while not config.Fin_Strat :
-	while count < 1:
-		sleep(5)
+	while not config.Fin_Strat :
+		sleep(2)
 		img = proxy.getImg()
 		print(img.shape)
 
@@ -38,10 +35,6 @@ def updateDetectColor(proxy, color):
 		print("color " + color + " : " + str(config.Coordinates_color_detected))
 
 		Image.fromarray(img).save("img.jpg", "JPEG")
-
-		print("In image thread : " + str(count))
-		count += 1
-		print("\nFIN BOUCLE\n")
 
 def launchThreadDetectColor(proxy, color):
 	
@@ -55,7 +48,7 @@ def strategySequences(sequences):
 		execStrategySeq(seq)
 	print("fin stratseq")
 	config.Fin_Strat = True
-	print("in StratSeq ",config.Fin_Strat)
+	print("in StratSeq " + str(config.Fin_Strat))
 
 def execStrategySeq(seq):
 	#Execute la sequence de strategies
@@ -132,6 +125,7 @@ class moveForwardStrategy:
 		pas = config.Latest_Dist
 		# print("pas=" + str(pas))
 		if pas <= SAFE_DISTANCE :
+			print ("SAFE DIST")
 			config.obstacle_ahead = True
 			self.proxy.setSpeed(0)
 			return True
@@ -393,8 +387,8 @@ class RepeatMotif1Strategy() :
 class detect_balise:
 	def __init__(self, proxy, color, speed):
 		launchThreadDetectColor(proxy,color)
-		self.turnLeft = TurnStrategy(proxy, 45, speed)
-		self.moveForward = moveForwardStrategy(proxy, 100, speed )
+		self.turnLeft = TurnStrategy(proxy, 10, speed)
+		self.moveForward = moveForwardStrategy(proxy, 100, speed * 3 )
 		self.strategy_to_repeat = self.turnLeft
 		self.sequence = [self.strategy_to_repeat]
 		self.current_strat = -1
@@ -404,22 +398,22 @@ class detect_balise:
 	def step(self):
 		self.stop() #check si toutes les strat de la seq ont été executées, si c'est le cas, relance la séquence
 
-		# if config.Coordinates_color_detected != None: #si on détecte un rectangle de la couleur cherchée dans le champ de vision du robot
-		# 	print("Color detected !")
-		# 	print(config.Coordinates_color_detected)
-		# 	self.strategy_to_repeat = self.moveForward
+		if config.Coordinates_color_detected != None: #si on détecte un rectangle de la couleur cherchée dans le champ de vision du robot
+			print("Color detected !")
+			print(config.Coordinates_color_detected)
+			self.strategy_to_repeat = self.moveForward
 
-		# else: #on ne détecte pas la couleur
-		# 	self.strategy_to_repeat = self.turnLeft #le robot de remet à tourner à la recherche de la balise
+		else: #on ne détecte pas la couleur
+			self.strategy_to_repeat = self.turnLeft #le robot se remet à tourner à la recherche de la balise
 			
-		# if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine stratégie
-		# 	self.sequence = []
-		# 	self.sequence = [self.strategy_to_repeat] #redémarre la séquence
+		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine stratégie
+			self.sequence = []
+			self.sequence = [self.strategy_to_repeat] #redémarre la séquence
 
-		# 	self.current_strat = 0
-		# 	self.sequence[self.current_strat].start()
+			self.current_strat = 0
+			self.sequence[self.current_strat].start()
 
-		# self.sequence[self.current_strat].step()
+		self.sequence[self.current_strat].step()
 		
 
 
@@ -469,35 +463,69 @@ class FindColorTag:
 		pass
 		#condition d'arret get distance ? 
 
+# class moveToWallStrategy:
+# 	"""
+# 	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher.
+# 	"""
+# 	def __init__(self,proxy,speed,wall,angle_rotated):
+# 		self.proxy=proxy
+# 		self.speed=speed
+# 		self.wall=wall 	
+# 		self.angle_rotated=angle_rotated
+
+# 	def start(self):
+# 		self.proxy.setWheelMode(1) # on met le robot en mode avancer
+# 		self.proxy.setSpeed(self.speed) #on  donne une vitesse de depart au robot.
+# 		self.setSpeedLeftWheel(self.speed)
+# 		self.setSpeedRightWheel(self.speed)
+# 		#  on detecte un obstacle a une certaine distance, le robot ralentit.
+# 		#dist : int
+# 		dist = self.getDistance(self.wall)
+# 		# si l'obstacle se situe a moins de 10 cm, il s'arrete.
+# 		if dist < 10:
+# 			#i : int
+# 			i = self.speed
+# 			while i > 0:
+# 				self.changeSpeed(i) # on decremente la vitesse 
+# 				i = i - 50
+# 		else:
+# 			i = self.speed
+# 			while i > 0:
+# 				self.changeSpeed(i) 
+# 				i = i - 30
+
 class moveToWallStrategy:
 	"""
-	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher.
+	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher
 	"""
-	def __init__(self,proxy,speed,wall,angle_rotated):
+	def __init__(self,proxy,speed):
 		self.proxy=proxy
 		self.speed=speed
-		self.wall=wall 	
-		self.angle_rotated=angle_rotated
+		
 
 	def start(self):
-		self.proxy.setWheelMode(1) # on met le robot en mode avancer
-		self.proxy.setSpeed(self.speed) #on  donne une vitesse de depart au robot.
-		self.setSpeedLeftWheel(self.speed)
-		self.setSpeedRightWheel(self.speed)
-		#  on detecte un obstacle a une certaine distance, le robot ralentit.
-		#dist : int
-		dist = self.getDistance(self.wall)
-		# si l'obstacle se situe a moins de 10 cm, il s'arrete.
-		if dist < 10:
-			#i : int
-			i = self.speed
-			while i > 0:
-				self.changeSpeed(i) # on decremente la vitesse 
-				i = i - 50
-		else:
-			i = self.speed
-			while i > 0:
-				self.changeSpeed(i) 
-				i = i - 30
+		self.proxy.setWheelMode(1)
+		self.proxy.setSpeed(self.speed)
+
+	def step(self):
+		self.proxy.setSpeed(self.speed)
+		pas = self.proxy.getDistance()	
+
+		b=True
+		i=1
+		while i<self.speed:
+			self.proxy.setSpeed(self.speed-i)	
+			i+=69
+			pas = self.proxy.getDistance()	
+			if pas <= SAFE_DISTANCE :
+				self.proxy.setSpeed(0)
+				b=False
+
+		
+		#if pas <= SAFE_DISTANCE :
+		#	self.proxy.setSpeed(0)
+	
+	def stop(self):
+		self.proxy.setSpeed(0)
 		
 
