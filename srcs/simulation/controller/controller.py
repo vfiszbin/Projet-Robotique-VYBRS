@@ -471,36 +471,33 @@ class FindColorTag:
 
 class moveToWallStrategy:
 	"""
-	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher
+	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher.
 	"""
-	def __init__(self,proxy,speed):
+	def __init__(self,proxy,speed,wall,angle_rotated):
 		self.proxy=proxy
 		self.speed=speed
-		
+		self.wall=wall 	
+		self.angle_rotated=angle_rotated
 
 	def start(self):
-		self.proxy.setWheelMode(1)
-		self.proxy.setSpeed(self.speed)
-
-	def step(self):
-		self.proxy.setSpeed(self.speed)
-		pas = self.proxy.getDistance()	
-
-		b=True
-		i=1
-		while i<self.speed:
-			self.proxy.setSpeed(self.speed-i)	
-			i+=69
-			pas = self.proxy.getDistance()	
-			if pas <= SAFE_DISTANCE :
-				self.proxy.setSpeed(0)
-				b=False
-
+		self.proxy.setWheelMode(1) # on met le robot en mode avancer
+		self.proxy.setSpeed(self.speed) #on  donne une vitesse de depart au robot.
+		self.setSpeedLeftWheel(self.speed)
+		self.setSpeedRightWheel(self.speed)
+		#  on detecte un obstacle a une certaine distance, le robot ralentit.
+		#dist : int
+		dist = self.getDistance(self.wall)
+		# si l'obstacle se situe a moins de 10 cm, il s'arrete.
+		if dist < 10:
+			#i : int
+			i = self.speed
+			while i > 0:
+				self.changeSpeed(i) # on decremente la vitesse 
+				i = i - 50
+		else:
+			i = self.speed
+			while i > 0:
+				self.changeSpeed(i) 
+				i = i - 30
 		
-		#if pas <= SAFE_DISTANCE :
-		#	self.proxy.setSpeed(0)
-	
-	def stop(self):
-		self.proxy.setSpeed(0)
 
-	
