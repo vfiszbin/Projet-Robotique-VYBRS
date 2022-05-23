@@ -87,6 +87,7 @@ class ProxyReal:
 
 	def getImg(self):
 		return self.rob.get_image()
+		
 	def turnHead(self, angle):
 		self.rob.servo_rotate(angle)
 

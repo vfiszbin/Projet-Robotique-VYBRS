@@ -3,6 +3,8 @@ from math import pi
 from simulation import config
 from threading import Thread
 from simulation.controller.detect_color import detect_RGB_rectangle
+from PIL import Image
+
 
 SAFE_DISTANCE = 50 #bonne valeur pour le vrai robot = 300 mm
 
@@ -24,14 +26,25 @@ def launchThreadDist(proxy):
 
 
 def updateDetectColor(proxy, color):
+	print("\nDANS UPDATE !!!!\n")
+	count = 0
+	# while not config.Fin_Strat :
+	while count < 1:
+		sleep(5)
+		img = proxy.getImg()
+		print(img.shape)
 
-	while not config.Fin_Strat :
-		# image = proxy.getImg()
-		config.Coordinates_color_detected  = detect_RGB_rectangle("simulation/controller/test.jpg", color)
-		sleep(1)
+		config.Coordinates_color_detected  = detect_RGB_rectangle(img, color)
+		print("color " + color + " : " + str(config.Coordinates_color_detected))
+
+		Image.fromarray(img).save("img.jpg", "JPEG")
+
+		print("In image thread : " + str(count))
+		count += 1
+		print("\nFIN BOUCLE\n")
 
 def launchThreadDetectColor(proxy, color):
-
+	
 	Dist_image =Thread(target=updateDetectColor,args=(proxy,color))
 	Dist_image.start()
 	
@@ -391,22 +404,22 @@ class detect_balise:
 	def step(self):
 		self.stop() #check si toutes les strat de la seq ont été executées, si c'est le cas, relance la séquence
 
-		if config.Coordinates_color_detected != None: #si on détecte un rectangle de la couleur cherchée dans le champ de vision du robot
-			print("Color detected !")
-			print(config.Coordinates_color_detected)
-			self.strategy_to_repeat = self.moveForward
+		# if config.Coordinates_color_detected != None: #si on détecte un rectangle de la couleur cherchée dans le champ de vision du robot
+		# 	print("Color detected !")
+		# 	print(config.Coordinates_color_detected)
+		# 	self.strategy_to_repeat = self.moveForward
 
-		else: #on ne détecte pas la couleur
-			self.strategy_to_repeat = self.turnLeft
+		# else: #on ne détecte pas la couleur
+		# 	self.strategy_to_repeat = self.turnLeft #le robot de remet à tourner à la recherche de la balise
 			
-		if self.current_strat < 0 or self.sequence[self.current_strat].stop(): 
-			self.sequence = []
-			self.sequence = [self.strategy_to_repeat] #redémarre la séquence
+		# if self.current_strat < 0 or self.sequence[self.current_strat].stop(): #démarrage de la prochaine stratégie
+		# 	self.sequence = []
+		# 	self.sequence = [self.strategy_to_repeat] #redémarre la séquence
 
-			self.current_strat = 0
-			self.sequence[self.current_strat].start()
+		# 	self.current_strat = 0
+		# 	self.sequence[self.current_strat].start()
 
-		self.sequence[self.current_strat].step()
+		# self.sequence[self.current_strat].step()
 		
 
 

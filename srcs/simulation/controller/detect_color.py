@@ -87,9 +87,10 @@ def pick_biggest_rectangle(rectangles):
 
 
 
-def detect_RGB_rectangle(image_name, RGB_color):
+def detect_RGB_rectangle(img_array, RGB_color):
 	'''Retourne le plus grand rectangle de la couleur RGB indiquée détecté dans l'image'''
-	img = Image.open(image_name)
+	# img = Image.open(image_name)
+	img = Image.fromarray(img_array)
 
 	#convertit RGB en HSV pour meilleure détection de couleur
 	img_HSV = img.convert('HSV')

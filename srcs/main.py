@@ -37,6 +37,7 @@ def main_simu():
 
 def main_real():
 	from robot2I013 import Robot2I013 as Robot
+	
 	config.simu_or_real = 2 #var globale dans config, indique si le robot est simulé (1) ou réel (2)
 
 	#Ajoute robot à l'environnement
