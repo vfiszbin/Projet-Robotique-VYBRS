@@ -184,15 +184,24 @@ class moveBackwardStrategy(moveForwardStrategy):
 		super().__init__(proxy, -abs(speed), -abs(distance))
 
 
-
 class SquareStrategy(StrategySeq) :
 	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
 	"""
 	def __init__(self, proxy, speed,length):
-		super().__init__()
-		move = moveForwardStrategy(proxy, speed, length )
-		turnLeft = TurnStrategy(proxy, 90, speed / 2)
+		super().__init__(proxy)
+		move = moveForwardStrategy(proxy, length, speed )
+		turnLeft = TurnStrategy(proxy, 90,  speed / 2)
 		self.sequence = [move, turnLeft] * 3 + [move]
+
+class TriangleEquiStrategy(StrategySeq) :
+	""" classe qui organise une séquences de stratégie pour faire un parcours en forme d'un triangle equilaterale
+	"""
+	def __init__(self, proxy, speed,length):
+		super().__init__(proxy)
+		move = moveForwardStrategy(proxy,length, speed)
+		turnLeft = TurnStrategy(proxy, 120, speed)
+		self.sequence = [move, turnLeft] * 2 + [move]
+
 
 class Navigate :
 	""" classe qui permet d'alterner l'execution des deux stratégies 'moveForwardStrategy' et 'TurnStrategy' afin de naviger l'environment  sur une distance donner et tourner lorsque le robot s'approche d'un obstacle
@@ -437,17 +446,28 @@ class FindColorTag:
 		self.turn90=TurnStrategy(proxy,90,speed)
 		self.avancer = moveForwardStrategy(proxy, float("inf"), speed)
 
-	def getAngleOrientation(self):
+	def getAngle(self):
 		"""Retourne l'angle de la balise par apport au robot"""
-		frame = self.proxy.get_image()
-		if frame == None :
+		self.frame = self.proxy.getImg()
+		if self.frame == None :
 			return -1
-		#return arctan par rappor au centre de balise et celui de la frame ? 
-	
+		# On calcule l'angle et l'orientation de la balise
+		(PosX,PosY)=getPosBalise(self.frame)
+		nb_cols = getnbLignes(self.frame)
+		nb_lines= getnbCols(self.frame)
+		
+		PosX = PosX - (nb_lines / 2)
+		PosY= nb_cols - PosY
+
+		if PosY == 0:
+			return 90
+		angle = atan2(abs(PosX), PosY)
+		return degrees(angle)
+
 	def step(self):
 		self.stop()
 		prox.turnHead(90)#set straight robot head
-		angle = getAngleOrientation()
+		(angle,ori) = getAngleOrientation()
 		if angle == -1 : #la balise n'est pas trouvé :est hors du champs de vision
 			self.turn90.start() #on tourne le robot pour avoir un nouveau champs de vision
 		if angle <= 30 : #la balise est reperer est +- en face du robot
@@ -460,9 +480,10 @@ class FindColorTag:
 			self.turnRight.start()
 
 	def stop():
-		pass
-		#condition d'arret get distance ? 
 
+		config.Latest_Dist <= SAFE_DISTANCE
+			
+		pass
 # class moveToWallStrategy:
 # 	"""
 # 	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher.
