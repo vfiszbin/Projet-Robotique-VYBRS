@@ -55,4 +55,9 @@ class SetStrategies :
 		
 		#self.sequences.append(seq1)
 
+		#Test détection balise
+		#test7
+		# seq = detect_balise(proxy, "R", 15)
+		# self.sequences.append(seq)
+
 
