@@ -7,17 +7,19 @@ from PIL import Image
 
 
 SAFE_DISTANCE = 300 #bonne valeur pour le vrai robot = 300 mm
+#SAFE_DISTANCE = 30 #bonne valeur pour la simulation
 
+UPDATE_FREQUENCY = 0.1 #en secondes
 
-UPDATE_FREQUENCY = 0.5 #en secondes
 
 def updateLatestDist(proxy):
 
 	while not config.Fin_Strat :
-		# print("fin strat",config.Fin_Strat)
+		print("fin strat",config.Fin_Strat)
 		sleep(1)
 		config.Latest_Dist=proxy.getDistance()  #initialisé à 100 dans config.py
-		# print("la get distance",config.Latest_Dist)
+		print("la get distance",config.Latest_Dist)
+	print("fin boucle")
 
 def launchThreadDist(proxy):
 
@@ -65,7 +67,7 @@ class StrategySeq :
 		self.sequence=[]
 		self.current_strat = -1
 		launchThreadDist(proxy)
-
+		proxy.resetHead()
 	def addStrategy(self, strat):
 		self.sequence.append(strat)
 
@@ -84,6 +86,7 @@ class StrategySeq :
 
 	def stop(self):
 		return self.current_strat == len(self.sequence)-1 and self.sequence[self.current_strat].stop() #on a atteint la dernière strat et elle est terminée
+
 
 class moveForwardStrategy:
 	"""
@@ -105,13 +108,14 @@ class moveForwardStrategy:
 		self.proxy.setSpeed(self.speed) #donne une vitesse au robot pour commencer à avancer/reculer
 
 	def step(self):
-		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie
+		#Récupère l'angle dont ont tourné les roues du robot depuis le début de la stratégie	
 		self.angle_rotated_left_wheel = self.proxy.getAngleRotatedLeft()
 		self.angle_rotated_right_wheel = self.proxy.getAngleRotatedRight()
 		self.distance_covered = self.covered_distance()
 
 		if self.stop():
 			self.proxy.setSpeed(0)
+			self.proxy.resetLed()
 			return
 
 	def covered_distance(self):
@@ -128,9 +132,10 @@ class moveForwardStrategy:
 			print ("SAFE DIST")
 			config.obstacle_ahead = True
 			self.proxy.setSpeed(0)
+			self.proxy.setLedRed()
 			return True
 		if self.distance_to_cover >= 0 :
-			return self.distance_covered >= self.distance_to_cover
+			return self.distance_covered >= self.distance_to_cover	
 		else :
 			return self.distance_covered <= self.distance_to_cover
 
@@ -142,7 +147,7 @@ class TurnStrategy:
 	"""
 	def __init__(self, proxy, angle, speed):
 		#Vitesse et angle doivent avoir le même signe (aller dans la même direction)
-		self.proxy = proxy
+		self.proxy = proxy 
 		self.speed = speed
 		self.angle_to_rotate = angle
 		self.angle_rotated_left_wheel = 0
@@ -184,24 +189,32 @@ class moveBackwardStrategy(moveForwardStrategy):
 		super().__init__(proxy, -abs(speed), -abs(distance))
 
 
-
 class SquareStrategy(StrategySeq) :
 	""" classe qui organise une séquences de stratégie pour faire un parcours en forme de carré 
 	"""
-	def __init__(self, proxy, speed,length):
-		super().__init__()
-		move = moveForwardStrategy(proxy, speed, length )
-		turnLeft = TurnStrategy(proxy, 90, speed / 2)
+	def __init__(self, proxy,length,speed):
+		super().__init__(proxy)
+		move = moveForwardStrategy(proxy, length, speed )
+		turnLeft = TurnStrategy(proxy, 90, 40 )
 		self.sequence = [move, turnLeft] * 3 + [move]
+
+class TriangleEquiStrategy(StrategySeq) :
+	""" classe qui organise une séquences de stratégie pour faire un parcours en forme d'un triangle equilaterale
+	"""
+	def __init__(self, proxy,length, speed):
+		super().__init__(proxy)
+		move = moveForwardStrategy(proxy,length, speed)
+		turnLeft = TurnStrategy(proxy, 120, speed)
+		self.sequence = [move, turnLeft] * 2 + [move]
 
 class Navigate :
 	""" classe qui permet d'alterner l'execution des deux stratégies 'moveForwardStrategy' et 'TurnStrategy' afin de naviger l'environment  sur une distance donner et tourner lorsque le robot s'approche d'un obstacle
 	"""
-	def __init__(self,proxy,speed,distance) :
+	def __init__(self,proxy,distance,speed) :
 		self.proxy=proxy
 		self.speed=speed
 		self.distance=distance
-		self.move=moveForwardStrategy(proxy,speed,distance)
+		self.move=moveForwardStrategy(proxy,distance,speed)
 		self.turn=TurnStrategy(proxy,90,speed)
 		self.running = None #pour savoir la stratégie en cours d'execution
 		self.covered_distance = 0 
@@ -222,7 +235,7 @@ class Navigate :
 			else :  # si turn s'arrete on réninitialise move et on la lance
 				self.covered_distance = self.move.distance_covered 
 				dist = self.distance -self.covered_distance # on recalcule la distance qui reste a faire
-				self.move= moveForwardStrategy(self.proxy,self.speed,dist)
+				self.move= moveForwardStrategy(self.proxy,dist,self.speed)
 				self.running = self.move		
 				self.running.start()
 		self.running.step()	
@@ -437,17 +450,28 @@ class FindColorTag:
 		self.turn90=TurnStrategy(proxy,90,speed)
 		self.avancer = moveForwardStrategy(proxy, float("inf"), speed)
 
-	def getAngleOrientation(self):
+	def getAngle(self):
 		"""Retourne l'angle de la balise par apport au robot"""
-		frame = self.proxy.get_image()
-		if frame == None :
+		self.frame = self.proxy.getImg()
+		if self.frame == None :
 			return -1
-		#return arctan par rappor au centre de balise et celui de la frame ? 
-	
+		# On calcule l'angle et l'orientation de la balise
+		(PosX,PosY)=getPosBalise(self.frame)
+		nb_cols = getnbLignes(self.frame)
+		nb_lines= getnbCols(self.frame)
+		
+		PosX = PosX - (nb_lines / 2)
+		PosY= nb_cols - PosY
+
+		if PosY == 0:
+			return 90
+		angle = atan2(abs(PosX), PosY)
+		return degrees(angle)
+
 	def step(self):
 		self.stop()
 		prox.turnHead(90)#set straight robot head
-		angle = getAngleOrientation()
+		(angle,ori) = getAngleOrientation()
 		if angle == -1 : #la balise n'est pas trouvé :est hors du champs de vision
 			self.turn90.start() #on tourne le robot pour avoir un nouveau champs de vision
 		if angle <= 30 : #la balise est reperer est +- en face du robot
@@ -460,39 +484,10 @@ class FindColorTag:
 			self.turnRight.start()
 
 	def stop():
+
+		config.Latest_Dist <= SAFE_DISTANCE
+			
 		pass
-		#condition d'arret get distance ? 
-
-# class moveToWallStrategy:
-# 	"""
-# 	s'approcher le plus vite possible et le plus pres d'un mur sans le toucher.
-# 	"""
-# 	def __init__(self,proxy,speed,wall,angle_rotated):
-# 		self.proxy=proxy
-# 		self.speed=speed
-# 		self.wall=wall 	
-# 		self.angle_rotated=angle_rotated
-
-# 	def start(self):
-# 		self.proxy.setWheelMode(1) # on met le robot en mode avancer
-# 		self.proxy.setSpeed(self.speed) #on  donne une vitesse de depart au robot.
-# 		self.setSpeedLeftWheel(self.speed)
-# 		self.setSpeedRightWheel(self.speed)
-# 		#  on detecte un obstacle a une certaine distance, le robot ralentit.
-# 		#dist : int
-# 		dist = self.getDistance(self.wall)
-# 		# si l'obstacle se situe a moins de 10 cm, il s'arrete.
-# 		if dist < 10:
-# 			#i : int
-# 			i = self.speed
-# 			while i > 0:
-# 				self.changeSpeed(i) # on decremente la vitesse 
-# 				i = i - 50
-# 		else:
-# 			i = self.speed
-# 			while i > 0:
-# 				self.changeSpeed(i) 
-# 				i = i - 30
 
 class moveToWallStrategy:
 	"""
