@@ -49,6 +49,7 @@ def main_real():
 	controller_thread = Thread(target=strategySequences, args=(SetS.sequences,))
 	controller_thread.start()
 	controller_thread.join()
+	print("apreq join")
 
 
 if __name__ == '__main__':

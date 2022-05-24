@@ -37,8 +37,17 @@ class ProxySimu:
 		return None
 	def turnHead(self, angle):
 		return None
+	def resetHead(self):
+		return None
 	def setLed(self,a,b,c):
 		return None
+	def setLedGreen(self):
+		return None
+	def setLedRed(self):
+		return None
+	def resetLed(self):	
+		return None
+
 class ProxyReal:
 	def __init__(self, rob):
 		self.rob = rob
@@ -46,7 +55,7 @@ class ProxyReal:
 		
 		print("WHEEL_DIAMETER=")
 		print(self.rob.WHEEL_DIAMETER)
-
+	
 	def getAngleRotatedLeft(self):
 		l_pos, r_pos = self.rob.get_motor_position()
 		return l_pos
@@ -92,6 +101,10 @@ class ProxyReal:
 		return self.rob.get_image()
 	def turnHead(self, angle):
 		self.rob.servo_rotate(angle)
+
+	def resetHead(self):
+		self.rob.servo_rotate(90)
+		
 	def setLed(self,a,b,c):
 		"""
 		Red	(255,0,0)
@@ -101,6 +114,12 @@ class ProxyReal:
 		"""
 		self.rob.set_led(self.rob.LED_RIGHT_EYE, a,b,c)
 		self.rob.set_led(self.rob.LED_LEFT_EYE, a,b,c)
-	def resetLed(slef):
+	def setLedGreen(self):
+		self.rob.set_led(self.rob.LED_RIGHT_EYE, 0,255,0)
+		self.rob.set_led(self.rob.LED_LEFT_EYE, 0,255,0)
+	def setLedRed(self):
+		self.rob.set_led(self.rob.LED_RIGHT_EYE, 255,0,0)
+		self.rob.set_led(self.rob.LED_LEFT_EYE, 255,0,0)
+	def resetLed(self):
 		self.rob.set_led(self.rob.LED_RIGHT_EYE, 0,0,0)
 		self.rob.set_led(self.rob.LED_LEFT_EYE,0,0,0)
