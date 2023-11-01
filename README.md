@@ -1,5 +1,7 @@
 # GoPiGo Robot Programming
 
+<img width="275" alt="Screenshot of the game" src="https://github.com/vfiszbin/Projet-Robotique-VYBRS/assets/92207326/07ca978d-7072-4cd9-9fb7-af108ba6dfa7)">
+
 This project involves programming a GoPiGo robot on a Raspberry Pi to execute a series of strategies for navigating its environment.
 
 The robot can execute different strategies in a sequence, offering the following functionalities:
